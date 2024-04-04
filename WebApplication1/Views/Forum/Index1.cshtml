@@ -1,0 +1,182 @@
+﻿@model List<WebApplication1.Models.CategoryPost>
+@{
+    ViewBag.Title = "Forum";
+}
+@section Styles {
+    <style>
+        .text-limit {
+            line-height: 2rem;
+            max-height: 4rem;
+            overflow: hidden;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            text-align: left;
+            /*  max-width: 190px;
+                                    overflow: hidden;
+                                    white-space: nowrap;
+                                    text-overflow: ellipsis; */
+        }
+
+        .text-hover:hover {
+            color: darkred !important;
+        }
+
+    </style>
+}
+
+<section class="breadcrumbs">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>@ViewBag.Title</h2>
+            <ol>
+                <li><a href="index.html">Home</a></li>
+                <li>@ViewBag.Title</li>
+            </ol>
+        </div>
+
+    </div>
+</section>
+<section class="services">
+<div class="container-fluid bg-primary">
+    <div class="row">
+        <div class="col">
+            <ul class="nav justify-content-start">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/Forum">All Post</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/Forum/MyPost/1">My Posts</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<section id="blog" class="blog bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <a href="/Forum/Create" class="btn btn-warning mb-3">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    Tạo mới bài post
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="list-group">
+                    @foreach (var category in Model)
+                    {
+                        <div class="card mb-4">
+                            <div class="card-header bg-info">
+                                <h5 class="card-title m-0">
+                                    <a href="#" class="text-white text-decoration-none">@category.Title</a>
+                                </h5>
+                            </div>
+                            @foreach (var post in category.Posts)
+                            {
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-3">
+                                            <a href="/Forum/Detail/@post.Id">
+                                                <img class="img-fluid rounded" src="~/uploads/postImages/@post.Image" alt="Image" style="height: 180px;">
+                                            </a>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <h5 class="card-title">
+                                                <a href="/Forum/Detail/@post.Id" class="text-dark  text-hover">@post.Title</a>
+                                            </h5>
+                                            <hr />
+                                            <div class="d-flex align-items-center">
+                                                <img class="img-fluid rounded-circle me-3" src="~/@post.User.ProfileImage" alt="avatar" style="height:40px; width:40px;" />
+                                                <ul class="list-unstyled mb-0 d-flex justify-content-between flex-grow-1">
+                                                    <li class="align-self-start">
+                                                        <a href="/Forum/Detail/@post.Id" class="text-secondary text-hover">
+                                                            <i class="bi bi-clock me-1"></i>
+                                                            @post.CreateDate
+                                                        </a>
+                                                    </li>
+                                                    <li class="align-self-end">
+                                                        <a href="/Forum/Detail/@post.Id" class="text-secondary text-hover">
+                                                            <i class="bi bi-reply me-1"></i>
+                                                            @post.PostReplies.Count()
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="mt-3">
+                                                <p class="text-limit">
+                                                        @SubString.ExtractTextFromHtml(post.Content, 1000)
+                                                </p>
+                                                <div class="text-end">
+                                                    <a href="/Forum/Detail/@post.Id" class="text-body text-hover">
+                                                        Xem chi tiết
+                                                        <i class="fa-solid fa-chevron-right"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="border-bottom"></div>
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="blog-pagination">
+                    <ul class="justify-content-center">
+                        <li><a href="#">1</a></li>
+                        <li class="active"><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="sidebar bg-white">
+                    <h3 class="sidebar-title">Search</h3>
+                    <div class="sidebar-item search-form">
+                        <form action="">
+                            <input type="text">
+                            <button type="submit"><i class="bi bi-search"></i></button>
+                        </form>
+                    </div>
+
+                    <h3 class="sidebar-title">Recent Posts</h3>
+                    <div class="sidebar-item recent-posts">
+                        @foreach (var item in ViewBag.RecentPosts)
+                        {
+                            <div class="post-item clearfix">
+                                <img src="~/uploads/postImages/@item.Image" alt="">
+                                    <h4 class="text-limit"><a href="~/Forum/Detail/@item.Id">@item.Title</a></h4>
+                                <time datetime="@item.Createdate">@item.Createdate.ToShortDateString()</time>
+                            </div>
+                        }
+                    </div>
+
+                    <h3 class="sidebar-title">Forum statistics</h3>
+                    <div class="sidebar-item row">
+                        <div class="col-6">
+                            <p class="fw-bold">Posts:</p>
+                            <p class="fw-bold">PostReplies:</p>
+                            <p class="fw-bold">Members:</p>
+                            <p class="fw-bold">Latest member:</p>
+                        </div>
+                        <div class="col-6">
+                            <p>@ViewBag.TotalPosts</p>
+                            <p>@ViewBag.TotalPostReplies</p>
+                            <p>@ViewBag.TotalMembers</p>
+                            <p><a href="~/User/Index/@ViewBag.LatestMember.Id">@ViewBag.LatestMember.FullName</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</section>
+
+

@@ -1,0 +1,75 @@
+﻿@model WebApplication1.Models.Product
+@{
+    ViewBag.Title = "Chi tiết sản phẩm";
+}
+
+<section class="breadcrumbs">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>@ViewBag.Title</h2>
+            <ol>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="~/Shop">Shop</a></li>
+                <li>@ViewBag.Title</li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+<section id="portfolio-details" class="portfolio-details mt-5 mb-5">
+    <div class="container">
+        <div class="row gy-4">
+            <!-- Hình ảnh và thông tin sản phẩm -->
+            <div class="col-lg-8">
+                <div class="portfolio-details-slider swiper">
+                    <div class="swiper-wrapper align-items-center">
+                        <a href="~/uploads/productImages/@Model.Image" class="portfolio-lightbox swiper-slide text-center">
+                            <img src="~/uploads/productImages/@Model.Image" alt="" style="width: 90% !important;">
+                        </a>
+                        @foreach (var item in Model.ProductImages)
+                        {
+                            <a href="~/uploads/productImages/@item.Image" class="portfolio-lightbox swiper-slide text-center">
+                                <img src="~/uploads/productImages/@item.Image" alt="" style="width: 90% !important;">
+                            </a>
+                        }
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+
+                <div class="portfolio-info mt-4">
+                    <h3>Thông tin sản phẩm</h3>
+                    <ul>
+                        <li><strong>Tên sản phẩm: </strong>@Model.Name</li>
+                        <li><strong>Thời gian đăng: </strong>@Model.CreateDate</li>
+                        <li><strong>Danh mục: </strong>@Model.CategoryProduct.Name</li>
+                        <li><strong>Giá: </strong>@Model.Price đ</li>
+                        <li><strong>Mô tả: </strong>@Model.Description</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /Hình ảnh và thông tin sản phẩm -->
+            <!-- Thông tin người bán -->
+            <div class="col-lg-4">
+                <div class="portfolio-info d-flex flex-column justify-content-center" style="padding: 10px !important;">
+                    <div class="d-flex align-items-center flex-wrap">
+                        <img src="~/@Model.User.ProfileImage" alt="Seller Avatar" class="img-fluid rounded-circle me-3" style="width: 80px; height: 80px;">
+                        <h5 class="mb-0">@Model.User.FullName</h5>
+                        <a href="~/Shop/MyPost/@Model.User.Id" class="btn btn-sm btn-secondary ms-auto mt-2 mt-lg-0">Xem trang</a>
+                    </div>
+                    <a class="btn btn-sm btn-primary my-2" href="tel:+00151515">
+                        <i class="fa-solid fa-mobile"></i> Liên hệ: @Model.User.Phone
+                    </a>
+                    <p class="mb-3">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <strong> Địa chỉ: </strong> 77 Nguyễn Huệ, Tỉnh Thừa Thiên Huế
+                    </p>
+                </div>
+            </div>
+
+            </div>
+            <!-- /Thông tin người bán -->
+        </div>
+    </div>
+</section>
+
+

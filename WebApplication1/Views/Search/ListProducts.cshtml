@@ -1,0 +1,74 @@
+﻿@using PagedList.Core.Mvc
+@using Microsoft.AspNetCore.Http
+@model PagedList.Core.IPagedList<WebApplication1.Models.Product>
+@{
+    var taikhoanId = Context.Session.GetString("UserId");
+}
+@section Styles {
+    <style>
+        .text-limit {
+            max-width: 190px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    </style>
+}
+
+<section class="breadcrumbs">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Tìm kiếm</h2>
+            <ol>
+                <li><a>Tìm kiếm</a></li>
+                <li>Các mặt hàng đã đăng</li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+<div class="container m-5">
+    <!-- Product List -->
+    <div id="product-list " class="mt-5 portfolio">
+        <div class="row " data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card icon-box-cyan portfolio-item">
+                        <img src="~/uploads/productImages/@item.Image" class="card-img-top" alt="Product 1" style="height:200px;">
+                        <div class="card-body">
+                            <h5 class="card-title text-white">@item.Name</h5>
+                            <p class="card-text text-white text-limit">@item.Description</p>
+                            <p style="color:yellow; font-size: 18px;">@item.Price.Value.ToString("#,##0") đ</p>
+                            <div class="border-bottom mb-1"></div>
+                            @if (item.IsSelling == true)
+                            {
+                                <span class="card-text text-white-50">Đang bán</span>
+                            }
+                            else
+                            {
+                                <span class="card-text text-white-50">Dừng bán</span>
+                            }
+                            <div class="portfolio-info">
+                                @if (taikhoanId != null && int.Parse(taikhoanId) == item.UserId)
+                                {
+                                    <div>
+                                        <a href="~/Shop/Edit/@item.Id"><i class="bx bx-edit"></i></a>
+                                        <a href="~/Shop/Delete/@item.Id"><i class="bx bx-trash"></i></a>
+                                    </div>
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+            <div aria-label="Page navigation example" class="d-flex justify-content-center">
+                <ul class="pagination">
+                    <pager class="pager-container" list="@Model" action="~/Search/ListProducts" />
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,262 @@
+﻿@using Microsoft.AspNetCore.Http
+@model WebApplication1.Models.Post
+@{
+    ViewBag.Title = "Chi tiết bài viết";
+    var taikhoanId = Context.Session.GetString("UserId");
+    List<Post> similarPosts = ViewBag.SimilarPosts;
+}
+@section Styles {
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <style>
+        .note-modal-footer {
+            height: 60px !important;
+        }
+
+    </style>
+}
+<section class="breadcrumbs">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>@ViewBag.Title</h2>
+            <ol>
+                <li><a href="~/Forum">Forum</a></li>
+                <li><a href="~/Post/Index/@Model.CategoryPostId">Post</a></li>
+                <li>@ViewBag.Title</li>
+            </ol>
+        </div>
+
+    </div>
+</section>
+
+<div class="container blog" data-aos="fade-up">
+    <div class="row">
+        <div class="col-lg-8 entries">
+            <article class="entry entry-single">
+                <div class="entry-meta mb-3">
+                    <ul>
+                        <li class="d-flex align-items-center">
+                            <img src="~/@Model.User.ProfileImage" alt="" class="img-fluid rounded" style="width: 100px;">
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <h5 class="text-secondary">
+                                <a href="" style="font-size: 16px;">@Model.User.FullName</a>
+                                -
+                                <i class="bi bi-clock" style=" font-size: 14px;"></i>
+                                <time datetime="2020-01-01" style="font-size: 14px;">@Model.CreateDate</time>
+                            </h5>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="entry-img m-1">
+                    <img src="~/uploads/postImages/@Model.Image" alt="" class="img-fluid" style="width:100%;">
+                </div>
+                <h2 class="entry-title mt-3">
+                    <a href="#">@Model.Title</a>
+                </h2>
+                <div class="entry-content">
+                    <p>
+                        @Html.Raw(Model.Content)
+                    </p>
+                </div>
+                <div class="entry-footer mt-3 d-flex justify-content-between align-items-center">
+                    <div class="text-start d-flex align-items-center">
+                        @if (taikhoanId != null && int.Parse(taikhoanId) == Model.UserId)
+                        {
+                            <a class="btn btn-box-tool" href="~/Post/Edit/@Model.Id">
+                                <i class="fa-solid fa-pencil text-primary"></i>
+                            </a>
+
+                            <form action="~/Post/Delete/@Model.Id" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');">
+                                <input type="hidden" name="id" value="@Model.Id" />
+                                <button type="submit" class="btn btn-box-tool" style="border: none; background-color: transparent;">
+                                    <i class="fa-solid fa-trash-can text-danger"></i>
+                                </button>
+                            </form>
+                        }
+                    </div>
+                    <div>
+                        <button id="reply" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#commentModal">
+                            <i class="bi bi-reply-fill"></i>
+                            Trả lời
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade modal-lg" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="commentModalLabel">Phản hồi bài viết</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Form reply -->
+                                <form action="~/PostReply/Save" method="post">
+                                    <div class="mb-3">
+                                        <label class="form-label">Nội dung phản hồi</label>
+                                        <textarea id="summernote" name="Content" class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="PostId" class="form-control" value="@Model.Id" />
+                                        <input type="hidden" id="commentId" name="Id" value="" />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Gửi phản hồi</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </article><!-- End blog entry -->
+
+            <div class="blog-comments">
+                <h4 class="comments-count">@Model.PostReplies.Count() Comments</h4>
+                @foreach (var reply in Model.PostReplies)
+                {
+                    <div id="comment-1" class="comment">
+                        <div class="d-flex">
+                            @if (reply.User != null)
+                            {
+                                <div class="comment-img">
+                                    <a href="~/User/Index/@reply.UserId">
+                                        <img src="~/@reply.User.ProfileImage" alt="avatar">
+                                    </a>
+                                </div>
+                                <div>
+                                    <h5><a href="~/User/Index/@reply.UserId">@reply.User.FullName</a> <i class="bi bi-reply-fill"></i> Reply</h5>
+                                    <time datetime="2020-01-01">@reply.CreateDate</time>
+                                    <p>
+                                        @Html.Raw(reply.Content)
+                                    </p>
+                                    <!-- Thêm nút sửa và xóa -->
+                                    @if (taikhoanId != null && int.Parse(taikhoanId) == reply.UserId)
+                                    {
+                                        <div class="comment-actions d-flex">
+                                            <button class="btn btn-box-tool mr-2" id="edit-comment" data-id="@reply.Id" data-content="@reply.Content">
+                                                <i class="fa-solid fa-pencil text-primary"></i> Sửa
+                                            </button>
+                                            <form action="~/PostReply/Delete/@reply.Id" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn xóa câu trả lời này không?');">
+                                                @* <input type="hidden" name="id" value="@Model.Id" /> *@
+                                                <button type="submit" class="btn btn-box-tool" style="border: none; background-color: transparent;">
+                                                    <i class="fa-solid fa-trash-can text-danger"></i> Xóa
+                                                </button>
+                                            </form>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div><!-- End blog comments -->
+
+
+
+        </div><!-- End col-lg-8 -->
+
+        <div class="col-lg-4">
+
+            <div class="sidebar">
+                <h3 class="sidebar-title">Bài viết tương tự</h3>
+                <div class="sidebar-item recent-posts">
+                    @foreach (var item in similarPosts)
+                    {
+                        <div class="post-item clearfix">
+                            <a href="/Post/Detail/@item.Id">
+                                <img src="~/uploads/postImages/@item.Image" alt="image" style="height: 80px;">
+                            </a>
+                            <h4><a href="~/Post/Detail/@item.Id">@item.Title</a></h4>
+                            <time datetime="@item.CreateDate">@item.CreateDate</time>
+                        </div>
+                    }
+                </div><!-- End sidebar recent posts-->
+            </div><!-- End sidebar -->
+        </div><!-- End col-lg-4 -->
+    </div><!-- End row -->
+</div><!-- End container blog -->
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#summernote').summernote({
+                placeholder: 'Nhập nội dung ở đây...',
+                tabsize: 2,
+                height: 120,
+               
+                toolbar: [
+                    ['style', ['style']],
+                    ['fontname', ['fontname']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['codeview', 'help']]
+                ],
+                callbacks: {
+                    onImageUpload: function (files) {
+                        for (let i = 0; i < files.length; i++) {
+                            UploadImage(files[i]);
+                        }
+                    }
+                }
+            });
+
+            function UploadImage(file) {
+                var url = '@Url.Action("UploadFile", "ImageUpload")';
+
+                var formData = new FormData();
+                formData.append("file", file);
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (FileUrl) {
+                        var imgNode = document.createElement('img');
+                        imgNode.src = FileUrl;
+                        $('#summernote').summernote('insertNode', imgNode);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        });
+
+        $(document).ready(function () {
+            // Xử lý khi click vào nút reply
+            $('#reply').click(function () {
+                var taikhoanId = '@Context.Session.GetString("UserId")';
+                if (taikhoanId == null || taikhoanId === '') {
+                    window.location.href = '/Account/Login';
+                } else {
+                    $('#commentModalLabel').text('Phản hồi bài viết');
+                    $('#summernote').summernote('code', '');
+                    $('#commentId').val('');
+                    $('#commentModal').modal('show');
+                }
+            });
+
+            // Xử lý khi click vào nút sửa
+            $('#edit-comment').click(function () {
+                var content = $(this).data('content');
+                var commentId = $(this).data('id');
+
+                $('#commentModalLabel').text('Chỉnh sửa câu trả lời');
+                $('#summernote').summernote('code', content);
+                $('#commentId').val(commentId);
+                $('#commentModal').modal('show');
+            });
+        });
+    </script>
+}
+

@@ -1,0 +1,153 @@
+﻿@model WebApplication1.ModelViews.HomeViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+@section Styles {
+	<style>
+		.see-more {
+			border-bottom: 2px solid #214252;
+		}
+
+		a {
+			color: #214252;
+			text-decoration: none;
+		}
+
+		a:hover {
+			color: #1a3542;
+		}
+
+		.author-figure img {
+			width: 30px;
+			border-radius: 50%;
+		}
+
+		.entry-title {
+			font-size: 24px !important;
+		}
+
+		.text-limit {
+			height: 4.5rem;
+			line-height: 2rem;
+			max-height: 6rem;
+			overflow: hidden;
+			flex: 1;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 3;
+			text-align: left;
+		}
+
+		.description-limit {
+			max-width: 220px;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+
+		.entry-img .img-fluid{
+			height: 200px !important;
+		}
+
+		.entry-title {
+			height: 58px;
+			overflow: hidden; 
+		}
+	</style>
+}
+
+@* <div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div> *@
+
+<section class="blog">
+	<div class="container">
+
+		<div class="row mb-4">
+			<div class="col-sm-6">
+				<h2 class="posts-entry-title">Post</h2>
+			</div>
+			<div class="col-sm-6 text-sm-end"><a href="~/Forum" class="see-more">View All</a></div>
+		</div>
+
+		<div class="row">
+			@foreach (var item in Model.Post)
+			{
+				<div class="col-lg-4 ">
+					<article class="entry">
+
+						<div class="entry-img">
+							<img src="~/uploads/postImages/@item.Image" alt="" class="img-fluid" >
+						</div>
+
+						<h2 class="entry-title">
+							<a href="~/Post/Detail/@item.Id">@item.Title</a>
+						</h2>
+
+						<div class="entry-meta">
+							<ul>
+								<li class="d-flex align-items-center">
+									<span class="author-figure mb-0 me-3 float-start"><img src="~/@item.User.ProfileImage" alt="Image" class=" img-fluid"></span>
+									<a href="~/User/Index/@item.UserId">@item.User.FullName</a>
+								</li>
+								<li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="@item.CreateDate">@item.CreateDate.Value.ToShortDateString()</time></a></li>
+							</ul>
+						</div>
+
+						<div class="entry-content" >
+							<p class="text-limit">
+								@Html.Raw(SubString.ExtractTextFromHtml(item.Content, 2000))
+							</p>
+							<div class="read-more">
+								<a href="~/Post/Detail/@item.Id">Xem chi tiết</a>
+								@* <<a href="single.html" class="btn btn-sm btn-outline-primary">Read More</a> *@
+							</div>
+						</div>
+
+					</article>
+				</div>
+			}
+		</div>
+
+	</div>
+</section>
+
+<!-- Start posts-entry -->
+<section class="section posts-entry posts-entry-sm bg-light">
+	<div class="container">
+		<div class="row mb-4">
+			<div class="col-sm-6">
+				<h2 class="posts-entry-title">Product</h2>
+			</div>
+			<div class="col-sm-6 text-sm-end">
+				<a href="~/Shop" class="see-more">View All</a>
+			</div>
+		</div>
+		<div class="row  g-3">
+
+				@foreach (var item in Model.Products)
+				{
+					<div class="col-md-6 col-lg-3 services">
+						<a href="~/Shop/Detail/@item.Id">
+							<div class="card icon-box-cyan">
+							<img class="card-img-top img-fluid rounded" src="~/uploads/productImages/@item.Image" alt="#" style="height:200px">
+								<div class="card-body">
+									<h5 class="card-title">@item.Name</h5>
+								<div class="card-text description-limit">@item.Description</div>
+									<div style="color:red; font-size: 18px;">@item.Price đ</div>
+								</div>
+								<div class="card-footer">@item.User.Address</div>
+							</div>
+						</a>
+					</div>
+				}
+		</div>
+	</div>
+</section>
+<!-- End posts-entry -->
+
+
+
+
+

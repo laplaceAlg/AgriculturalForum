@@ -1,0 +1,198 @@
+﻿@model WebApplication1.Models.Product
+@{
+
+}
+@section Styles {
+    <style>
+        .image-container {
+            position: relative;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .delete-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            padding: 0;
+            cursor: pointer;
+            display: none;
+        }
+
+        .image-container:hover .delete-button {
+            display: block;
+        }
+
+    </style>
+
+}
+
+<section class="breadcrumbs">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>@ViewBag.Title</h2>
+            <ol>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="~/Shop">Shop</a></li>
+                <li>@ViewBag.Title</li>
+            </ol>
+        </div>
+
+    </div>
+</section>
+<!--
+-->
+<div class="container m-5">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <form action="~/Shop/Save" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="@nameof(Model.Id)" value="@Model.Id" />
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Loại sản phẩm:</label>
+                    <select name="CategoryProductId" class="form-select">
+                        <option value="#" disabled selected>Chọn loại sản phẩm</option>
+                        @foreach (var item in ViewBag.Categories)
+                        {
+                            if (item.Id == Model.CategoryProductId)
+                            {
+                                <option value="@item.Id" selected>@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Tên sản phẩm:</label>
+                    <input type="text" name="Name" class="form-control" placeholder="Tên sản phẩm" value="@Model.Name">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Giá:</label>
+                    <input type="text" name="Price" class="form-control" placeholder="Giá" value="@Model.Price">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Mô tả:</label>
+                    <textarea name="Description" class="form-control" placeholder="Mô tả">@Model.Description</textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Hình ảnh chính:</label>
+                    <input type="file" name="imgfile" id="imgFile" class="form-control" accept="image/*">
+                </div>
+                <div class="mb-3">
+                    @* <input type="hidden" name="Photo" value="#" /> *@
+                    @if (Model.Id == 0)
+                    {
+                        <img id="Photo" src="#" class="img img-bordered d-none" style="width:200px" />
+                    }
+                    else
+                    {
+                        <img id="Photo" src="~/uploads/productImages/@Model.Image" class="img img-bordered" style="width:200px" />
+                    }
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Hình ảnh phụ:</label>
+                    <input type="file" name="additionalImage" id="additionalImage" class="form-control" multiple>
+                </div>
+                <div class="mb-3">
+                    <div id="previewImages"></div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="IsSelling" value="true" @(Model.IsSelling ? "checked" : "")>
+                        <label class="form-check-label fw-bold" for="IsHidden">Is Selling</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">Đăng tin</button>
+                @if (Model.Id > 0)
+                {
+                    <a class="btn btn-secondary" href="~/User/Index/@Model.UserId">Quay lại</a>
+                }
+                else
+                {
+                    <a class="btn btn-secondary" href="~/Shop">Quay lại</a>
+                }
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('additionalImage').addEventListener('change', function (event) {
+            var files = event.target.files;
+            var previewImages = document.getElementById('previewImages');
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                if (file.type.match('image.*')) {
+                    var reader = new FileReader();
+                    reader.onload = function (event) {
+                        var imgContainer = document.createElement('div');
+                        imgContainer.classList.add('image-container');
+
+                        var img = document.createElement('img');
+                        img.src = event.target.result;
+                        img.width = 120;
+                        img.height = 100;
+
+                        var deleteButton = document.createElement('button');
+                        deleteButton.innerHTML = 'X';
+                        deleteButton.classList.add('delete-button');
+                        deleteButton.addEventListener('click', function () {
+                            var container = this.parentElement;
+                            container.remove();
+                            updateFileInput();
+                        });
+
+                        imgContainer.appendChild(img);
+                        imgContainer.appendChild(deleteButton);
+                        previewImages.appendChild(imgContainer);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        function updateFileInput() {
+            var previewImages = document.getElementById('previewImages');
+            var filesCount = previewImages.childElementCount;
+            var dataTransfer = new DataTransfer();
+            for (var i = 0; i < filesCount; i++) {
+                var imgSrc = previewImages.children[i].children[0].src;
+                var file = dataURItoFile(imgSrc, 'image' + i + '.png');
+                dataTransfer.items.add(file);
+            }
+            var fileInput = document.getElementById('additionalImage');
+            fileInput.files = dataTransfer.files;
+        }
+
+        function dataURItoFile(dataURI, fileName) {
+            var byteString = atob(dataURI.split(',')[1]);
+            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            var ab = new ArrayBuffer(byteString.length);
+            var ia = new Uint8Array(ab);
+            for (var i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+            var blob = new Blob([ab], { type: mimeString });
+            return new File([blob], fileName, { type: mimeString });
+        }
+    </script>
+    <script>
+        document.getElementById('imgFile').addEventListener('change', function (evt) {
+            const [file] = evt.target.files;
+            if (file) {
+                document.getElementById('Photo').classList.remove('d-none');
+                document.getElementById('Photo').setAttribute('src', URL.createObjectURL(file));
+            }
+        });
+    </script>
+}

@@ -1,0 +1,187 @@
+﻿@model IEnumerable<CategoryPost>
+@{
+    List<Post> lastestPostOfCat = ViewBag.LatestPostOfCat;
+    List<Post> recentPosts = ViewBag.RecentPosts;
+}
+@section Styles {
+    <style>
+        .text-limit {
+            line-height: 2rem;
+            max-height: 4rem;
+            overflow: hidden;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            text-align: left;
+        }
+
+        .title-limit {
+            max-width: 320px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .text-hover:hover {
+            color: darkred !important;
+        }
+
+    </style>
+}
+
+<section class="breadcrumbs">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Home</h2>
+            <ol>
+                <li><a href="index.html">Forum</a></li>
+                <li><a href="index.html">Home</a></li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+<section class="blog">
+    <div class="container-fluid" data-aos="fade-up">
+        <!-- Thêm thanh tìm kiếm -->
+        <div class="row mb-3">
+            <div class="col-md-9">
+                <form class="d-flex" action="~/Search/Index" method="get">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searchValue">
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                </form>
+            </div>
+            <div class="col-md-3 text-md-end mt-3 mt-md-0">
+                <!-- Nút đăng tin -->
+                <a href="/Post/Create" class="btn btn-warning">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    Tạo mới bài post
+                </a>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-9 entries">
+                <div class="card shadow">
+                    <div class="card-header">
+                        Diễn đàn nông nghiệp
+                    </div>
+                    @foreach (var item in Model)
+                    {
+
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-3">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-4">
+                                            <ul class="list-unstyled">
+                                                <li>
+                                                    <img class="img-fluid rounded" src="~/images/avtCategory.png" alt="Image" style="height: 80px;">
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <a href="~/Post/Index/@item.Id" class="text-body text-hover">
+                                                <ul class="list-unstyled">
+                                                    <li> <h5>@item.Title</h5></li>
+                                                </ul>
+                                            </a>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <ul class="list-unstyled text-center">
+                                                <li>Bài viết</li>
+                                                <li class="">@item.Posts.Count()</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ul class="list-unstyled text-center">
+                                                <li>Phản hồi</li>
+                                                <li>
+                                                    @item.Posts.Sum(p => p.PostReplies.Count())
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    @foreach (var post in lastestPostOfCat)
+                                    {
+                                        if (post.CategoryPostId == item.Id)
+                                        {
+                                            <div class="row align-items-center">
+                                                <div class="col-md-3">
+                                                    <a href="/Post/Detail/@post.Id">
+                                                        <img class="img-fluid rounded" src="~/uploads/postImages/@post.Image" alt="Image" style="height: 80px;">
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-9">
+                                                        <h6 class="title-limit">
+                                                            <a href="/Post/Detail/@post.Id" class="text-dark text-hover ">@post.Title</a>
+                                                        </h6>
+                                                    @*  <hr /> *@
+                                                    <div class="d-flex justify-content-between">
+                                                        <span class="text-secondary">@post.CreateDate</span>
+                                                        <a href="~/User/Index/@post.User.Id">
+                                                            <span class="text-secondary text-hover">@post.User.FullName</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="border-bottom"></div>
+                    }
+                </div>
+            </div><!-- End col-lg-9 -->
+
+            <div class="col-lg-3 ">
+                <div class="sidebar" style="margin: 0 !important; padding:8px !important;">
+                    <h3 class="sidebar-title">Recent Posts</h3>
+                    <div class="sidebar-item recent-posts">
+                        @foreach (var item in recentPosts)
+                        {
+                            <div class="post-item clearfix">
+                                <a href="/Post/Detail/@item.Id">
+                                    <img src="~/uploads/postImages/@item.Image" alt="image" style="height: 80px;">
+                                </a>
+                                <h4 class="text-limit"><a href="~/Post/Detail/@item.Id">@item.Title</a></h4>
+                                <time datetime="2020-01-01">@item.CreateDate</time>
+                            </div>
+                        }
+                    </div><!-- End sidebar recent posts-->
+
+                    <h3 class="sidebar-title">Forum statistics</h3>
+                    <div class="sidebar-item row">
+                        <div class="col-6">
+                            <p class="text-secondary">Bài viết:</p>
+                            <p class="text-secondary">Phản hồi:</p>
+                            <p class="text-secondary">Thành viên:</p>
+                            <p class="text-secondary">Thành viên mới nhất:</p>
+                        </div>
+                        <div class="col-6">
+                            <p>@ViewBag.TotalPosts</p>
+                            <p>@ViewBag.TotalPostReplies</p>
+                            <p>@ViewBag.TotalMembers</p>
+                            <p><a href="~/User/Index/@ViewBag.LatestMember.Id">@ViewBag.LatestMember.FullName</a></p>
+                        </div>
+                    </div>
+                </div><!-- End sidebar -->
+            </div><!-- End col-lg-3 -->
+        </div><!-- End row -->
+    </div>
+</section><!-- End container blog -->
