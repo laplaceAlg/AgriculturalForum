@@ -16,7 +16,7 @@ namespace WebApplication1.Areas.Admin.Controllers
         {
             _dbContext = dbContext;
         }
-        public IActionResult Index(int page = 1, bool? isActive = null, string searchValue = "")
+        public IActionResult Index(int page = 1, bool? IsActive = null, string searchValue = "")
         {
             var pageNumber = page;
             var pageSize = PAGE_SIZE;
@@ -29,11 +29,11 @@ namespace WebApplication1.Areas.Admin.Controllers
                    .ToList();
            
 
-            if (!string.IsNullOrEmpty(searchValue) && isActive.HasValue)
+            if (!string.IsNullOrEmpty(searchValue) && IsActive.HasValue)
             {
                 lsCategories = _dbContext.CategoryPosts
                         .AsNoTracking()
-                        .Where(x => x.IsActive == isActive && x.Title.Contains(searchValue))
+                        .Where(x => x.IsActive == IsActive && x.Title.Contains(searchValue))
                         .OrderByDescending(x => x.CreateDate)
                         .ToList();
             }
@@ -45,12 +45,12 @@ namespace WebApplication1.Areas.Admin.Controllers
                       .OrderByDescending(x => x.CreateDate)
                       .ToList();
             }
-            else if(isActive.HasValue)
+            else if(IsActive.HasValue)
             {
 
                 lsCategories = _dbContext.CategoryPosts
                     .AsNoTracking()
-                    .Where(x => x.IsActive == isActive)
+                    .Where(x => x.IsActive == IsActive)
                     .OrderByDescending(x => x.CreateDate)
                     .ToList();
             }
@@ -59,12 +59,12 @@ namespace WebApplication1.Areas.Admin.Controllers
             PagedList<CategoryPost> models = new PagedList<CategoryPost>(lsCategories.AsQueryable(), pageNumber, pageSize);
 
             ViewBag.CurrentPage = pageNumber;
-            ViewBag.IsAcTive = isActive;
+            ViewBag.IsAcTive = IsActive;
             ViewBag.SearchValue = searchValue;
-            List<SelectListItem> lsStatus = new List<SelectListItem>();
-            lsStatus.Add(new SelectListItem() { Text = "Hoạt động", Value = "true" });
-            lsStatus.Add(new SelectListItem() { Text = "Khóa", Value = "false" });
-            ViewBag.lsStatus = lsStatus;
+            List<SelectListItem> lsTrangThai = new List<SelectListItem>();
+            lsTrangThai.Add(new SelectListItem() { Text = "Hoạt động", Value = "true" });
+            lsTrangThai.Add(new SelectListItem() { Text = "Khóa", Value = "false" });
+            ViewBag.lsTrangThai = lsTrangThai;
             return View(models);
         }
 
