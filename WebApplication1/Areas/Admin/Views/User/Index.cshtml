@@ -29,40 +29,23 @@
         <div class="row">
             <div class="col-12 ">
                 <div class="card">
-                 @*    <div class="card-header">
-                        <h4>
-                             <a href="~/Admin/User/Create" class="btn btn-success">Thêm mới</a>
-                        </h4>
-                        <div class="card-header-form">
-                            <form>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-primary"><i class="fas fa-search"></i></button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div> *@
 
                     <div class="card-body">
 
                         <div class="row py-2">
                             <div class="col-md-12">
 
-                                <form class="d-flex w-100">
+                                <form class="d-flex w-100" action="~/Admin/User/Index" method="get">
                                     <div class="form-group col-md-5 mb-0">
-                                        <select class="custom-select">
-                                            <option>Option 1</option>
-                                            <option>Option 2</option>
-                                            <option>Option 3</option>
+                                        <select id="status" class="custom-select" name="IsActive" asp-items="ViewBag.lsStatus" onchange="this.form.submit()">
+                                            <option value="" selected>Tất cả trạng thái</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-7 mb-0">
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder="" aria-label="">
+                                            <input id="searchInput" type="text" class="form-control" placeholder="Nhập tiêu đề để tìm" autofocus name="searchValue" value="@ViewBag.SearchValue">
                                             <div class="input-group-append">
-                                                <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+                                                <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -74,53 +57,66 @@
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table table-hover" id="sortable-table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Họ và tên</th>
-                                        <th>Email</th>
-                                        <th>Số điện thoại</th>
-                                        <th>Ngày tham gia</th>
-                                        <th>Trạng thái</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
+                            @if (Model != null && Model.Count() > 0)
+                            {
+                                <table class="table table-hover" id="sortable-table">
+                                    <thead>
                                         <tr>
-                                            <td>@(++stt)</td>
-                                            <td>@item.FullName</td>
-                                            <td>@item.Email</td>
-                                            <td>@item.Phone</td>
-                                            <td>@item.MemberSince.Value.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("en-GB"))</td>
-                                            @if (item.IsActive)
-                                            {
-                                                <td><div class="badge badge-success">Active</div></td>
-                                            }
-                                            else
-                                            {
-                                                <td><div class="badge badge-danger">Not Active</div></td>
-                                            }
-                                            <td class="d-flex align-items-center">
-                                                <a href="~/Admin/User/Detail/@item.Id" class="btn btn-icon btn-info mr-2"><i class="fas fa-info-circle"></i></a>
-                                                <a href="~/Admin/User/Edit/@item.Id" class="btn btn-icon btn-primary"><i class="far fa-edit"></i></a>
-                                            </td>
-
+                                            <th>#</th>
+                                            <th>Họ và tên</th>
+                                            <th>Email</th>
+                                            <th>Số điện thoại</th>
+                                            <th>Ngày tham gia</th>
+                                            <th>Trạng thái</th>
+                                            <th>Action</th>
                                         </tr>
-                                    }
-                                </tbody>
-                            </table>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@(++stt)</td>
+                                                <td>@item.FullName</td>
+                                                <td>@item.Email</td>
+                                                <td>@item.Phone</td>
+                                                <td>@item.MemberSince.Value.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("en-GB"))</td>
+                                                @if (item.IsActive)
+                                                {
+                                                    <td><div class="badge badge-success">Active</div></td>
+                                                }
+                                                else
+                                                {
+                                                    <td><div class="badge badge-danger">Not Active</div></td>
+                                                }
+                                                <td class="d-flex align-items-center">
+                                                    <a href="~/Admin/User/Detail/@item.Id" class="btn btn-icon btn-info mr-2"><i class="fas fa-info-circle"></i></a>
+                                                    <a href="~/Admin/User/Edit/@item.Id" class="btn btn-icon btn-primary"><i class="far fa-edit"></i></a>
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <p>Không tìm thấy kết quả</p>
+                            }
                         </div>
                     </div>
 
-                    <div class="card-footer text-right">
-                        <div aria-label="Page navigation example">
+                    <div class="card-footer row">
+                        <div aria-label="Page navigation example" class="col-md-6">
                             <ul class="pagination">
-                                <pager class="pager-container" list="@Model" asp-area="Admin" asp-controller="User" asp-action="Index" />
+                                <pager class="pager-container" list="@Model" asp-area="Admin" asp-controller="User" asp-action="Index" asp-route-searchValue="@ViewBag.SearchValue" asp-route-IsActive="@ViewBag.IsAcTive" />
                             </ul>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            @if (Model != null)
+                            {
+                                <p>Tổng số người dùng: @Model.TotalItemCount</p>
+                            }
                         </div>
                     </div>
 
@@ -132,4 +128,15 @@
 
 </section>
 
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var isActive = "@ViewBag.IsAcTive";
+            if (isActive !== "") {
+                $("#status").val(isActive.toLowerCase());
+            }
+        });
+    </script>
+}
 

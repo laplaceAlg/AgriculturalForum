@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using System.Drawing.Printing;
@@ -16,7 +17,7 @@ namespace WebApplication1.Areas.Admin.Controllers
         {
             _dbContext = dbContext;
         }
-        public IActionResult Index(int page = 1)
+        public IActionResult Index(int page = 1, bool? isActive = null, string searchValue = "")
         {
             var pageNumber = page;
             var pageSize = PAGE_SIZE;
@@ -26,9 +27,43 @@ namespace WebApplication1.Areas.Admin.Controllers
             lsUsers = _dbContext.Users
             .AsNoTracking()
             .OrderByDescending(x => x.MemberSince).ToList();
+      
+            if (!string.IsNullOrEmpty(searchValue) && isActive.HasValue)
+            {
+                lsUsers = _dbContext.Users
+                        .AsNoTracking()
+                        .Where(x => x.IsActive == isActive && (x.FullName.Contains(searchValue) || x.Email.Contains(searchValue)))
+                        .OrderByDescending(x => x.MemberSince)
+                        .ToList();
+            }
+            else if (!string.IsNullOrEmpty(searchValue))
+            {
+                lsUsers = _dbContext.Users
+                      .AsNoTracking()
+                      .Where(x => x.FullName.Contains(searchValue) || x.Email.Contains(searchValue))
+                      .OrderByDescending(x => x.MemberSince)
+                      .ToList();
+            }
+            else if (isActive.HasValue)
+            {
+
+                lsUsers = _dbContext.Users
+                    .AsNoTracking()
+                    .Where(x => x.IsActive == isActive)
+                    .OrderByDescending(x => x.MemberSince)
+                    .ToList();
+            }
+
+
             PagedList<User> models = new PagedList<User>(lsUsers.AsQueryable(), pageNumber, pageSize);
 
             ViewBag.CurrentPage = pageNumber;
+            ViewBag.IsAcTive = isActive;
+            ViewBag.SearchValue = searchValue;
+            List<SelectListItem> lsStatus = new List<SelectListItem>();
+            lsStatus.Add(new SelectListItem() { Text = "Hoạt động", Value = "true" });
+            lsStatus.Add(new SelectListItem() { Text = "Khóa", Value = "false" });
+            ViewBag.lsStatus = lsStatus;
             return View(models);
         }
 
