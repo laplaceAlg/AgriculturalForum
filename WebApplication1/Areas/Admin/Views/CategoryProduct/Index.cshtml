@@ -20,7 +20,6 @@
         <h1>@ViewBag.Title</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item active"><a href="~/Admin/CategoryProduct">@ViewBag.Title</a></div>
-            @*   <div class="breadcrumb-item"><a href="#">Components</a></div> *@
             <div class="breadcrumb-item">Trang @ViewBag.CurrentPage</div>
         </div>
     </div>
@@ -35,7 +34,7 @@
                                 <div class="row">
                                     <form class="d-flex w-100" action="~/Admin/CategoryProduct/Index" method="get">
                                         <div class="form-group col-md-5 mb-0">
-                                            <select id="isActiveSelect" class="custom-select" name="IsActive" asp-items="ViewBag.lsTrangThai" onchange="this.form.submit()">
+                                            <select id="Status" class="custom-select" name="IsActive" asp-items="ViewBag.lsStatus" onchange="this.form.submit()">
                                                 <option value="" disabled selected>Chọn trạng thái</option>
                                                 <option value="">Chọn tất cả</option>
                                             </select>
@@ -44,7 +43,7 @@
                                             <div class="input-group mb-3">
                                                 <input id="searchInput" type="text" class="form-control" placeholder="Nhập tiêu đề để tìm"  name="searchValue" value="@ViewBag.SearchValue">
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+                                                    <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -58,6 +57,8 @@
                         </div>
 
                         <div class="table-responsive">
+                             @if (Model != null && Model.Count() > 0)
+                            {
                             <table class="table table-hover" id="sortable-table">
                                 <thead>
                                     <tr>
@@ -91,13 +92,24 @@
                                     }
                                 </tbody>
                             </table>
+                            }
+                            else
+                            {
+                                <p>Không tìm thấy kết quả</p>
+                            }
                         </div>
                     </div>
-                    <div class="card-footer text-right">
-                        <div aria-label="Page navigation example">
+                    <div class="card-footer row">
+                        <div aria-label="Page navigation example" class="col-md-6">
                             <ul class="pagination">
                                 <pager class="pager-container" list="@Model" asp-area="Admin" asp-controller="CategoryProduct" asp-action="Index"  asp-route-searchValue="@ViewBag.SearchValue" asp-route-IsActive="@ViewBag.IsAcTive" />
                             </ul>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            @if (Model != null)
+                            {
+                                <p>Tổng số danh mục: @Model.TotalItemCount</p>
+                            }
                         </div>
                     </div>
                 </div>
@@ -105,6 +117,20 @@
         </div>
     </div>
 </section>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var isActive = "@ViewBag.IsAcTive";
+            if (isActive !== "") {
+                $("#Status").val(isActive.toLowerCase());
+            }
+            var searchValue = "@ViewBag.SearchValue";
+            $("#searchInput").val(searchValue);
+        });
+    </script>
+}
 
 
 
