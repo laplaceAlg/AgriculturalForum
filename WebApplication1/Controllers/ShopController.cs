@@ -15,6 +15,8 @@ namespace WebApplication1.Controllers
     public class ShopController : Controller
     {
         private readonly KltnDbContext _dbContext;
+        const string CREATE_TITLE = "Tạo mặt hàng mới";
+        const string EDIT_TITLE = "Cập nhật thông tin mặt hàng";
         public ShopController(KltnDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -86,7 +88,7 @@ namespace WebApplication1.Controllers
             var userId = HttpContext.Session.GetString("UserId");
             if (userId == null)
                 return RedirectToAction("Login", "Account", new { ReturnUrl = "/Shop/Create" });
-            ViewBag.Title = "Tạo mặt hàng mới";
+            ViewBag.Title = CREATE_TITLE;
             ViewBag.Categories = _dbContext.CategoryProducts.ToList();
             var model = new Product()
             {
@@ -101,7 +103,7 @@ namespace WebApplication1.Controllers
             var userId = HttpContext.Session.GetString("UserId");
             if (userId == null)
                 return RedirectToAction("Login", "Account", new { ReturnUrl = "/Shop/Edit" });
-            ViewBag.Title = "Cập nhật thông tin mặt hàng";
+            ViewBag.Title = EDIT_TITLE;
             ViewBag.Categories = _dbContext.CategoryProducts.ToList();
             var model = _dbContext.Products.FirstOrDefault(p => p.Id == id);
             if (model == null)
@@ -119,11 +121,32 @@ namespace WebApplication1.Controllers
             var account = _dbContext.Users.AsNoTracking().FirstOrDefault(u => u.Id == int.Parse(userId));
             if (account == null)
                 return NotFound();
+
+
+            //TODO: Kiểm soát dữ liệu trong model xem có hợp lệ hay không?
+
+            if (string.IsNullOrWhiteSpace(product.Name))
+                ModelState.AddModelError(nameof(product.Name), "Tên không được để trống");
+            if (product.Price < 0 || product.Price == null)
+                ModelState.AddModelError(nameof(product.Price), "Giá phải lớn hơn 0 ");
+            if (product.CategoryProductId == null)
+                ModelState.AddModelError(nameof(product.CategoryProductId), "Vui lòng chọn loại sản phẩm");
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Title = product.Id == 0 ? CREATE_TITLE : EDIT_TITLE;
+                ViewBag.Categories = _dbContext.CategoryProducts.ToList();
+                return View("Edit", product);
+            }
+
             if (product.Id == 0)
             {
-                if (imgfile == null)
+                if (imgfile == null || imgfile.Length == 0)
                 {
-                    ViewBag.error = "Image could not be uploaded...";
+                    ModelState.AddModelError("imgfile", "Vui lòng chọn ảnh cho sản phẩm");
+                    ViewBag.Title = CREATE_TITLE;
+                    ViewBag.Categories = _dbContext.CategoryProducts.ToList();
+                    return View("Edit", product);
                 }
                 else
                 {

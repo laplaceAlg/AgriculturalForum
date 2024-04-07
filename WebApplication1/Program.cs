@@ -20,7 +20,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 					option.ExpireTimeSpan = TimeSpan.FromMinutes(120);
 				});
 
-builder.Services.AddControllersWithViews();
+//builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddMvcOptions(option =>
+    {
+        option.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+    });
 
 var app = builder.Build();
 

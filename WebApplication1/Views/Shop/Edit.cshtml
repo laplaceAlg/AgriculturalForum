@@ -57,7 +57,7 @@
                 <div class="mb-3">
                     <label class="form-label fw-bold">Loại sản phẩm:</label>
                     <select name="CategoryProductId" class="form-select">
-                        <option value="#" disabled selected>Chọn loại sản phẩm</option>
+                        <option value="" disabled selected>Chọn loại sản phẩm</option>
                         @foreach (var item in ViewBag.Categories)
                         {
                             if (item.Id == Model.CategoryProductId)
@@ -70,14 +70,17 @@
                             }
                         }
                     </select>
+                    @Html.ValidationMessageFor(m => m.CategoryProductId, "", new { @style="color:#f00;"})
                 </div>
                 <div class="mb-3">
                     <label class="form-label fw-bold">Tên sản phẩm:</label>
                     <input type="text" name="Name" class="form-control" placeholder="Tên sản phẩm" value="@Model.Name">
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @style = "color:#f00;" })
                 </div>
                 <div class="mb-3">
                     <label class="form-label fw-bold">Giá:</label>
-                    <input type="text" name="Price" class="form-control" placeholder="Giá" value="@Model.Price">
+                    <input type="number" name="Price" class="form-control" placeholder="Giá" value="@Model.Price">
+                    @Html.ValidationMessageFor(m => m.Price, "", new { @style = "color:#f00;" })
                 </div>
                 <div class="mb-3">
                     <label class="form-label fw-bold">Mô tả:</label>
@@ -86,6 +89,7 @@
                 <div class="mb-3">
                     <label class="form-label fw-bold">Hình ảnh chính:</label>
                     <input type="file" name="imgfile" id="imgFile" class="form-control" accept="image/*">
+                    @Html.ValidationMessage("imgfile", new { @style = "color:#f00;" })
                 </div>
                 <div class="mb-3">
                     @* <input type="hidden" name="Photo" value="#" /> *@
