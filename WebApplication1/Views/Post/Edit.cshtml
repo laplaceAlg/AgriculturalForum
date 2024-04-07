@@ -33,6 +33,7 @@
         <div class="col-12">
             <label for="title" class="form-label fw-bold">Tiêu đề bài viết</label>
             <input type="text" class="form-control" name="@nameof(Model.Title)" value="@Model.Title" autofocus placeholder="Nhập tiêu đề" />
+            @Html.ValidationMessageFor(m => m.Title, "", new { @style = "color:#f00;" })
         </div>
         <div class="col-12">
             <label for="category" class="form-label fw-bold">Loại bài viết</label>
@@ -50,11 +51,12 @@
                     }
                 }
             </select>
-        
+            @Html.ValidationMessageFor(m => m.CategoryPostId, "", new { @style = "color:#f00;"})
         </div>
         <div class="col-12">
             <label for="summernote" class="form-label fw-bold">Nội dung bài viết</label>
             <textarea id="summernote" name="Content" class="form-control">@Model.Content</textarea>
+            @Html.ValidationMessageFor(m => m.Content, "", new { @style = "color:#f00;" })
         </div>
         <div class="col-12">
             <label for="image" class="form-label fw-bold">Hình ảnh</label>
@@ -72,7 +74,7 @@
             <button type="submit" class="btn btn-primary">@(!ViewBag.IsEdit ? "Tạo mới" : "Cập nhật")</button>
             @if (ViewBag.IsEdit)
             {
-                <a class="btn btn-secondary" href="~/Post/Detail/@ViewBag.PostId">Quay lại</a>
+                <a class="btn btn-secondary" href="~/Post/Detail/@Model.Id">Quay lại</a>
             }
             else
             {

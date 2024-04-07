@@ -19,9 +19,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 					option.AccessDeniedPath = "/Account/AccessDenined";
 					option.ExpireTimeSpan = TimeSpan.FromMinutes(120);
 				});
-
-builder.Services.AddControllersWithViews();
-
+/*
+builder.Services.AddControllersWithViews();*/
+builder.Services.AddControllersWithViews()
+    .AddMvcOptions(option =>
+    {
+        option.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+    });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
