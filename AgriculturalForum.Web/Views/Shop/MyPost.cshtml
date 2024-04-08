@@ -1,0 +1,108 @@
+﻿@using Microsoft.AspNetCore.Http
+@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<AgriculturalForum.Web.Models.Product>
+@{
+    ViewBag.Title = "Thông tin người bán";
+    var taikhoanId = Context.Session.GetString("UserId");
+    User user = ViewBag.User;
+}
+@section Styles {
+    <style>
+        .text-limit {
+            max-width: 190px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    </style>
+}
+
+<section class="breadcrumbs">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>@ViewBag.Title</h2>
+            <ol>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="~/Shop">Shop</a></li>
+                <li>@ViewBag.Title</li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+<div class="container my-5">
+    <div class="card shadow mb-5">
+        <div class="card-header">
+            <h4 class="m-0"> @user.FullName</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <img class="img-fluid img-thumbnail" src="~/@user.ProfileImage" alt="Profile Image" style="width:120px; height:120px;">
+                </div>
+                <div class="col-md-9">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <i class="fa-solid fa-right-to-bracket"></i> Đã tham gia vào @user.MemberSince
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-phone me-2"></i> Liên hệ:
+                            <a href="tel: @user.Phone"> @user.Phone</a>
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fa-solid fa-location-dot"></i>
+                            Địa chỉ: @user.Address
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product List -->
+    <div class=" container card shadow">
+        <div id="product-list" class=" portfolio" style="padding-bottom: 0 !important;">
+            @if (Model != null && Model.Count() > 0)
+            {
+                <h4 class="my-2">Sản phẩm đang bán</h4>
+                <div class="row g-4" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-6 col-lg-3">
+                            <a href="~/Shop/Detail/@item.Id">
+                                <div class="icon-box-cyan portfolio-item ">
+                                    <img src="~/uploads/productImages/@item.Image" class="card-img-top" alt="Product 1" style="height:200px;">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-white">@item.Name</h5>
+                                        <p class="card-text text-white text-limit">@item.Description</p>
+                                        <p style="color:yellow; font-size: 18px;">@item.Price.Value.ToString("#,##0") đ</p>
+                                        <div class="portfolio-info">
+                                            @if (taikhoanId != null && int.Parse(taikhoanId) == item.UserId)
+                                            {
+                                                <div>
+                                                    <a href="~/Shop/Edit/@item.Id"><i class="bx bx-edit"></i></a>
+                                                    <a href="~/Shop/Delete/@item.Id"><i class="bx bx-trash"></i></a>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+                <div aria-label="Page navigation example" class="d-flex justify-content-center">
+                    <ul class="pagination">
+                        <pager class="pager-container" list="@Model" action="~/Shop/MyPost" />
+                    </ul>
+                </div>
+            }
+            else
+            {
+                <div class="d-flex align-items-center" style="height: 100px;">
+                    <p class="text-muted">Chưa có mặt hàng nào được đăng</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

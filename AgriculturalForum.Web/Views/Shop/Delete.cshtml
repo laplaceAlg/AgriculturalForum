@@ -1,0 +1,58 @@
+﻿@model AgriculturalForum.Web.Models.Product
+
+@{
+    ViewBag.Title = "Xóa sản phẩm";
+}
+
+<section class="breadcrumbs">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>@ViewBag.Title</h2>
+            <ol>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="~/Shop">Shop</a></li>
+                <li>@ViewBag.Title</li>
+            </ol>
+        </div>
+
+    </div>
+</section>
+
+<div class="container m-5">
+    <div class="card ">
+        <div class="card-header bg-danger">
+            <h5 class="card-title text-white">Xóa sản phẩm</h5>
+        </div>
+        <div class="card-body">
+            <form action="~/Shop/Delete/@Model.Id" method="post">
+                <div class="mb-3">
+                    <label for="productName" class="form-label fw-bold">Tên sản phẩm:</label>
+                    <p class="form-control">@Model.Name</p>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label fw-bold">Mô tả:</label>
+                    <p class="form-control">@Model.Description</p>
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label fw-bold">Giá:</label>
+                    <p class="form-control">@Model.Price</p>
+                </div>
+                <div class="mb-3">
+                    <label for="createDate" class="form-label fw-bold">Thời gian tạo:</label>
+                    <p class="form-control">@Model.CreateDate</p>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label fw-bold">Hình ảnh:</label>
+                    <img src="~/uploads/productImages/@Model.Image" class="img img-bordered form-control" style="width: 300px;" />
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Xác nhận xóa
+                    </button>
+                    <a href="~/User/Index/@Model.UserId" class="btn btn-secondary">Quay lại</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
