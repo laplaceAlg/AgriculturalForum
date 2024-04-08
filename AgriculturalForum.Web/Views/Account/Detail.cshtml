@@ -1,0 +1,52 @@
+﻿@model AgriculturalForum.Web.Models.User
+
+@{
+    ViewBag.Title = "Thông tin tài khoản";
+    AgriculturalForum.Web.ModelViews.ChangePasswordViewModel changePassword = new AgriculturalForum.Web.ModelViews.ChangePasswordViewModel();
+}
+
+<section class="breadcrumbs">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 id="tab-title">@ViewBag.Title</h2>
+            <ol>
+                <li><a href="~/Account/Detail">Tài khoản của bạn</a></li>
+                <li id="current-tab-title">@ViewBag.Title</li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+<section id="blog" class="blog">
+    <div class="container" data-aos="fade-up">
+
+        <div class="row">
+            <div class="col-lg-4">
+
+                @await Html.PartialAsync("_SidebarPartialView.cshtml")
+
+            </div>
+
+            <div class="col-lg-8 entries">
+
+                <article class="entry">
+
+                    <h2 class="entry-title">
+                        Thông tin tài khoản
+                    </h2>
+
+                    <div class="entry-content">
+                        <p>Xin chào, <strong>@Model.FullName</strong></p>
+                        <p>Email: @Model.Email</p>
+                        <p>Số điện thoại: @Model.Phone</p>
+                        <p>Địa chỉ: @Model.Address</p>
+                        @* <div class="read-more">
+                            <a href="blog-single.html">Read More</a>
+                        </div> *@
+                    </div>
+
+            </div><!-- End blog entries list -->
+        </div>
+    </div>
+</section>
+

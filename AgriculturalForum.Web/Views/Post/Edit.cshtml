@@ -1,0 +1,143 @@
+﻿@model AgriculturalForum.Web.Models.Post
+@{
+    List<CategoryPost> listOfCategories = ViewBag.Categories;
+}
+
+@section Styles {
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <style>
+        .note-modal-footer {
+            height: 60px !important;
+        }
+
+    </style>
+}
+<section class="breadcrumbs">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>@ViewBag.Title</h2>
+            <ol>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="~/Forum">Forum</a></li>
+                <li>@ViewBag.Title</li>
+            </ol>
+        </div>
+
+    </div>
+</section>
+
+<div class="container mt-3 mb-3">
+    <form class="row g-3"action="~/Post/Save" method="post" enctype="multipart/form-data">
+        @Html.HiddenFor(m => m.Id)
+        <div class="col-12">
+            <label for="title" class="form-label fw-bold">Tiêu đề bài viết</label>
+            <input type="text" class="form-control" name="@nameof(Model.Title)" value="@Model.Title" autofocus placeholder="Nhập tiêu đề" />
+            @Html.ValidationMessageFor(m => m.Title, "", new { @style = "color:#f00;" })
+        </div>
+        <div class="col-12">
+            <label for="category" class="form-label fw-bold">Loại bài viết</label>
+            <select class="form-control" name="CategoryPostId">
+                <option value="">--Chọn loại bài viết--</option>
+                @foreach (var category in listOfCategories)
+                {
+                    if (category.Id == Model.CategoryPostId)
+                    {
+                        <option value="@category.Id" selected>@category.Title</option>
+                    }
+                    else
+                    {
+                        <option value="@category.Id">@category.Title</option>
+                    }
+                }
+            </select>
+            @Html.ValidationMessageFor(m => m.CategoryPostId, "", new { @style = "color:#f00;"})
+        </div>
+        <div class="col-12">
+            <label for="summernote" class="form-label fw-bold">Nội dung bài viết</label>
+            <textarea id="summernote" name="Content" class="form-control">@Model.Content</textarea>
+            @Html.ValidationMessageFor(m => m.Content, "", new { @style = "color:#f00;" })
+        </div>
+        <div class="col-12">
+            <label for="image" class="form-label fw-bold">Hình ảnh</label>
+            <input type="hidden" name="@nameof(Model.Image)" value="@Model.Image" />
+            <input type="file" class="form-control" name="imgFile" accept="image/*"
+                   onchange="document.getElementById('Photo').src = window.URL.createObjectURL(this.files[0])" />
+        </div>
+        <div class="col-12">
+            <div class="col-lg-offset-2 col-sm-10">
+                <img id="Photo" src="~/uploads/postImages/@Model.Image" class="img img-bordered" style="width: 200px;" />
+            </div>
+        </div>
+     
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">@(!ViewBag.IsEdit ? "Tạo mới" : "Cập nhật")</button>
+            @if (ViewBag.IsEdit)
+            {
+                <a class="btn btn-secondary" href="~/Post/Detail/@Model.Id">Quay lại</a>
+            }
+            else
+            {
+                <a class="btn btn-secondary" href="~/Forum">Quay lại</a>
+            }
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#summernote').summernote({
+                placeholder: 'Nhập nội dung ở đây...',
+                tabsize: 2,
+                height: 120,
+                toolbar: [
+                    ['style', ['style']],
+                    ['fontname', ['fontname']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['codeview', 'help']]
+                ],
+                callbacks: {
+                    onImageUpload: function (files) {
+                        for (let i = 0; i < files.length; i++) {
+                            UploadImage(files[i]);
+                        }
+                    }
+                }
+            });
+
+            function UploadImage(file) {
+                var url = '@Url.Action("UploadFile", "ImageUpload")';
+
+                var formData = new FormData();
+                formData.append("file", file);
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (FileUrl) {
+                        var imgNode = document.createElement('img');
+                        imgNode.src = FileUrl;
+                        $('#summernote').summernote('insertNode', imgNode);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        });
+
+    </script>
+}
