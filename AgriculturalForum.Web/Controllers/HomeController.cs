@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using AgriculturalForum.Web.Models;
 using AgriculturalForum.Web.ModelViews;
+using Microsoft.AspNetCore.Localization;
+using AgriculturalForum.Web.Extensions;
 
 namespace AgriculturalForum.Web.Controllers
 {
@@ -10,11 +12,14 @@ namespace AgriculturalForum.Web.Controllers
 	{
 		private readonly ILogger<HomeController> _logger;
 		private readonly KltnDbContext _dbcontext;
+        private LanguageService _localization;
 
-		public HomeController(ILogger<HomeController> logger, KltnDbContext dbcontext)
+
+        public HomeController(ILogger<HomeController> logger, KltnDbContext dbcontext, LanguageService localization)
 		{
 			_logger = logger;
 			_dbcontext = dbcontext;
+			_localization = localization;
 		}
 
 		public IActionResult Index()
@@ -52,5 +57,15 @@ namespace AgriculturalForum.Web.Controllers
 		{
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
-	}
+
+        public IActionResult ChangeLanguage(string culture)
+        {
+            Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)), new CookieOptions()
+                {
+                    Expires = DateTimeOffset.UtcNow.AddYears(1)
+                });
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+    }
 }

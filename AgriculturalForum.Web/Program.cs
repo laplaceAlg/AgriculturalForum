@@ -3,10 +3,39 @@ using Microsoft.EntityFrameworkCore;
 using AgriculturalForum.Web;
 using AgriculturalForum.Web.Helpper;
 using AgriculturalForum.Web.Models;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+using System.Reflection;
+using AgriculturalForum.Web.Extensions;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages()
 	.AddRazorRuntimeCompilation();
+#region Localizer
+builder.Services.AddSingleton<LanguageService>();
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+builder.Services.AddMvc().AddViewLocalization().AddDataAnnotationsLocalization(options =>
+    options.DataAnnotationLocalizerProvider = (type, factory) =>
+    {
+        var assemblyName = new AssemblyName(typeof(SharedResource).GetTypeInfo().Assembly.FullName);
+        return factory.Create(nameof(SharedResource), assemblyName.Name);
+    });
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportCultures = new List<CultureInfo>
+    {
+        new CultureInfo("en-US"),
+        new CultureInfo("vi-VN")
+    };
+    options.DefaultRequestCulture = new RequestCulture(culture: "vi-VN", uiCulture: "vi-VN");
+    options.SupportedCultures = supportCultures;
+    options.SupportedUICultures = supportCultures;
+    options.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
+});
+#endregion
+
 builder.Services.AddDbContext<KltnDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("dbKLTN")));
 // Add services to the container.
@@ -40,6 +69,8 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 
 app.UseAuthorization();
 app.UseSession();
