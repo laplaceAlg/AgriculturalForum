@@ -1,7 +1,7 @@
 ﻿@model AgriculturalForum.Web.Models.User
 
 @{
-    ViewBag.Title = "Thông tin tài khoản";
+    ViewBag.Title = _localization.Getkey("AccountInformation");
     AgriculturalForum.Web.ModelViews.ChangePasswordViewModel changePassword = new AgriculturalForum.Web.ModelViews.ChangePasswordViewModel();
 }
 
@@ -10,7 +10,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <h2 id="tab-title">@ViewBag.Title</h2>
             <ol>
-                <li><a href="~/Account/Detail">Tài khoản của bạn</a></li>
+                <li><a href="~/Account/Detail">@_localization.Getkey("YourAccount")</a></li>
                 <li id="current-tab-title">@ViewBag.Title</li>
             </ol>
         </div>
@@ -32,14 +32,14 @@
                 <article class="entry">
 
                     <h2 class="entry-title">
-                        Thông tin tài khoản
+                        @_localization.Getkey("AccountInformation")
                     </h2>
 
                     <div class="entry-content">
-                        <p>Xin chào, <strong>@Model.FullName</strong></p>
-                        <p>Email: @Model.Email</p>
-                        <p>Số điện thoại: @Model.Phone</p>
-                        <p>Địa chỉ: @Model.Address</p>
+                        <p>@_localization.Getkey("Hi"), <strong>@Model.FullName</strong></p>
+                        <p>@_localization.Getkey("Email"): @Model.Email</p>
+                        <p>@_localization.Getkey("Phone"): @Model.Phone</p>
+                        <p>@_localization.Getkey("Address"): @Model.Address</p>
                         @* <div class="read-more">
                             <a href="blog-single.html">Read More</a>
                         </div> *@

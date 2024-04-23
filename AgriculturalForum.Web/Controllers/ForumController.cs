@@ -24,7 +24,7 @@ namespace AgriculturalForum.Web.Controllers
                                    .ThenInclude(p => p.PostReplies)
                             .ToList();
             var recentPosts = _dbContext.Posts
-                             .OrderByDescending(p => p.CreateDate) // Sắp xếp theo ngày tạo mới nhất
+                             .OrderByDescending(p => p.CreateDate) 
                              .Take(5)
                              .ToList();
             ViewBag.RecentPosts = recentPosts;
@@ -70,6 +70,7 @@ namespace AgriculturalForum.Web.Controllers
             ViewBag.TotalMembers = totalMembers;
             ViewBag.LatestMember = latestMember;
             var model = _dbContext.CategoryPosts
+                .Where(c => c.IsActive)
                 .Include(p => p.Posts)
                 .ThenInclude(pr => pr.PostReplies)
                 .ToList();

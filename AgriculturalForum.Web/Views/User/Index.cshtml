@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Http
 @model AgriculturalForum.Web.Models.User
 @{
-    ViewBag.Title = "Trang cá nhân của " + Model.FullName;
     var taikhoanId = Context.Session.GetString("UserId");
     List<Post> lsPosts = ViewBag.ListPosts;
     List<Product> lsProducts = ViewBag.ListProducts;
@@ -49,11 +48,11 @@
     <div class="container">
 
         <div class="d-flex justify-content-between align-items-center">
-            <h2>@ViewBag.Title</h2>
+            <h2>
+                @_localization.Getkey("Account")</h2>
             <ol>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="index.html">User</a></li>
-                <li>@ViewBag.Title</li>
+                <li><a href="~/Home">@_localization.Getkey("Home")</a></li>
+                <li>@Model.FullName</li>
             </ol>
         </div>
 
@@ -71,23 +70,23 @@
                     <div class="col-md-10">
                         <div class="card-body">
                             <h4 class="mb-3">@Model.FullName</h4>
-                            <p><i class="fas fa-calendar me-2"></i> Đã tham gia từ @Model.MemberSince</p>
-                            <p><i class="fas fa-phone me-2"></i> Liên hệ: <a href="tel:34534534">@Model.Phone</a></p>
-                            <p><i class="fas fa-location-dot me-2"></i> Địa chỉ: @Model.Address</p>
+                            <p><i class="fas fa-calendar me-2"></i> @_localization.Getkey("Joined"): @Model.MemberSince</p>
+                            <p><i class="fas fa-phone me-2"></i> @_localization.Getkey("Contact"): <a href="tel:34534534">@Model.Phone</a></p>
+                            <p><i class="fas fa-location-dot me-2"></i>@_localization.Getkey("Address"): @Model.Address</p>
                             <hr>
                             <div class="d-flex justify-content-between">
-                                <span>Bài viết: @Model.Posts.Count()</span>
-                                <span>Phản hồi: @Model.PostReplies.Count()</span>
+                                <span>@_localization.Getkey("Posts"): @Model.Posts.Count()</span>
+                                <span>@_localization.Getkey("Replies"): @Model.PostReplies.Count()</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#activity" data-bs-toggle="tab">Các bài viết đã đăng</a>
+                        <a class="nav-link active" href="#activity" data-bs-toggle="tab">@_localization.Getkey("Postings")</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#product-list" data-bs-toggle="tab">Các mặt hàng đã đăng</a>
+                        <a class="nav-link" href="#product-list" data-bs-toggle="tab">@_localization.Getkey("PostedProduct")</a>
                     </li>
                 </ul>
             </div>
@@ -111,7 +110,7 @@
                                                     </div>
                                                     <div class="col-md-9">
                                                         <h5 class="card-title">
-                                                            <a href="/Forum/Detail/@post.Id" class="text-dark  text-hover">@post.Title</a>
+                                                            <a href="/Post/Detail/@post.Id" class="text-dark  text-hover">@post.Title</a>
                                                         </h5>
                                                         <hr />
                                                         <div class="d-flex align-items-center">
@@ -135,7 +134,7 @@
                                                             <p class="text-limit">@SubString.ExtractTextFromHtml(post.Content, 1000)</p>
                                                             <div class="text-end">
                                                                 <a href="/Post/Detail/@post.Id" class="text-body text-hover">
-                                                                    Xem chi tiết
+                                                                    @_localization.Getkey("ReadMore")
                                                                     <i class="fa-solid fa-chevron-right"></i>
                                                                 </a>
                                                             </div>
@@ -150,7 +149,7 @@
                             @if (ViewBag.TotalPost > 3)
                             {
                                 <div class="mb-2 mt-2 text-end">
-                                    <a href="~/Search/ListPosts/@Model.Id" class="btn btn-primary">Xem thêm</a>
+                                    <a href="~/Search/ListPosts/@Model.Id" class="btn btn-primary">@_localization.Getkey("SeeMore")</a>
                                 </div>
                             }
                         }
@@ -192,7 +191,7 @@
                                 @if (ViewBag.TotalProduct > 5)
                                 {
                                     <div class="mb-2 text-end">
-                                        <a href="~/Search/ListProducts/@Model.Id" class="btn btn-primary">Xem thêm</a>
+                                        <a href="~/Search/ListProducts/@Model.Id" class="btn btn-primary">@_localization.Getkey("SeeMore")</a>
                                     </div>
                                 }
                             </div>

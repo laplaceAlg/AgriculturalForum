@@ -1,16 +1,16 @@
 ﻿@{
 }
 <div class="sidebar">
-    <h3 class="sidebar-title">Categories</h3>
+   @*  <h3 class="sidebar-title">Categories</h3> *@
     <div class="sidebar-item categories">
         <ul>
-            <li><a href="~/Account/Detail">Thông tin tài khoản</a></li>
-            <li><a href="~/Account/ChangePassword">Đổi mật khẩu</a></li>
-            <li><a href="~/Account/Logout">Đăng xuất</a></li>
+            <li><a href="~/Account/Detail">@_localization.Getkey("AccountInformation")</a></li>
+            <li><a href="~/Account/ChangePassword">@_localization.Getkey("ChangePassword")</a></li>
+            <li><a href="~/Account/Logout">@_localization.Getkey("Logout")</a></li>
         </ul>
     </div><!-- End sidebar categories-->
 
-    <h3 class="sidebar-title">Tags</h3>
+   @*  <h3 class="sidebar-title">Tags</h3>
     <div class="sidebar-item tags">
         <ul>
             <li><a href="#">App</a></li>
@@ -20,6 +20,6 @@
             <li><a href="#">Design</a></li>
             <li><a href="#">Office</a></li>
         </ul>
-    </div><!-- End sidebar tags-->
+    </div><!-- End sidebar tags--> *@
 
 </div><!-- End sidebar -->

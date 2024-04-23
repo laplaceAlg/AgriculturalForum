@@ -47,10 +47,10 @@
                         <li class="dropdown">
                             <a href="#"><span>@User.Identity.Name</span> <i class="bi bi-chevron-down"></i></a>
                             <ul>
-                                <li><a href="~/User/Index/@int.Parse(taikhoanID)">Nội dung của bạn</a></li>
-                                <li><a href="~/Account/Detail">Thông tin tài khoản</a></li>
-                                <li><a href="~/Account/ChangePassword">Đổi mật khẩu</a></li>
-                                <li><a href="~/Account/Logout">Đăng xuất</a></li>
+                                <li><a href="~/User/Index/@int.Parse(taikhoanID)">@_localization.Getkey("YourContent")</a></li>
+                                <li><a href="~/Account/Detail">@_localization.Getkey("AccountInformation")</a></li>
+                                <li><a href="~/Account/ChangePassword">@_localization.Getkey("ChangePassword")</a></li>
+                                <li><a href="~/Account/Logout">@_localization.Getkey("Logout")</a></li>
                             </ul>
                         </li>
                     }

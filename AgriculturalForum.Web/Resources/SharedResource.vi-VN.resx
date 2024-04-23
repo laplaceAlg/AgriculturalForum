@@ -117,8 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account" xml:space="preserve">
+    <value>Tài khoản</value>
+  </data>
+  <data name="AccountInformation" xml:space="preserve">
+    <value>Thông tin tài khoản</value>
+  </data>
   <data name="Address" xml:space="preserve">
     <value>Địa chỉ</value>
+  </data>
+  <data name="AgriculturalForum" xml:space="preserve">
+    <value>Diễn đàn nông nghiệp</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Quay lại</value>
+  </data>
+  <data name="CategoryPost" xml:space="preserve">
+    <value>Loại bài viết</value>
+  </data>
+  <data name="CategoryRequired" xml:space="preserve">
+    <value>Vui lòng chọn loại</value>
   </data>
   <data name="ChangePassword" xml:space="preserve">
     <value>Đổi mật khẩu</value>
@@ -129,6 +147,24 @@
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Xác nhận mật khẩu</value>
   </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Liên hệ</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>Nội dung</value>
+  </data>
+  <data name="ContentRequired" xml:space="preserve">
+    <value>Nội dung không được để trống</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Tạo mới</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Sửa</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
@@ -138,8 +174,17 @@
   <data name="FullName" xml:space="preserve">
     <value>Họ và Tên</value>
   </data>
+  <data name="Hi" xml:space="preserve">
+    <value>chào</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Trang chủ</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Hình ảnh</value>
+  </data>
+  <data name="Joined" xml:space="preserve">
+    <value>Đã tham gia</value>
   </data>
   <data name="Languages" xml:space="preserve">
     <value>Ngôn ngữ</value>
@@ -149,6 +194,9 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>Đăng nhập</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Đăng xuất</value>
   </data>
   <data name="Members" xml:space="preserve">
     <value>Thành viên</value>
@@ -162,6 +210,9 @@
   <data name="NewProduct" xml:space="preserve">
     <value>Tạo mới mặt hàng</value>
   </data>
+  <data name="NoResults" xml:space="preserve">
+    <value>Không tìm thấy kết quả</value>
+  </data>
   <data name="OldPassword" xml:space="preserve">
     <value>Mật khẩu cũ</value>
   </data>
@@ -174,11 +225,23 @@
   <data name="Phone" xml:space="preserve">
     <value>Số điện thoại</value>
   </data>
+  <data name="PostDetail" xml:space="preserve">
+    <value>Chi tiết bài viết</value>
+  </data>
+  <data name="PostedProduct" xml:space="preserve">
+    <value>Các mặt hàng đã đăng</value>
+  </data>
+  <data name="Postings" xml:space="preserve">
+    <value>Các bài viết đã đăng</value>
+  </data>
   <data name="Posts" xml:space="preserve">
     <value>Bài viết</value>
   </data>
   <data name="Products" xml:space="preserve">
     <value>Sản phẩm</value>
+  </data>
+  <data name="ReadMore" xml:space="preserve">
+    <value>Xem chi tiết</value>
   </data>
   <data name="RecentPosts" xml:space="preserve">
     <value>Bài viết gần đây</value>
@@ -192,8 +255,20 @@
   <data name="Reply" xml:space="preserve">
     <value>Phản hồi</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Lưu dữ liệu</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Tìm kiếm</value>
+  </data>
+  <data name="SeeMore" xml:space="preserve">
+    <value>Xem thêm</value>
+  </data>
+  <data name="SelectCategory" xml:space="preserve">
+    <value>Chọn loại</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Gửi</value>
   </data>
   <data name="Shop" xml:space="preserve">
     <value>Cửa hàng</value>
@@ -204,7 +279,25 @@
   <data name="Submit" xml:space="preserve">
     <value>Xác nhận</value>
   </data>
-  <data name="View All" xml:space="preserve">
+  <data name="Title" xml:space="preserve">
+    <value>Tiêu đề</value>
+  </data>
+  <data name="TitleRequired" xml:space="preserve">
+    <value>Tiêu đề không được để trống</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Cập nhật</value>
+  </data>
+  <data name="UpdatePost" xml:space="preserve">
+    <value>Cập nhật bài viết</value>
+  </data>
+  <data name="ViewAll" xml:space="preserve">
     <value>Xem tất cả</value>
+  </data>
+  <data name="YourAccount" xml:space="preserve">
+    <value>Tài khoản của bạn</value>
+  </data>
+  <data name="YourContent" xml:space="preserve">
+    <value>Nội dung của bạn</value>
   </data>
 </root>

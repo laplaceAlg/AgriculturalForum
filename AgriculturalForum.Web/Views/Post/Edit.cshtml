@@ -31,14 +31,14 @@
     <form class="row g-3"action="~/Post/Save" method="post" enctype="multipart/form-data">
         @Html.HiddenFor(m => m.Id)
         <div class="col-12">
-            <label for="title" class="form-label fw-bold">Tiêu đề bài viết</label>
-            <input type="text" class="form-control" name="@nameof(Model.Title)" value="@Model.Title" autofocus placeholder="Nhập tiêu đề" />
+            <label for="title" class="form-label fw-bold">@_localization.Getkey("Title")</label>
+            <input type="text" class="form-control" name="@nameof(Model.Title)" value="@Model.Title" autofocus  />
             @Html.ValidationMessageFor(m => m.Title, "", new { @style = "color:#f00;" })
         </div>
         <div class="col-12">
-            <label for="category" class="form-label fw-bold">Loại bài viết</label>
+            <label for="category" class="form-label fw-bold">@_localization.Getkey("CategoryPost")</label>
             <select class="form-control" name="CategoryPostId">
-                <option value="">--Chọn loại bài viết--</option>
+                <option value="">-- @_localization.Getkey("SelectCategory") --</option>
                 @foreach (var category in listOfCategories)
                 {
                     if (category.Id == Model.CategoryPostId)
@@ -54,12 +54,12 @@
             @Html.ValidationMessageFor(m => m.CategoryPostId, "", new { @style = "color:#f00;"})
         </div>
         <div class="col-12">
-            <label for="summernote" class="form-label fw-bold">Nội dung bài viết</label>
+            <label for="summernote" class="form-label fw-bold">@_localization.Getkey("Content")</label>
             <textarea id="summernote" name="Content" class="form-control">@Model.Content</textarea>
             @Html.ValidationMessageFor(m => m.Content, "", new { @style = "color:#f00;" })
         </div>
         <div class="col-12">
-            <label for="image" class="form-label fw-bold">Hình ảnh</label>
+            <label for="image" class="form-label fw-bold">@_localization.Getkey("Image")</label>
             <input type="hidden" name="@nameof(Model.Image)" value="@Model.Image" />
             <input type="file" class="form-control" name="imgFile" accept="image/*"
                    onchange="document.getElementById('Photo').src = window.URL.createObjectURL(this.files[0])" />
@@ -71,14 +71,14 @@
         </div>
      
         <div class="col-12">
-            <button type="submit" class="btn btn-primary">@(!ViewBag.IsEdit ? "Tạo mới" : "Cập nhật")</button>
+            <button type="submit" class="btn btn-primary">@(!ViewBag.IsEdit ? _localization.Getkey("Create") : _localization.Getkey("Update"))</button>
             @if (ViewBag.IsEdit)
             {
-                <a class="btn btn-secondary" href="~/Post/Detail/@Model.Id">Quay lại</a>
+                <a class="btn btn-secondary" href="~/Post/Detail/@Model.Id">@_localization.Getkey("Back")</a>
             }
             else
             {
-                <a class="btn btn-secondary" href="~/Forum">Quay lại</a>
+                <a class="btn btn-secondary" href="~/Forum">@_localization.Getkey("Back")</a>
             }
         </div>
     </form>

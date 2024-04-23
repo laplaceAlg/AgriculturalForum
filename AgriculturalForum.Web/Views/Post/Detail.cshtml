@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http
 @model AgriculturalForum.Web.Models.Post
 @{
-    ViewBag.Title = "Chi tiết bài viết";
+    ViewBag.Title = _localization.Getkey("PostDetail");
     var taikhoanId = Context.Session.GetString("UserId");
     List<Post> similarPosts = ViewBag.SimilarPosts;
 }
@@ -96,14 +96,14 @@
                                 <!-- Form reply -->
                                 <form action="~/PostReply/Save" method="post">
                                     <div class="mb-3">
-                                        <label class="form-label">Nội dung phản hồi</label>
+                                        <label class="form-label">@_localization.Getkey("Content")</label>
                                         <textarea id="summernote" name="Content" class="form-control"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <input type="hidden" name="PostId" class="form-control" value="@Model.Id" />
                                         <input type="hidden" id="commentId" name="Id" value="" />
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Gửi phản hồi</button>
+                                    <button type="submit" class="btn btn-primary">@_localization.Getkey("Send")</button>
                                 </form>
                             </div>
                         </div>
@@ -126,7 +126,7 @@
                                     </a>
                                 </div>
                                 <div>
-                                    <h5><a href="~/User/Index/@reply.UserId">@reply.User.FullName</a> <i class="bi bi-reply-fill"></i> Reply</h5>
+                                    <h5><a href="~/User/Index/@reply.UserId">@reply.User.FullName</a> <i class="bi bi-reply-fill"></i>@_localization.Getkey("Reply")</h5>
                                     <time datetime="2020-01-01">@reply.CreateDate</time>
                                     <p>
                                         @Html.Raw(reply.Content)
@@ -136,12 +136,12 @@
                                     {
                                         <div class="comment-actions d-flex">
                                             <button class="btn btn-box-tool mr-2" id="edit-comment" data-id="@reply.Id" data-content="@reply.Content">
-                                                <i class="fa-solid fa-pencil text-primary"></i> Sửa
+                                                <i class="fa-solid fa-pencil text-primary"></i> @_localization.Getkey("Edit")
                                             </button>
                                             <form action="~/PostReply/Delete/@reply.Id" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn xóa câu trả lời này không?');">
                                                 @* <input type="hidden" name="id" value="@Model.Id" /> *@
                                                 <button type="submit" class="btn btn-box-tool" style="border: none; background-color: transparent;">
-                                                    <i class="fa-solid fa-trash-can text-danger"></i> Xóa
+                                                    <i class="fa-solid fa-trash-can text-danger"></i> @_localization.Getkey("Delete")
                                                 </button>
                                             </form>
                                         </div>
@@ -158,22 +158,26 @@
         </div><!-- End col-lg-8 -->
 
         <div class="col-lg-4">
-
-            <div class="sidebar">
-                <h3 class="sidebar-title">@_localization.Getkey("SimilarPosts")</h3>
-                <div class="sidebar-item recent-posts">
-                    @foreach (var item in similarPosts)
-                    {
-                        <div class="post-item clearfix">
-                            <a href="/Post/Detail/@item.Id">
-                                <img src="~/uploads/postImages/@item.Image" alt="image" style="height: 80px;">
-                            </a>
-                            <h4><a href="~/Post/Detail/@item.Id">@item.Title</a></h4>
-                            <time datetime="@item.CreateDate">@item.CreateDate</time>
-                        </div>
-                    }
-                </div><!-- End sidebar recent posts-->
-            </div><!-- End sidebar -->
+            @if(similarPosts!= null && similarPosts.Count() > 0)
+            {
+                <div class="sidebar">
+                    <h3 class="sidebar-title">@_localization.Getkey("SimilarPosts")</h3>
+                    <div class="sidebar-item recent-posts">
+                        @foreach (var item in similarPosts)
+                        {
+                            <div class="post-item clearfix">
+                                <a href="/Post/Detail/@item.Id">
+                                    <img src="~/uploads/postImages/@item.Image" alt="image" style="height: 80px;">
+                                </a>
+                                <h4><a href="~/Post/Detail/@item.Id">@item.Title</a></h4>
+                                <time datetime="@item.CreateDate">@item.CreateDate</time>
+                            </div>
+                        }
+                    </div><!-- End sidebar recent posts-->
+                </div>
+                <!-- End sidebar -->
+            }
+           
         </div><!-- End col-lg-4 -->
     </div><!-- End row -->
 </div><!-- End container blog -->
@@ -230,6 +234,16 @@
                     }
                 });
             }
+        });
+
+        $(document).ready(function () {
+            $('form').submit(function (event) {
+                var content = $('#summernote').summernote('code');
+                if (!content.trim()) { 
+                    alert('Nội dung không được để trống');
+                    event.preventDefault();
+                }
+            });
         });
 
         $(document).ready(function () {
