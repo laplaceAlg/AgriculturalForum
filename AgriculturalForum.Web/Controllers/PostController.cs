@@ -5,17 +5,20 @@ using Microsoft.Extensions.Hosting;
 using PagedList.Core;
 using AgriculturalForum.Web.Helpper;
 using AgriculturalForum.Web.Models;
+using AgriculturalForum.Web.Extensions;
 
 namespace AgriculturalForum.Web.Controllers
 {
     public class PostController : Controller
     {
         private readonly KltnDbContext _dbContext;
+        private LanguageService _localization;
         const string CREATE_TITLE = "Tạo bài viết mới";
         const string EDIT_TITLE = "Cập nhật thông tin bài viết";
-        public PostController(KltnDbContext dbContext)
+        public PostController(KltnDbContext dbContext, LanguageService localization)
         {
             _dbContext = dbContext;
+            _localization = localization;
         }
         
 
@@ -73,7 +76,7 @@ namespace AgriculturalForum.Web.Controllers
             var userId = HttpContext.Session.GetString("UserId");
             if (userId == null)
                 return RedirectToAction("Login", "Account", new { ReturnUrl = "/Post/Create" });
-            ViewBag.Title = CREATE_TITLE;
+            ViewBag.Title = _localization.Getkey("NewPost");
             ViewBag.IsEdit = false;
             ViewBag.Categories = _dbContext.CategoryPosts.Include(c => c.Posts).ToList();
             var model = new Post()
@@ -89,7 +92,7 @@ namespace AgriculturalForum.Web.Controllers
             var userId = HttpContext.Session.GetString("UserId");
             if (userId == null)
                 return RedirectToAction("Login", "Account", new { ReturnUrl = "/Post/Edit" });
-            ViewBag.Title = EDIT_TITLE;
+            ViewBag.Title = _localization.Getkey("UpdatePost");
             ViewBag.IsEdit = true;
             ViewBag.Categories = _dbContext.CategoryPosts.Include(c => c.Posts).ToList();
             var model = _dbContext.Posts.Where(p => p.Id == id).FirstOrDefault();
@@ -114,15 +117,15 @@ namespace AgriculturalForum.Web.Controllers
             //TODO: Kiểm soát dữ liệu trong model xem có hợp lệ hay không?
 
             if (string.IsNullOrWhiteSpace(model.Title))
-                ModelState.AddModelError(nameof(model.Title), "Tiêu đề không được để trống");
+                ModelState.AddModelError(nameof(model.Title), _localization.Getkey("TitleRequired"));
             if (string.IsNullOrWhiteSpace(model.Content))
-                ModelState.AddModelError(nameof(model.Content), "Nội dung không được để trống");
+                ModelState.AddModelError(nameof(model.Content), _localization.Getkey("ContentRequired"));
             if (model.CategoryPostId == null)
-                ModelState.AddModelError(nameof(model.CategoryPostId), "Vui lòng chọn loại bài viết");
+                ModelState.AddModelError(nameof(model.CategoryPostId), _localization.Getkey("CategoryRequired"));
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Title = model.Id == 0 ? CREATE_TITLE : EDIT_TITLE;
+                ViewBag.Title = model.Id == 0 ? _localization.Getkey("NewPost") : _localization.Getkey("UpdatePost");
                 ViewBag.IsEdit = model.Id == 0 ? false : true;
                 ViewBag.Categories = _dbContext.CategoryPosts.Include(c => c.Posts).ToList();
                 return View("Edit", model);

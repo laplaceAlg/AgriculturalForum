@@ -39,7 +39,7 @@
             <ol>
                 <li><a href="~/Forum">@_localization.Getkey("Forum")</a></li>
                 <li><a href="@ViewBag.CurrentCateID">@ViewBag.Title</a></li>
-                <li>Trang @ViewBag.CurrentPage</li>
+                <li>@_localization.Getkey("Page") @ViewBag.CurrentPage</li>
             </ol>
         </div>
     </div>
@@ -54,7 +54,6 @@
             </form>
         </div>
         <div class="col-md-3 text-md-end mt-3 mt-md-0">
-            <!-- Nút đăng tin -->
             <a href="/Post/Create" class="btn btn-warning">
                 <i class="fa-regular fa-pen-to-square"></i>
                 @_localization.Getkey("NewPost")
@@ -107,7 +106,7 @@
                                                     <p class="text-limit">@SubString.ExtractTextFromHtml(post.Content, 1000)</p>
                                                     <div class="text-end">
                                                         <a href="/Post/Detail/@post.Id" class="text-body text-hover">
-                                                            Xem chi tiết
+                                                          @_localization.Getkey("ReadMore")
                                                             <i class="fa-solid fa-chevron-right"></i>
                                                         </a>
                                                     </div>

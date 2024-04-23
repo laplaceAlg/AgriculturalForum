@@ -117,8 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="AccountInformation" xml:space="preserve">
+    <value>Account Information</value>
+  </data>
   <data name="Address" xml:space="preserve">
     <value>Address</value>
+  </data>
+  <data name="AgriculturalForum" xml:space="preserve">
+    <value>Agricultural Forum</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="CategoryPost" xml:space="preserve">
+    <value>Category Post</value>
+  </data>
+  <data name="CategoryRequired" xml:space="preserve">
+    <value>Please choose the category</value>
   </data>
   <data name="ChangePassword" xml:space="preserve">
     <value>Change Password</value>
@@ -129,6 +147,24 @@
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Confirm Password</value>
   </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>Content</value>
+  </data>
+  <data name="ContentRequired" xml:space="preserve">
+    <value>The content field is required</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
@@ -138,8 +174,17 @@
   <data name="FullName" xml:space="preserve">
     <value>Full Name</value>
   </data>
+  <data name="Hi" xml:space="preserve">
+    <value>Hi</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="Joined" xml:space="preserve">
+    <value>Joined</value>
   </data>
   <data name="Languages" xml:space="preserve">
     <value>Languages</value>
@@ -149,6 +194,9 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Log out</value>
   </data>
   <data name="Members" xml:space="preserve">
     <value>Members</value>
@@ -162,6 +210,9 @@
   <data name="NewProduct" xml:space="preserve">
     <value>New Product</value>
   </data>
+  <data name="NoResults" xml:space="preserve">
+    <value>No Results</value>
+  </data>
   <data name="OldPassword" xml:space="preserve">
     <value>Old Password</value>
   </data>
@@ -174,11 +225,23 @@
   <data name="Phone" xml:space="preserve">
     <value>Phone</value>
   </data>
+  <data name="PostDetail" xml:space="preserve">
+    <value>Post detail</value>
+  </data>
+  <data name="PostedProduct" xml:space="preserve">
+    <value>Posted Products</value>
+  </data>
+  <data name="Postings" xml:space="preserve">
+    <value>Postings</value>
+  </data>
   <data name="Posts" xml:space="preserve">
     <value>Posts</value>
   </data>
   <data name="Products" xml:space="preserve">
     <value>Products</value>
+  </data>
+  <data name="ReadMore" xml:space="preserve">
+    <value>Read More</value>
   </data>
   <data name="RecentPosts" xml:space="preserve">
     <value>Recent Posts</value>
@@ -192,8 +255,20 @@
   <data name="Reply" xml:space="preserve">
     <value>Reply</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="SeeMore" xml:space="preserve">
+    <value>See More</value>
+  </data>
+  <data name="SelectCategory" xml:space="preserve">
+    <value>Select a Category</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
   </data>
   <data name="Shop" xml:space="preserve">
     <value>Shop</value>
@@ -204,7 +279,25 @@
   <data name="Submit" xml:space="preserve">
     <value>Submit</value>
   </data>
-  <data name="View All" xml:space="preserve">
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="TitleRequired" xml:space="preserve">
+    <value>The title field is required</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="UpdatePost" xml:space="preserve">
+    <value>Update Post</value>
+  </data>
+  <data name="ViewAll" xml:space="preserve">
     <value>View All</value>
+  </data>
+  <data name="YourAccount" xml:space="preserve">
+    <value>Your Account</value>
+  </data>
+  <data name="YourContent" xml:space="preserve">
+    <value>Your Content</value>
   </data>
 </root>
