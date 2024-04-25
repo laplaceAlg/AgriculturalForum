@@ -123,6 +123,9 @@
   <data name="AccountInformation" xml:space="preserve">
     <value>Thông tin tài khoản</value>
   </data>
+  <data name="AdditionalImage" xml:space="preserve">
+    <value>Hình ảnh bổ sung</value>
+  </data>
   <data name="Address" xml:space="preserve">
     <value>Địa chỉ</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="CategoryPost" xml:space="preserve">
     <value>Loại bài viết</value>
+  </data>
+  <data name="CategoryProduct" xml:space="preserve">
+    <value>Loại sản phẩm</value>
   </data>
   <data name="CategoryRequired" xml:space="preserve">
     <value>Vui lòng chọn loại</value>
@@ -159,8 +165,17 @@
   <data name="Create" xml:space="preserve">
     <value>Tạo mới</value>
   </data>
+  <data name="CreateDate" xml:space="preserve">
+    <value>Thời gian tạo</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Xóa</value>
+  </data>
+  <data name="DeleteProduct" xml:space="preserve">
+    <value>Xóa sản phẩm</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Mô tả</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Sửa</value>
@@ -175,13 +190,19 @@
     <value>Họ và Tên</value>
   </data>
   <data name="Hi" xml:space="preserve">
-    <value>chào</value>
+    <value>Chào</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Trang chủ</value>
   </data>
   <data name="Image" xml:space="preserve">
     <value>Hình ảnh</value>
+  </data>
+  <data name="ImageRequired" xml:space="preserve">
+    <value>Vui lòng chọn ảnh cho sản phẩm</value>
+  </data>
+  <data name="IsSelling" xml:space="preserve">
+    <value>Sản phẩm đang bán</value>
   </data>
   <data name="Joined" xml:space="preserve">
     <value>Đã tham gia</value>
@@ -210,6 +231,9 @@
   <data name="NewProduct" xml:space="preserve">
     <value>Tạo mới mặt hàng</value>
   </data>
+  <data name="NoProduct" xml:space="preserve">
+    <value>Hiện chưa có mặt hàng nào</value>
+  </data>
   <data name="NoResults" xml:space="preserve">
     <value>Không tìm thấy kết quả</value>
   </data>
@@ -237,6 +261,24 @@
   <data name="Posts" xml:space="preserve">
     <value>Bài viết</value>
   </data>
+  <data name="Price" xml:space="preserve">
+    <value>Giá</value>
+  </data>
+  <data name="PriceValidation" xml:space="preserve">
+    <value>Giá sản phẩm phải lớn hơn 0</value>
+  </data>
+  <data name="ProductDetail" xml:space="preserve">
+    <value>Chi tiết sản phẩm</value>
+  </data>
+  <data name="ProductInformation" xml:space="preserve">
+    <value>Thông tin sản phẩm</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>Tên sản phẩm</value>
+  </data>
+  <data name="ProductNameRequired" xml:space="preserve">
+    <value>Tên sản phẩm không được để trống</value>
+  </data>
   <data name="Products" xml:space="preserve">
     <value>Sản phẩm</value>
   </data>
@@ -248,6 +290,9 @@
   </data>
   <data name="Register" xml:space="preserve">
     <value>Đăng ký</value>
+  </data>
+  <data name="RelatedProducts" xml:space="preserve">
+    <value>Sản phẩm liên quan</value>
   </data>
   <data name="Replies" xml:space="preserve">
     <value>Phản hồi</value>
@@ -266,6 +311,9 @@
   </data>
   <data name="SelectCategory" xml:space="preserve">
     <value>Chọn loại</value>
+  </data>
+  <data name="SellerInformation" xml:space="preserve">
+    <value>Thông tin người bán</value>
   </data>
   <data name="Send" xml:space="preserve">
     <value>Gửi</value>
@@ -291,8 +339,14 @@
   <data name="UpdatePost" xml:space="preserve">
     <value>Cập nhật bài viết</value>
   </data>
+  <data name="UpdateProduct" xml:space="preserve">
+    <value>Cập nhật thông tin mặt hàng</value>
+  </data>
   <data name="ViewAll" xml:space="preserve">
     <value>Xem tất cả</value>
+  </data>
+  <data name="ViewPage" xml:space="preserve">
+    <value>Xem trang</value>
   </data>
   <data name="YourAccount" xml:space="preserve">
     <value>Tài khoản của bạn</value>

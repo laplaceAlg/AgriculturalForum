@@ -1,22 +1,42 @@
 ﻿@model AgriculturalForum.Web.Models.Product
 @{
-    ViewBag.Title = "Chi tiết sản phẩm";
+    ViewBag.Title = _localization.Getkey("ProductDetail");
+    List<Product> similarProducts = ViewBag.similarProducts;
 }
+@section Styles {
+    <style>
+        .text-limit {
+            max-width: 190px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
 
+        .product-item {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.1s ease;
+        }
+
+            .product-item:hover {
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+                transform: translateY(-1px);
+            }
+    </style>
+}
 <section class="breadcrumbs">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
             <h2>@ViewBag.Title</h2>
             <ol>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="~/Shop">Shop</a></li>
+                <li><a href="~/Home">@_localization.Getkey("Home")</a></li>
+                <li><a href="~/Shop">@_localization.Getkey("Shop")</a></li>
                 <li>@ViewBag.Title</li>
             </ol>
         </div>
     </div>
 </section>
 
-<section id="portfolio-details" class="portfolio-details mt-5 mb-5">
+<section id="portfolio-details" class="portfolio-details ">
     <div class="container">
         <div class="row gy-4">
             <!-- Hình ảnh và thông tin sản phẩm -->
@@ -24,7 +44,7 @@
                 <div class="portfolio-details-slider swiper">
                     <div class="swiper-wrapper align-items-center">
                         <a href="~/uploads/productImages/@Model.Image" class="portfolio-lightbox swiper-slide text-center">
-                            <img src="~/uploads/productImages/@Model.Image" alt="" style="width: 90% !important;">
+                            <img src="~/uploads/productImages/@Model.Image" alt="" style="width: 80% !important;">
                         </a>
                         @foreach (var item in Model.ProductImages)
                         {
@@ -37,39 +57,67 @@
                 </div>
 
                 <div class="portfolio-info mt-4">
-                    <h3>Thông tin sản phẩm</h3>
+                    <h3>@_localization.Getkey("ProductInformation")</h3>
                     <ul>
-                        <li><strong>Tên sản phẩm: </strong>@Model.Name</li>
-                        <li><strong>Thời gian đăng: </strong>@Model.CreateDate</li>
-                        <li><strong>Danh mục: </strong>@Model.CategoryProduct.Name</li>
-                        <li><strong>Giá: </strong>@Model.Price đ</li>
-                        <li><strong>Mô tả: </strong>@Model.Description</li>
+                        <li><strong>@_localization.Getkey("ProductName"): </strong>@Model.Name</li>
+                        <li><strong>@_localization.Getkey("CreateDate"): </strong>@Model.CreateDate</li>
+                        <li><strong>@_localization.Getkey("CategoryProduct"): </strong>@Model.CategoryProduct.Name</li>
+                        <li><strong>@_localization.Getkey("Price"): </strong>@Model.Price đ</li>
+                        <li><strong>@_localization.Getkey("Description"): </strong>@Model.Description</li>
                     </ul>
                 </div>
             </div>
-            <!-- /Hình ảnh và thông tin sản phẩm -->
+
             <!-- Thông tin người bán -->
             <div class="col-lg-4">
                 <div class="portfolio-info d-flex flex-column justify-content-center" style="padding: 10px !important;">
                     <div class="d-flex align-items-center flex-wrap">
                         <img src="~/@Model.User.ProfileImage" alt="Seller Avatar" class="img-fluid rounded-circle me-3" style="width: 80px; height: 80px;">
                         <h5 class="mb-0">@Model.User.FullName</h5>
-                        <a href="~/Shop/MyPost/@Model.User.Id" class="btn btn-sm btn-secondary ms-auto mt-2 mt-lg-0">Xem trang</a>
+                        <a href="~/Shop/MyPost/@Model.User.Id" class="btn btn-sm btn-secondary ms-auto mt-2 mt-lg-0">@_localization.Getkey("ViewPage")</a>
                     </div>
-                    <a class="btn btn-sm btn-primary my-2" href="tel:+00151515">
-                        <i class="fa-solid fa-mobile"></i> Liên hệ: @Model.User.Phone
+                    <a class="btn btn-sm btn-success my-4" href="tel:+00151515">
+                        <i class="fa-solid fa-mobile"></i> @_localization.Getkey("Contact"): @Model.User.Phone
                     </a>
                     <p class="mb-3">
                         <i class="fa-solid fa-location-dot"></i>
-                        <strong> Địa chỉ: </strong> 77 Nguyễn Huệ, Tỉnh Thừa Thiên Huế
+                        <strong>@_localization.Getkey("Address"): </strong> @Model.User.Address
+                      @*   <a href="https://www.google.com/maps/search/?api=1&query=@Model.User.Address" target="_blank">@Model.User.Address</a> *@
                     </p>
                 </div>
             </div>
 
-            </div>
-            <!-- /Thông tin người bán -->
         </div>
+        <!-- /Thông tin người bán -->
     </div>
 </section>
+@if (similarProducts != null && similarProducts.Count() > 0)
+{
+    <div class=" container card shadow mb-4">
+        <div id="product-list" class=" portfolio" style="padding-bottom: 0 !important;">
+
+            <h4 class="my-3">@_localization.Getkey("RelatedProducts")</h4>
+            <div class="row  g-4" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
+                @foreach (var item in similarProducts)
+                {
+                    <div class="col-md-6 col-lg-3 services">
+                        <a href="~/Shop/Detail/@item.Id">
+                            <div class="card icon-box-cyan product-item">
+                                <img class="card-img-top img-fluid " src="~/uploads/productImages/@item.Image" alt="#" style="height:200px ">
+                                <div class="card-body">
+                                    <h5 class="card-title">@item.Name</h5>
+                                    <div class="card-text text-limit">@item.Description</div>
+                                    <div style="color:red; font-size: 18px;">@item.Price.Value.ToString("#,##0") đ</div>
+                                </div>
+                                <div class="card-footer">@item.User.Address</div>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+}
 
 

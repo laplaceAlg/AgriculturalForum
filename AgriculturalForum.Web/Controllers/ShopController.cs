@@ -9,17 +9,20 @@ using System.Drawing.Printing;
 using System.Runtime.InteropServices.JavaScript;
 using AgriculturalForum.Web.Helpper;
 using AgriculturalForum.Web.Models;
+using AgriculturalForum.Web.Extensions;
 
 namespace AgriculturalForum.Web.Controllers
 {
     public class ShopController : Controller
     {
         private readonly KltnDbContext _dbContext;
-        const string CREATE_TITLE = "Tạo mặt hàng mới";
-        const string EDIT_TITLE = "Cập nhật thông tin mặt hàng";
-        public ShopController(KltnDbContext dbContext)
+        private LanguageService _localization;
+        const string CREATE_TITLE = "NewProduct";
+        const string EDIT_TITLE = "UpdateProduct";
+        public ShopController(KltnDbContext dbContext, LanguageService localization)
         {
             _dbContext = dbContext;
+            _localization = localization;
         }
        
         public IActionResult Index(int page = 1, int id = 0, string searchValue = "" )
@@ -80,6 +83,15 @@ namespace AgriculturalForum.Web.Controllers
             {
                 return NotFound();
             }
+
+            var similarProducts = _dbContext.Products
+                              .Include(u => u.User)
+                              .Where(p => p.CategoryProductId == product.CategoryProductId && p.Id != id)
+                              .OrderByDescending(p => p.CreateDate)
+                              .Take(8)
+                              .ToList();
+
+            ViewBag.similarProducts = similarProducts;
             return View(product);
         }
 
@@ -88,7 +100,7 @@ namespace AgriculturalForum.Web.Controllers
             var userId = HttpContext.Session.GetString("UserId");
             if (userId == null)
                 return RedirectToAction("Login", "Account", new { ReturnUrl = "/Shop/Create" });
-            ViewBag.Title = CREATE_TITLE;
+            ViewBag.Title = _localization.Getkey(CREATE_TITLE);
             ViewBag.Categories = _dbContext.CategoryProducts.ToList();
             var model = new Product()
             {
@@ -103,7 +115,7 @@ namespace AgriculturalForum.Web.Controllers
             var userId = HttpContext.Session.GetString("UserId");
             if (userId == null)
                 return RedirectToAction("Login", "Account", new { ReturnUrl = "/Shop/Edit" });
-            ViewBag.Title = EDIT_TITLE;
+            ViewBag.Title = _localization.Getkey(EDIT_TITLE);
             ViewBag.Categories = _dbContext.CategoryProducts.ToList();
             var model = _dbContext.Products.FirstOrDefault(p => p.Id == id);
             if (model == null)
@@ -126,15 +138,15 @@ namespace AgriculturalForum.Web.Controllers
             //TODO: Kiểm soát dữ liệu trong model xem có hợp lệ hay không?
 
             if (string.IsNullOrWhiteSpace(product.Name))
-                ModelState.AddModelError(nameof(product.Name), "Tên không được để trống");
+                ModelState.AddModelError(nameof(product.Name), _localization.Getkey("ProductNameRequired"));
             if (product.Price < 0 || product.Price == null)
-                ModelState.AddModelError(nameof(product.Price), "Giá phải lớn hơn 0 ");
+                ModelState.AddModelError(nameof(product.Price), _localization.Getkey("PriceValidation"));
             if (product.CategoryProductId == null)
-                ModelState.AddModelError(nameof(product.CategoryProductId), "Vui lòng chọn loại sản phẩm");
+                ModelState.AddModelError(nameof(product.CategoryProductId), _localization.Getkey("CategoryRequired"));
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Title = product.Id == 0 ? CREATE_TITLE : EDIT_TITLE;
+                ViewBag.Title = product.Id == 0 ? _localization.Getkey(CREATE_TITLE) : _localization.Getkey(EDIT_TITLE);
                 ViewBag.Categories = _dbContext.CategoryProducts.ToList();
                 return View("Edit", product);
             }
@@ -143,7 +155,7 @@ namespace AgriculturalForum.Web.Controllers
             {
                 if (imgfile == null || imgfile.Length == 0)
                 {
-                    ModelState.AddModelError("imgfile", "Vui lòng chọn ảnh cho sản phẩm");
+                    ModelState.AddModelError("imgfile", _localization.Getkey("ImageRequired"));
                     ViewBag.Title = CREATE_TITLE;
                     ViewBag.Categories = _dbContext.CategoryProducts.ToList();
                     return View("Edit", product);

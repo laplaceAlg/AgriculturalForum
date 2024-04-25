@@ -12,6 +12,17 @@
             white-space: nowrap;
             text-overflow: ellipsis;
         }
+
+        .product-item {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.1s ease;
+        }
+
+            .product-item:hover {
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+                transform: translateY(-1px);
+            }
+
     </style>
 }
 <section class="breadcrumbs">
@@ -46,7 +57,7 @@
 
             <div class="mt-3 mb-3">
                 <a href="~/Shop/Create" class="btn btn-primary btn-block">
-                    <i class="fa fa-plus"></i>@_localization.Getkey("NewProduct")
+                    <i class="fa fa-plus"></i> @_localization.Getkey("NewProduct")
                 </a>
             </div>
 
@@ -57,18 +68,6 @@
             <div class="row">
                 <div class="col-md-12 mb-3">
                     <form id="formSearch" action="~/Shop/Index" method="get">
-                        @* <div class="col-md-3">
-                            <select class="form-control" name="id" id="category">
-                                <option value="">-- Tất cả loại hàng --</option>
-                                @foreach (var item in ViewBag.Categories)
-                                {
-                                   
-                                        <option value="@item.Id">@item.Name</option>
-                                    
-                                }
-                            </select>
-                        </div> *@
-                       
                         <div class="input-group">
                             <input name="searchValue" type="text" class="form-control" placeholder="Tìm kiếm sản phẩm">
                             <button class="btn btn-info" type="submit">
@@ -77,29 +76,36 @@
                         </div>
                     </form>
                 </div>
-                @foreach (var product in Model)
+                @if (Model != null && Model.Count() > 0)
                 {
-                    <div class="col-md-6 col-lg-4 services">
-                        <a href="~/Shop/Detail/@product.Id">
-                            <div class="card icon-box-cyan">
-                                <img class="card-img-top img-fluid rounded" src="~/uploads/productImages/@product.Image" alt="#" style="height:200px">
-                                <div class="card-body">
-                                    <h5 class="card-title">@product.Name</h5>
-                                    <div class="card-text text-limit">@product.Description</div>
-                                    <div style="color:red; font-size: 18px;">@product.Price.Value.ToString("#,##0") đ</div>
+                    foreach (var product in Model)
+                    {
+                        <div class="col-md-6 col-lg-4 services">
+                            <a href="~/Shop/Detail/@product.Id">
+                                <div class="card icon-box-cyan product-item">
+                                    <img class="card-img-top img-fluid " src="~/uploads/productImages/@product.Image" alt="#" style="height:200px ">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@product.Name</h5>
+                                        <div class="card-text text-limit">@product.Description</div>
+                                        <div style="color:red; font-size: 18px;">@product.Price.Value.ToString("#,##0") đ</div>
+                                    </div>
+                                    <div class="card-footer">@product.User.Address</div>
                                 </div>
-                                <div class="card-footer">@product.User.Address</div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
+                    }
+                    <div class="pagination-area pt-10">
+                        <ul class="pagination justify-content-center">
+                            <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.Bootstrap4PageNumbersPlusPrevAndNext" asp-controller="Shop" asp-route-searchValue="@ViewBag.SearchValue" asp-action="Index" />
+                        </ul>
                     </div>
+                }
+                else
+                {
+                    <p>@_localization.Getkey("NoProduct")</p>
                 }
             </div>
         </div>
-       
-        <div class="pagination-area pt-10">
-            <ul class="pagination justify-content-center">
-                <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.Bootstrap4PageNumbersPlusPrevAndNext" asp-controller="Shop" asp-route-searchValue="@ViewBag.SearchValue" asp-action="Index"/>
-            </ul>
-        </div>
+
     </div>
 </div>
