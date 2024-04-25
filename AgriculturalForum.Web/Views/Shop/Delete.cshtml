@@ -1,7 +1,7 @@
 ﻿@model AgriculturalForum.Web.Models.Product
 
 @{
-    ViewBag.Title = "Xóa sản phẩm";
+    ViewBag.Title = _localization.Getkey("DeleteProduct");
 }
 
 <section class="breadcrumbs">
@@ -10,8 +10,8 @@
         <div class="d-flex justify-content-between align-items-center">
             <h2>@ViewBag.Title</h2>
             <ol>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="~/Shop">Shop</a></li>
+                <li><a href="~/Home">@_localization.Getkey("Home")</a></li>
+                <li><a href="~/Shop">@_localization.Getkey("Shop")</a></li>
                 <li>@ViewBag.Title</li>
             </ol>
         </div>
@@ -22,35 +22,35 @@
 <div class="container m-5">
     <div class="card ">
         <div class="card-header bg-danger">
-            <h5 class="card-title text-white">Xóa sản phẩm</h5>
+            <h5 class="card-title text-white">@ViewBag.Title</h5>
         </div>
         <div class="card-body">
             <form action="~/Shop/Delete/@Model.Id" method="post">
                 <div class="mb-3">
-                    <label for="productName" class="form-label fw-bold">Tên sản phẩm:</label>
+                    <label for="productName" class="form-label fw-bold">@_localization.Getkey("ProductName"):</label>
                     <p class="form-control">@Model.Name</p>
                 </div>
                 <div class="mb-3">
-                    <label for="description" class="form-label fw-bold">Mô tả:</label>
+                    <label for="description" class="form-label fw-bold">@_localization.Getkey("Description"):</label>
                     <p class="form-control">@Model.Description</p>
                 </div>
                 <div class="mb-3">
-                    <label for="price" class="form-label fw-bold">Giá:</label>
+                    <label for="price" class="form-label fw-bold">@_localization.Getkey("Price"):</label>
                     <p class="form-control">@Model.Price</p>
                 </div>
                 <div class="mb-3">
-                    <label for="createDate" class="form-label fw-bold">Thời gian tạo:</label>
+                    <label for="createDate" class="form-label fw-bold">@_localization.Getkey("CreateDate"):</label>
                     <p class="form-control">@Model.CreateDate</p>
                 </div>
                 <div class="mb-3">
-                    <label for="image" class="form-label fw-bold">Hình ảnh:</label>
+                    <label for="image" class="form-label fw-bold">@_localization.Getkey("Image"):</label>
                     <img src="~/uploads/productImages/@Model.Image" class="img img-bordered form-control" style="width: 300px;" />
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-danger">
-                        <i class="fas fa-trash"></i> Xác nhận xóa
+                        <i class="fas fa-trash"></i> @_localization.Getkey("Delete")
                     </button>
-                    <a href="~/User/Index/@Model.UserId" class="btn btn-secondary">Quay lại</a>
+                    <a href="~/User/Index/@Model.UserId" class="btn btn-secondary">@_localization.Getkey("Back")</a>
                 </div>
             </form>
         </div>

@@ -39,8 +39,8 @@
         <div class="d-flex justify-content-between align-items-center">
             <h2>@ViewBag.Title</h2>
             <ol>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="~/Shop">Shop</a></li>
+                <li><a href="~/Home">@_localization.Getkey("Home")</a></li>
+                <li><a href="~/Shop">@_localization.Getkey("Shop")</a></li>
                 <li>@ViewBag.Title</li>
             </ol>
         </div>
@@ -55,9 +55,9 @@
             <form action="~/Shop/Save" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="@nameof(Model.Id)" value="@Model.Id" />
                 <div class="mb-3">
-                    <label class="form-label fw-bold">Loại sản phẩm:</label>
+                    <label class="form-label fw-bold">@_localization.Getkey("CategoryProduct"):</label>
                     <select name="CategoryProductId" class="form-select">
-                        <option value="" disabled selected>Chọn loại sản phẩm</option>
+                        <option value="" disabled selected>-- @_localization.Getkey("SelectCategory") --</option>
                         @foreach (var item in ViewBag.Categories)
                         {
                             if (item.Id == Model.CategoryProductId)
@@ -73,21 +73,21 @@
                     @Html.ValidationMessageFor(m => m.CategoryProductId, "", new { @style="color:#f00;"})
                 </div>
                 <div class="mb-3">
-                    <label class="form-label fw-bold">Tên sản phẩm:</label>
-                    <input type="text" name="Name" class="form-control" placeholder="Tên sản phẩm" value="@Model.Name">
+                    <label class="form-label fw-bold">@_localization.Getkey("ProductName"):</label>
+                    <input type="text" name="Name" class="form-control" placeholder="@_localization.Getkey("ProductName")" value="@Model.Name">
                     @Html.ValidationMessageFor(m => m.Name, "", new { @style = "color:#f00;" })
                 </div>
                 <div class="mb-3">
-                    <label class="form-label fw-bold">Giá:</label>
-                    <input type="number" name="Price" class="form-control" placeholder="Giá" value="@Model.Price">
+                    <label class="form-label fw-bold">@_localization.Getkey("Price"):</label>
+                    <input type="number" name="Price" class="form-control" placeholder="@_localization.Getkey("Price")" value="@Model.Price">
                     @Html.ValidationMessageFor(m => m.Price, "", new { @style = "color:#f00;" })
                 </div>
                 <div class="mb-3">
-                    <label class="form-label fw-bold">Mô tả:</label>
-                    <textarea name="Description" class="form-control" placeholder="Mô tả">@Model.Description</textarea>
+                    <label class="form-label fw-bold">@_localization.Getkey("Description"):</label>
+                    <textarea name="Description" class="form-control" placeholder="@_localization.Getkey("Description")">@Model.Description</textarea>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label fw-bold">Hình ảnh chính:</label>
+                    <label class="form-label fw-bold">@_localization.Getkey("Image"):</label>
                     <input type="file" name="imgfile" id="imgFile" class="form-control" accept="image/*">
                     @Html.ValidationMessage("imgfile", new { @style = "color:#f00;" })
                 </div>
@@ -103,7 +103,7 @@
                     }
                 </div>
                 <div class="mb-3">
-                    <label class="form-label fw-bold">Hình ảnh phụ:</label>
+                    <label class="form-label fw-bold">@_localization.Getkey("AdditionalImage")</label>
                     <input type="file" name="additionalImage" id="additionalImage" class="form-control" multiple>
                 </div>
                 <div class="mb-3">
@@ -115,14 +115,14 @@
                         <label class="form-check-label fw-bold" for="IsHidden">Is Selling</label>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success">Đăng tin</button>
+                <button type="submit" class="btn btn-success">@_localization.Getkey("Save")</button>
                 @if (Model.Id > 0)
                 {
-                    <a class="btn btn-secondary" href="~/User/Index/@Model.UserId">Quay lại</a>
+                    <a class="btn btn-secondary" href="~/User/Index/@Model.UserId">@_localization.Getkey("Back")</a>
                 }
                 else
                 {
-                    <a class="btn btn-secondary" href="~/Shop">Quay lại</a>
+                    <a class="btn btn-secondary" href="~/Shop">@_localization.Getkey("Back")</a>
                 }
             </form>
         </div>

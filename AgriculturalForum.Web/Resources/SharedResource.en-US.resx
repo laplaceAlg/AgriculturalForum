@@ -123,6 +123,9 @@
   <data name="AccountInformation" xml:space="preserve">
     <value>Account Information</value>
   </data>
+  <data name="AdditionalImage" xml:space="preserve">
+    <value>Additional Image</value>
+  </data>
   <data name="Address" xml:space="preserve">
     <value>Address</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="CategoryPost" xml:space="preserve">
     <value>Category Post</value>
+  </data>
+  <data name="CategoryProduct" xml:space="preserve">
+    <value>Category Product</value>
   </data>
   <data name="CategoryRequired" xml:space="preserve">
     <value>Please choose the category</value>
@@ -159,8 +165,17 @@
   <data name="Create" xml:space="preserve">
     <value>Create</value>
   </data>
+  <data name="CreateDate" xml:space="preserve">
+    <value>Create Date</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
+  </data>
+  <data name="DeleteProduct" xml:space="preserve">
+    <value>Delete Product</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
@@ -182,6 +197,12 @@
   </data>
   <data name="Image" xml:space="preserve">
     <value>Image</value>
+  </data>
+  <data name="ImageRequired" xml:space="preserve">
+    <value>Please add photos for the product</value>
+  </data>
+  <data name="IsSelling" xml:space="preserve">
+    <value>Products are selling</value>
   </data>
   <data name="Joined" xml:space="preserve">
     <value>Joined</value>
@@ -210,6 +231,9 @@
   <data name="NewProduct" xml:space="preserve">
     <value>New Product</value>
   </data>
+  <data name="NoProduct" xml:space="preserve">
+    <value>No Products</value>
+  </data>
   <data name="NoResults" xml:space="preserve">
     <value>No Results</value>
   </data>
@@ -237,6 +261,24 @@
   <data name="Posts" xml:space="preserve">
     <value>Posts</value>
   </data>
+  <data name="Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="PriceValidation" xml:space="preserve">
+    <value>Price must be greater than 0</value>
+  </data>
+  <data name="ProductDetail" xml:space="preserve">
+    <value>Product Detail</value>
+  </data>
+  <data name="ProductInformation" xml:space="preserve">
+    <value>Product Information</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>Product Name</value>
+  </data>
+  <data name="ProductNameRequired" xml:space="preserve">
+    <value>The name field is required</value>
+  </data>
   <data name="Products" xml:space="preserve">
     <value>Products</value>
   </data>
@@ -248,6 +290,9 @@
   </data>
   <data name="Register" xml:space="preserve">
     <value>Register</value>
+  </data>
+  <data name="RelatedProducts" xml:space="preserve">
+    <value>Related products</value>
   </data>
   <data name="Replies" xml:space="preserve">
     <value>Replies</value>
@@ -266,6 +311,9 @@
   </data>
   <data name="SelectCategory" xml:space="preserve">
     <value>Select a Category</value>
+  </data>
+  <data name="SellerInformation" xml:space="preserve">
+    <value>Seller Information</value>
   </data>
   <data name="Send" xml:space="preserve">
     <value>Send</value>
@@ -291,8 +339,14 @@
   <data name="UpdatePost" xml:space="preserve">
     <value>Update Post</value>
   </data>
+  <data name="UpdateProduct" xml:space="preserve">
+    <value>Update Product</value>
+  </data>
   <data name="ViewAll" xml:space="preserve">
     <value>View All</value>
+  </data>
+  <data name="ViewPage" xml:space="preserve">
+    <value>View Page</value>
   </data>
   <data name="YourAccount" xml:space="preserve">
     <value>Your Account</value>
