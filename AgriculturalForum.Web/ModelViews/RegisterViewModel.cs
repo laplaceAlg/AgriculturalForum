@@ -10,35 +10,31 @@ namespace AgriculturalForum.Web.ModelViews
         public int UserId { get; set; }
 
         [DisplayName("FullName")]
-        [Required(ErrorMessage = "Vui lòng nhập Họ Tên")]
+        [Required(ErrorMessage = "FullNameRequired")]
         public string FullName { get; set; }
 
         [MaxLength(150)]
-        [Required(ErrorMessage = "Vui lòng nhập Email")]
+        [Required(ErrorMessage = "EmailRequired")]
         [DataType(DataType.EmailAddress)]
         [Remote(action: "ValidateEmail", controller: "Account", AdditionalFields = nameof(Email))]
         [DisplayName("Email")]
         public string Email { get; set; }
 
         [MaxLength(11)]
-        [Required(ErrorMessage = "Vui lòng nhập số điện thoại")]
+        [Required(ErrorMessage = "PhoneRequired")]
         [DisplayName("Phone")]
         [DataType(DataType.PhoneNumber)]
         [Remote(action: "ValidatePhone", controller: "Account", AdditionalFields = nameof(Phone))]
         public string Phone { get; set; }
-        [Required(ErrorMessage = "Vui lòng nhập địa chỉ")]
-
-        [DisplayName("Address")]
-        public string Address { get; set; }
-
+  
         [DisplayName("Password")]
-        [Required(ErrorMessage = "Vui lòng nhập mật khẩu")]
-        [MinLength(5, ErrorMessage = "Bạn cần đặt mật khẩu tối thiểu 5 ký tự")]
+        [Required(ErrorMessage = "PasswordRequired")]
+        [MinLength(6, ErrorMessage = "PasswordMinLenght")]
         public string Password { get; set; }
 
-        [MinLength(5, ErrorMessage = "Bạn cần đặt mật khẩu tối thiểu 5 ký tự")]
+       
         [DisplayName("ConfirmPassword")]
-        [Compare("Password", ErrorMessage = "Nhập lại mật khẩu không đúng")]
+        [Compare("Password", ErrorMessage = "ComparePassword")]
         public string ConfirmPassword { get; set; }
     }
 }

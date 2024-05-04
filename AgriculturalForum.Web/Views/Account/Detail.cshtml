@@ -4,7 +4,14 @@
     ViewBag.Title = _localization.Getkey("AccountInformation");
     AgriculturalForum.Web.ModelViews.ChangePasswordViewModel changePassword = new AgriculturalForum.Web.ModelViews.ChangePasswordViewModel();
 }
+@section Styles {
+    <style>
+        .menu-item.active {
+            color: red !important;
+        }
 
+    </style>
+}
 <section class="breadcrumbs">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
@@ -30,23 +37,87 @@
             <div class="col-lg-8 entries">
 
                 <article class="entry">
+                    @if(string.IsNullOrEmpty(Model.Address) || string.IsNullOrEmpty(Model.Province))
+                    {
+                        <div class="align-items-center alert alert-danger" role="alert">
+                            <span class="text-muted">@_localization.Getkey("AddressAlert")</span>
+                        </div>
+                    }
 
                     <h2 class="entry-title">
                         @_localization.Getkey("AccountInformation")
                     </h2>
 
-                    <div class="entry-content">
+                    <div class="entry-content" id="user-info">
                         <p>@_localization.Getkey("Hi"), <strong>@Model.FullName</strong></p>
+                        <p><img class="img-fluid rounded" src="~/uploads/userImages/@Model.ProfileImage" style="height:100px; width:100px;" /></p>
                         <p>@_localization.Getkey("Email"): @Model.Email</p>
                         <p>@_localization.Getkey("Phone"): @Model.Phone</p>
-                        <p>@_localization.Getkey("Address"): @Model.Address</p>
-                        @* <div class="read-more">
-                            <a href="blog-single.html">Read More</a>
-                        </div> *@
-                    </div>
+                        <p>
+                            @_localization.Getkey("DateOfBirth"): @Model.Birthday?.ToString("dd-MM-yyyy")
+                        </p>
+                        <p>@_localization.Getkey("Address"): @string.Join(", ", new[] { Model.Address, Model.Province }.Where(x => !string.IsNullOrEmpty(x)))</p>
 
+                      
+                        <div id="modal-placeholder"></div>
+                        <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#updateInfo" data-url="@Url.Action("Update", "Account", new { id = Model.Id })">
+                            @_localization.Getkey("Change")
+                        </button>
+                    </div>
+                   
+                    </article>
             </div><!-- End blog entries list -->
         </div>
     </div>
 </section>
+
+@section Scripts {
+    <script>
+        $(function () {
+            var placeholderElement = $('#modal-placeholder');
+
+            $('button[data-toggle="ajax-modal"]').click(function (event) {
+                var url = $(this).data('url');
+                $.get(url).done(function (data) {
+                    placeholderElement.html(data);
+                    placeholderElement.find('.modal').modal('show');
+                });
+            });
+
+            placeholderElement.on('click', '[data-save="modal"]', function (event) {
+                event.preventDefault();
+
+                var form = $(this).parents('.modal').find('form')[0]; 
+                var formData = new FormData(form); 
+
+                $.ajax({
+                    url: form.action,
+                    method: form.method,
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (data) {
+                        var newBody = $('.modal-body', data);
+                        placeholderElement.find('.modal-body').replaceWith(newBody);
+
+                        var isValid = newBody.find('[name="IsValid"]').val() == 'True';
+                        if (isValid) {
+                            placeholderElement.find('.modal').modal('hide');
+                            window.location.href = '@Url.Action("Detail", "Account")';
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
+    
+    <script>
+        $(document).ready(function () {
+            var currentUrl = window.location.pathname;
+            $('.sidebar-item.categories a[href="' + currentUrl + '"]').addClass('active');
+        });
+    </script>
+}
+
 

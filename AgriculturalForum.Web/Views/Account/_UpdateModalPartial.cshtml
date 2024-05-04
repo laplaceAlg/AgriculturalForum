@@ -1,0 +1,83 @@
+﻿@model AgriculturalForum.Web.Models.User
+
+<div class="modal fade  modal-lg" id="updateInfo" tabindex="-1" role="dialog" aria-labelledby="addContactLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changeModalLabel">@_localization.Getkey("AccountInformation")</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateForm" action="~/Account/Update" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="Id" class="form-control" value="@Model.Id" />
+                    <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label fw-bold">@_localization.Getkey("FullName")</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="FullName" class="form-control" value="@Model.FullName" />
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label fw-bold">@_localization.Getkey("Email")</label>
+                        <div class="col-sm-10">
+                            <input type="email" name="Email" class="form-control" value="@Model.Email" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label fw-bold">@_localization.Getkey("Phone")</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="Phone" class="form-control" value="@Model.Phone" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label fw-bold">@_localization.Getkey("DayOfBirth")</label>
+                        <div class="col-sm-10">
+                            <input type="date" name="Birthday" class="form-control" value="@Model.Birthday?.ToString("yyyy-MM-dd")" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label fw-bold">@_localization.Getkey("Address")</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="Address" class="form-control" value="@Model.Address" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label fw-bold">@_localization.Getkey("Province")</label>
+                        <div class="col-sm-10">
+                            @Html.DropDownListFor(m => m.Province, SelectListHelper.Provinces(), new { @class = "form-control form-select" })
+                            <span asp-validation-for="Province" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label fw-bold">@_localization.Getkey("Image")</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" name="@nameof(Model.ProfileImage)" value="@Model.ProfileImage" />
+                            <input type="file" class="form-control" name="Image" accept="image/*"
+                                   onchange="document.getElementById('Photo').src = window.URL.createObjectURL(this.files[0])" />
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-10 offset-sm-2">
+                            <img id="Photo" src="~/uploads/userImages/@Model.ProfileImage" class="img img-bordered" style="width: 100px;" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-save="modal">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

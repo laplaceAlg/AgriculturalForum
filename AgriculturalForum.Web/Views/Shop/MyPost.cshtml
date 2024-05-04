@@ -46,7 +46,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3">
-                    <img class="img-fluid img-thumbnail" src="~/@user.ProfileImage" alt="Profile Image" style="width:120px; height:120px;">
+                    <img class="img-fluid img-thumbnail" src="~/uploads/userImages/@user.ProfileImage" alt="Profile Image" style="width:120px; height:120px;">
                 </div>
                 <div class="col-md-9">
                     <ul class="list-group list-group-flush">
@@ -59,7 +59,7 @@
                         </li>
                         <li class="list-group-item">
                             <i class="fa-solid fa-location-dot"></i>
-                             @_localization.Getkey("Address"): @user.Address
+                             @_localization.Getkey("Address"): @user.Address, @user.Province
                         </li>
                     </ul>
                 </div>

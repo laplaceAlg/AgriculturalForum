@@ -15,6 +15,8 @@ public partial class User
 
     public string? Address { get; set; }
 
+    public string? Province { get; set; }
+
     public DateTime? Birthday { get; set; }
 
     public string? Phone { get; set; }
@@ -32,4 +34,6 @@ public partial class User
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+
+    public virtual Province? ProvinceNavigation { get; set; }
 }

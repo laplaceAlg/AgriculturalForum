@@ -38,16 +38,17 @@
 
                     </ul>
                 </li>
-
+              
 
                 @{
-                    var taikhoanID = Context.Session.GetString("UserId");
-                    if (taikhoanID != null)
+                    var accountID = Context.Session.GetString("UserId");
+                    if (accountID != null)
                     {
                         <li class="dropdown">
-                            <a href="#"><span>@User.Identity.Name</span> <i class="bi bi-chevron-down"></i></a>
+                          
+                            <a href="#"><span>@User?.Identity?.Name</span> <i class="bi bi-chevron-down"></i></a>
                             <ul>
-                                <li><a href="~/User/Index/@int.Parse(taikhoanID)">@_localization.Getkey("YourContent")</a></li>
+                                <li><a href="~/User/Index/@int.Parse(accountID)">@_localization.Getkey("YourContent")</a></li>
                                 <li><a href="~/Account/Detail">@_localization.Getkey("AccountInformation")</a></li>
                                 <li><a href="~/Account/ChangePassword">@_localization.Getkey("ChangePassword")</a></li>
                                 <li><a href="~/Account/Logout">@_localization.Getkey("Logout")</a></li>

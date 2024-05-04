@@ -129,6 +129,12 @@
   <data name="Address" xml:space="preserve">
     <value>Địa chỉ</value>
   </data>
+  <data name="AddressAlert" xml:space="preserve">
+    <value>Vui lòng cập nhật địa chỉ của bạn để có thể đăng bán mặt hàng</value>
+  </data>
+  <data name="AddressRequired" xml:space="preserve">
+    <value>Vui lòng nhập địa chỉ</value>
+  </data>
   <data name="AgriculturalForum" xml:space="preserve">
     <value>Diễn đàn nông nghiệp</value>
   </data>
@@ -144,11 +150,23 @@
   <data name="CategoryRequired" xml:space="preserve">
     <value>Vui lòng chọn loại</value>
   </data>
+  <data name="Change" xml:space="preserve">
+    <value>Thay đổi thông tin</value>
+  </data>
   <data name="ChangePassword" xml:space="preserve">
     <value>Đổi mật khẩu</value>
   </data>
   <data name="Comments" xml:space="preserve">
     <value>Bình luận</value>
+  </data>
+  <data name="CompareConfirmAndNewPassword" xml:space="preserve">
+    <value>Mật khẩu mới và mật khẩu xác nhận không khớp</value>
+  </data>
+  <data name="CompareCurrentAndNewPassword" xml:space="preserve">
+    <value>Mật khẩu mới không được trùng với mật khẩu cũ</value>
+  </data>
+  <data name="ComparePassword" xml:space="preserve">
+    <value>Mật khẩu và mật khẩu xác nhận không khớp</value>
   </data>
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Xác nhận mật khẩu</value>
@@ -168,6 +186,15 @@
   <data name="CreateDate" xml:space="preserve">
     <value>Thời gian tạo</value>
   </data>
+  <data name="CurrentPassword" xml:space="preserve">
+    <value>Mật khẩu hiện tại</value>
+  </data>
+  <data name="CurrentPasswordRequired" xml:space="preserve">
+    <value>Vui lòng nhập mật khẩu hiện tại</value>
+  </data>
+  <data name="DateOfBirth" xml:space="preserve">
+    <value>Ngày sinh</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Xóa</value>
   </data>
@@ -183,11 +210,26 @@
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>Địa chỉ Email không hợp lệ</value>
+  </data>
+  <data name="EmailDoesNotExist" xml:space="preserve">
+    <value>Email không tồn tại</value>
+  </data>
+  <data name="EmailExist" xml:space="preserve">
+    <value>Email này đã được sử dụng</value>
+  </data>
+  <data name="EmailRequired" xml:space="preserve">
+    <value>Vui lòng nhập Email</value>
+  </data>
   <data name="Forum" xml:space="preserve">
     <value>Diễn đàn</value>
   </data>
   <data name="FullName" xml:space="preserve">
     <value>Họ và Tên</value>
+  </data>
+  <data name="FullNameRequired" xml:space="preserve">
+    <value>Vui lòng nhập họ tên</value>
   </data>
   <data name="Hi" xml:space="preserve">
     <value>Chào</value>
@@ -200,6 +242,12 @@
   </data>
   <data name="ImageRequired" xml:space="preserve">
     <value>Vui lòng chọn ảnh cho sản phẩm</value>
+  </data>
+  <data name="IncorrectCurrentPassword" xml:space="preserve">
+    <value>Mật khẩu không chính xác</value>
+  </data>
+  <data name="IncorrectPassword" xml:space="preserve">
+    <value>Mật khẩu sai</value>
   </data>
   <data name="IsSelling" xml:space="preserve">
     <value>Sản phẩm đang bán</value>
@@ -225,20 +273,23 @@
   <data name="NewPassword" xml:space="preserve">
     <value>Mật khẩu mới</value>
   </data>
+  <data name="NewPasswordRequired" xml:space="preserve">
+    <value>Vui lòng nhập mật khẩu mới</value>
+  </data>
   <data name="NewPost" xml:space="preserve">
     <value>Tạo bài viết mới</value>
   </data>
   <data name="NewProduct" xml:space="preserve">
     <value>Tạo mới mặt hàng</value>
   </data>
+  <data name="NoPosts" xml:space="preserve">
+    <value>Hiện chưa có bài viết nào</value>
+  </data>
   <data name="NoProduct" xml:space="preserve">
     <value>Hiện chưa có mặt hàng nào</value>
   </data>
   <data name="NoResults" xml:space="preserve">
-    <value>Không tìm thấy kết quả</value>
-  </data>
-  <data name="OldPassword" xml:space="preserve">
-    <value>Mật khẩu cũ</value>
+    <value>Không tìm thấy kết quả nào</value>
   </data>
   <data name="Page" xml:space="preserve">
     <value>Trang</value>
@@ -246,8 +297,20 @@
   <data name="Password" xml:space="preserve">
     <value>Mật khẩu</value>
   </data>
+  <data name="PasswordMinLenght" xml:space="preserve">
+    <value>Mật khẩu phải dài ít nhất 6 ký tự</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Vui lòng nhập mật khẩu</value>
+  </data>
   <data name="Phone" xml:space="preserve">
     <value>Số điện thoại</value>
+  </data>
+  <data name="PhoneExist" xml:space="preserve">
+    <value>Số điện thoại này đã được sử dụng</value>
+  </data>
+  <data name="PhoneRequired" xml:space="preserve">
+    <value>Vui lòng nhập số điện thoại</value>
   </data>
   <data name="PostDetail" xml:space="preserve">
     <value>Chi tiết bài viết</value>
@@ -282,6 +345,12 @@
   <data name="Products" xml:space="preserve">
     <value>Sản phẩm</value>
   </data>
+  <data name="Province" xml:space="preserve">
+    <value>Tỉnh thành</value>
+  </data>
+  <data name="ProvinceRequired" xml:space="preserve">
+    <value>Vui lòng chọn tỉnh thành</value>
+  </data>
   <data name="ReadMore" xml:space="preserve">
     <value>Xem chi tiết</value>
   </data>
@@ -305,6 +374,9 @@
   </data>
   <data name="Search" xml:space="preserve">
     <value>Tìm kiếm</value>
+  </data>
+  <data name="SearchProduct" xml:space="preserve">
+    <value>Tìm kiếm sản phẩm</value>
   </data>
   <data name="SeeMore" xml:space="preserve">
     <value>Xem thêm</value>

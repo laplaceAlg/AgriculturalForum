@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace AgriculturalForum.Web.Models;
 
@@ -13,7 +12,7 @@ public partial class Product
     public string? Description { get; set; }
 
     public string? Image { get; set; }
-   
+
     public double? Price { get; set; }
 
     public bool IsSelling { get; set; }
