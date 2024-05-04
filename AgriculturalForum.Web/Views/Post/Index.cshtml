@@ -61,75 +61,83 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-lg-12">
+    @if (Model != null && Model.Count() > 0)
+    {
+        <div class="row">
+            <div class="col-lg-12">
 
-            <div class="card shadow">
-                <div class="container">
-                    <div class="row">
-                        @foreach (var post in Model)
-                        {
-                            <div class="col-md-12 mb-2 mt-2">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-md-3">
-                                                <a href="/Post/Detail/@post.Id">
-                                                    <img class="img-fluid rounded" src="~/uploads/postImages/@post.Image" alt="Image" style="height: 180px;">
-                                                </a>
-                                            </div>
-                                            <div class="col-md-9">
-                                                <h5 class="card-title">
-                                                    <a href="/Post/Detail/@post.Id" class="text-dark  text-hover">@post.Title</a>
-                                                </h5>
-                                                <hr />
-                                                <div class="d-flex align-items-center">
-                                                    <a href="~/User/Index/@post.UserId">
-                                                        <img class="img-fluid rounded-circle me-3" src="~/@post.User.ProfileImage" alt="avatar" style="height:40px; width:40px;" />
+                <div class="card shadow">
+                    <div class="container">
+                        <div class="row">
+                            @foreach (var post in Model)
+                            {
+                                <div class="col-md-12 mb-2 mt-2">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row align-items-center">
+                                                <div class="col-md-3">
+                                                    <a href="/Post/Detail/@post.Id">
+                                                        <img class="img-fluid rounded" src="~/uploads/postImages/@post.Image" alt="Image" style="height: 180px;">
                                                     </a>
-                                                    <ul class="list-unstyled mb-0 d-flex justify-content-between flex-grow-1">
-                                                        <li class="align-self-start">
-                                                            <a href="/Post/Detail/@post.Id" class="text-secondary text-hover">
-                                                                <i class="bi bi-clock me-1"></i>
-                                                                @post.CreateDate
-                                                            </a>
-                                                        </li>
-                                                        <li class="align-self-end">
-                                                            <a href="/Post/Detail/@post.Id" class="text-secondary text-hover">
-                                                                <i class="bi bi-reply me-1"></i>
-                                                                @post.PostReplies.Count()
-                                                            </a>
-                                                        </li>
-                                                    </ul>
                                                 </div>
-                                                <div class="mt-3">
-                                                    <p class="text-limit">@SubString.ExtractTextFromHtml(post.Content, 1000)</p>
-                                                    <div class="text-end">
-                                                        <a href="/Post/Detail/@post.Id" class="text-body text-hover">
-                                                          @_localization.Getkey("ReadMore")
-                                                            <i class="fa-solid fa-chevron-right"></i>
+                                                <div class="col-md-9">
+                                                    <h5 class="card-title">
+                                                        <a href="/Post/Detail/@post.Id" class="text-dark  text-hover">@post.Title</a>
+                                                    </h5>
+                                                    <hr />
+                                                    <div class="d-flex align-items-center">
+                                                        <a href="~/User/Index/@post.UserId">
+                                                            <img class="img-fluid rounded-circle me-3" src="~/uploads/userImages/@post.User.ProfileImage" alt="avatar" style="height:40px; width:40px;" />
                                                         </a>
+                                                        <ul class="list-unstyled mb-0 d-flex justify-content-between flex-grow-1">
+                                                            <li class="align-self-start">
+                                                                <a href="/Post/Detail/@post.Id" class="text-secondary text-hover">
+                                                                    <i class="bi bi-clock me-1"></i>
+                                                                    @post.CreateDate
+                                                                </a>
+                                                            </li>
+                                                            <li class="align-self-end">
+                                                                <a href="/Post/Detail/@post.Id" class="text-secondary text-hover">
+                                                                    <i class="bi bi-reply me-1"></i>
+                                                                    @post.PostReplies.Count()
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="mt-3">
+                                                        <p class="text-limit">@SubString.ExtractTextFromHtml(post.Content, 1000)</p>
+                                                        <div class="text-end">
+                                                            <a href="/Post/Detail/@post.Id" class="text-body text-hover">
+                                                                @_localization.Getkey("ReadMore")
+                                                                <i class="fa-solid fa-chevron-right"></i>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        }
+                            }
+                        </div>
+
+                        <div aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <pager class="pager-container" list="@Model" action="~/Post/Index" />
+                            </ul>
+                        </div>
                     </div>
 
-                    <div aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <pager class="pager-container" list="@Model" action="~/Post/Index" />
-                        </ul>
-                    </div>
+
                 </div>
-
-
             </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <div class="text-center my-5">@_localization.Getkey("NoPosts")</div>
+    }
+
 </div>
 
 

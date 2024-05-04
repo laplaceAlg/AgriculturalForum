@@ -1,4 +1,4 @@
-﻿namespace AgriculturalForum.Web.Helpper
+﻿namespace AgriculturalForum.Web.Helper
 {
     public class ApplicationContext
     {

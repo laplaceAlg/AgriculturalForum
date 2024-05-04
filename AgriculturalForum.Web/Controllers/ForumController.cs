@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using AgriculturalForum.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using AgriculturalForum.Web.Helpper;
+using AgriculturalForum.Web.Helper;
 
 namespace AgriculturalForum.Web.Controllers
 {

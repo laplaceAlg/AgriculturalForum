@@ -3,12 +3,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using System.Drawing.Printing;
-using AgriculturalForum.Web.Helpper;
+using AgriculturalForum.Web.Helper;
 using AgriculturalForum.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AgriculturalForum.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(AuthenticationSchemes = "AdminCookie")]
+
     public class CategoryProductController : Controller
     {
         private readonly KltnDbContext _dbContext;

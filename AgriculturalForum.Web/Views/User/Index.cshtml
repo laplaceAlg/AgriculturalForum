@@ -65,14 +65,14 @@
             <div class="card shadow mb-4">
                 <div class="row g-0 p-2">
                     <div class="col-md-2">
-                        <img class="img-thumbnail rounded-circle" src="~/@Model.ProfileImage" alt="Profile Image" style="height: 190px;">
+                        <img class="img-thumbnail rounded-circle" src="~/uploads/userImages/@Model.ProfileImage" alt="Profile Image" style="height: 190px;">
                     </div>
                     <div class="col-md-10">
                         <div class="card-body">
                             <h4 class="mb-3">@Model.FullName</h4>
                             <p><i class="fas fa-calendar me-2"></i> @_localization.Getkey("Joined"): @Model.MemberSince</p>
                             <p><i class="fas fa-phone me-2"></i> @_localization.Getkey("Contact"): <a href="tel:34534534">@Model.Phone</a></p>
-                            <p><i class="fas fa-location-dot me-2"></i>@_localization.Getkey("Address"): @Model.Address</p>
+                            <p><i class="fas fa-location-dot me-2"></i>@_localization.Getkey("Address"):  @string.Join(", ", new[] { Model.Address, Model.Province }.Where(x => !string.IsNullOrEmpty(x)))</p>
                             <hr>
                             <div class="d-flex justify-content-between">
                                 <span>@_localization.Getkey("Posts"): @Model.Posts.Count()</span>
@@ -114,7 +114,7 @@
                                                         </h5>
                                                         <hr />
                                                         <div class="d-flex align-items-center">
-                                                            <img class="img-fluid rounded-circle me-3" src="~/@Model.ProfileImage" alt="avatar" style="height:40px; width:40px;" />
+                                                            <img class="img-fluid rounded-circle me-3" src="~/uploads/userImages/@Model.ProfileImage" alt="avatar" style="height:40px; width:40px;" />
                                                             <ul class="list-unstyled mb-0 d-flex justify-content-between flex-grow-1">
                                                                 <li class="align-self-start">
                                                                     <a href="/Post/Detail/@post.Id" class="text-secondary text-hover">

@@ -5,10 +5,13 @@ using PagedList.Core;
 using System.Drawing.Printing;
 using System.Security.Permissions;
 using AgriculturalForum.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AgriculturalForum.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(AuthenticationSchemes = "AdminCookie")]
+
     public class UserController : Controller
     {
         private readonly KltnDbContext _dbContext;
@@ -24,7 +27,7 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
 
             List<User> lsUsers = new List<User>();
 
-            lsUsers = _dbContext.Users
+            lsUsers = _dbContext.Users.Where(u => u.IsAdmin == false)
             .AsNoTracking()
             .OrderByDescending(x => x.MemberSince).ToList();
       
@@ -32,7 +35,7 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
             {
                 lsUsers = _dbContext.Users
                         .AsNoTracking()
-                        .Where(x => x.IsActive == isActive && (x.FullName.Contains(searchValue) || x.Email.Contains(searchValue)))
+                        .Where(x => x.IsAdmin == false && x.IsActive == isActive && (x.FullName.Contains(searchValue) || x.Email.Contains(searchValue)))
                         .OrderByDescending(x => x.MemberSince)
                         .ToList();
             }
@@ -40,7 +43,7 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
             {
                 lsUsers = _dbContext.Users
                       .AsNoTracking()
-                      .Where(x => x.FullName.Contains(searchValue) || x.Email.Contains(searchValue))
+                      .Where(x =>x.IsAdmin == false && (x.FullName.Contains(searchValue) || x.Email.Contains(searchValue)))
                       .OrderByDescending(x => x.MemberSince)
                       .ToList();
             }
@@ -49,7 +52,7 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
 
                 lsUsers = _dbContext.Users
                     .AsNoTracking()
-                    .Where(x => x.IsActive == isActive)
+                    .Where(x => x.IsActive == isActive && x.IsAdmin == false)
                     .OrderByDescending(x => x.MemberSince)
                     .ToList();
             }

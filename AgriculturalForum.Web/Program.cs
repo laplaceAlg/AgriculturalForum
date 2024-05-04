@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using AgriculturalForum.Web;
-using AgriculturalForum.Web.Helpper;
+using AgriculturalForum.Web.Helper;
 using AgriculturalForum.Web.Models;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
@@ -41,14 +41,23 @@ builder.Services.AddDbContext<KltnDbContext>(options =>
 // Add services to the container.
 builder.Services.AddSession();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-				.AddCookie(option =>
-				{
-					option.Cookie.Name = "AuthenticationCookie";
-					option.LoginPath = "/Account/Login";
-					option.AccessDeniedPath = "/Account/AccessDenined";
-					option.ExpireTimeSpan = TimeSpan.FromMinutes(120);
-				});
+                .AddCookie(option =>
+                {
+                    option.Cookie.Name = "AuthenticationCookie";
+                    option.LoginPath = "/Account/Login";
+                    option.AccessDeniedPath = "/Account/AccessDenined";
+                    option.ExpireTimeSpan = TimeSpan.FromMinutes(120);
+                });
 
+// Cấu hình xác thực cho trang quản trị
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie("AdminCookie", option =>
+    {
+        option.Cookie.Name = "AdminAuthenticationCookie";
+        option.LoginPath = "/Admin/Account/Login";
+        option.AccessDeniedPath = "/Admin/Account/AccessDenied";
+        option.ExpireTimeSpan = TimeSpan.FromMinutes(120);
+    });
 
 
 //builder.Services.AddControllersWithViews();

@@ -8,18 +8,18 @@ namespace AgriculturalForum.Web.ModelViews
         [Key]
         public int UserId { get; set; }
 
-        [DisplayName("OldPassword")]
-        [Required(ErrorMessage = "Vui lòng nhập mật khẩu hiện tại")]
-        public string PasswordNow { get; set; }
+        [DisplayName("CurrentPassword")]
+        [Required(ErrorMessage = "CurrentPasswordRequired")]
+        public string CurrentPassword { get; set; }
 
         [DisplayName("NewPassword")]
-        [Required(ErrorMessage = "Vui lòng nhập mật khẩu mới")]
-        [MinLength(5, ErrorMessage = "Bạn cần đặt mật khẩu tối thiểu 5 ký tự")]
-        public string Password { get; set; }
+        [Required(ErrorMessage = "NewPasswordRequired")]
+        [MinLength(6, ErrorMessage = "PasswordMinLenght")]
+        public string NewPassword { get; set; }
 
-        [MinLength(5, ErrorMessage = "Bạn cần đặt mật khẩu tối thiểu 5 ký tự")]
+       
         [DisplayName("ConfirmPassword")]
-        [Compare("Password", ErrorMessage = "Nhập lại mật khẩu không đúng")]
+        [Compare("NewPassword", ErrorMessage = "CompareConfirmAndNewPassword")]
         public string ConfirmPassword { get; set; }
     }
 }

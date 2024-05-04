@@ -1,0 +1,102 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Đăng Nhập</title>
+
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="~/adminassets/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/adminassets/modules/fontawesome/css/all.min.css">
+
+    <!-- CSS Libraries -->
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="~/adminassets/css/style.css">
+    <link rel="stylesheet" href="~/adminassets/css/components.css">
+    <!-- Start GA -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-94034622-3');
+    </script>
+    <!-- /END GA -->
+</head>
+
+<body class="bg-secondary">
+    <div id="app">
+        <section class="section">
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+                        <div class="login-brand">
+                            AgriCultural Forum
+                        </div>
+
+                        <div class="card card-primary">
+                            <div class="card-header"><h4>Đăng nhập hệ thống</h4></div>
+
+                            <div class="card-body">
+                                <form action="~/Admin/Account/Login" method="post">
+                                    <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <input type="email" class="form-control" name="email" autofocus placeholder="Email" value="@ViewBag.Email">
+                                    </div>
+                                    <div class="my-1">
+                                        @Html.ValidationMessage("UserName", new { @style = "color:#f00", @class = "ml-5" })
+                                    </div>
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-lock"></i>
+                                            </div>
+                                        </div>
+                                        <input type="password" class="form-control" name="password" placeholder="Mật khẩu">
+                                    </div>
+                                    <div class="my-1">
+                                        @Html.ValidationMessage("Password", new { @style = "color:#f00", @class = "ml-5" })
+                                    </div>
+
+                                    <div class="form-group text-center">
+                                        <button type="submit" class="btn btn-lg btn-round btn-primary">
+                                            Đăng nhập
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- General JS Scripts -->
+    <script src="~/adminassets/modules/jquery.min.js"></script>
+    <script src="~/adminassets/modules/popper.js"></script>
+    <script src="~/adminassets/modules/tooltip.js"></script>
+    <script src="~/adminassets/modules/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/adminassets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+    <script src="~/adminassets/modules/moment.min.js"></script>
+    <script src="~/adminassets/js/stisla.js"></script>
+
+    <!-- JS Libraies -->
+    <!-- Page Specific JS File -->
+    <!-- Template JS File -->
+    <script src="~/adminassets/js/scripts.js"></script>
+    <script src="~/adminassets/js/custom.js"></script>
+</body>
+</html>

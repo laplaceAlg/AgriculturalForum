@@ -7,7 +7,7 @@ using PagedList.Core;
 using System.Buffers;
 using System.Drawing.Printing;
 using System.Runtime.InteropServices.JavaScript;
-using AgriculturalForum.Web.Helpper;
+using AgriculturalForum.Web.Helper;
 using AgriculturalForum.Web.Models;
 using AgriculturalForum.Web.Extensions;
 
@@ -24,11 +24,11 @@ namespace AgriculturalForum.Web.Controllers
             _dbContext = dbContext;
             _localization = localization;
         }
-       
-        public IActionResult Index(int page = 1, int id = 0, string searchValue = "" )
+
+        public IActionResult Index(int page = 1, int id = 0, string searchValue = "")
         {
             var pageNumber = page;
-            var pageSize = 6;
+            var pageSize = 8;
 
             List<Product> lsProducts = new List<Product>();
             lsProducts = _dbContext.Products.Where(x => x.IsSelling == true)
@@ -47,18 +47,18 @@ namespace AgriculturalForum.Web.Controllers
                 .Include(x => x.User)
                 .OrderByDescending(x => x.CreateDate).ToList();
             }
-                
+
 
             if (!string.IsNullOrWhiteSpace(searchValue))
-            {     
-                
-                    lsProducts = _dbContext.Products
-                    .AsNoTracking()
-                    .Where(x => x.Name.Contains(searchValue) && x.IsSelling == true)
-                    .Include(x => x.CategoryProduct)
-                    .Include(X => X.ProductImages)
-                    .Include(x => x.User)
-                    .OrderByDescending(x => x.CreateDate).ToList();
+            {
+
+                lsProducts = _dbContext.Products
+                .AsNoTracking()
+                .Where(x => x.Name.Contains(searchValue) && x.IsSelling == true)
+                .Include(x => x.CategoryProduct)
+                .Include(X => X.ProductImages)
+                .Include(x => x.User)
+                .OrderByDescending(x => x.CreateDate).ToList();
             }
 
             PagedList<Product> models = new PagedList<Product>(lsProducts.AsQueryable(), pageNumber, pageSize);
@@ -100,6 +100,9 @@ namespace AgriculturalForum.Web.Controllers
             var userId = HttpContext.Session.GetString("UserId");
             if (userId == null)
                 return RedirectToAction("Login", "Account", new { ReturnUrl = "/Shop/Create" });
+            var user = _dbContext.Users.FirstOrDefault(u => u.Id == int.Parse(userId));
+            if (user != null && (string.IsNullOrEmpty(user.Address) || string.IsNullOrEmpty(user.Province)))
+                return RedirectToAction("Detail", "Account");
             ViewBag.Title = _localization.Getkey(CREATE_TITLE);
             ViewBag.Categories = _dbContext.CategoryProducts.ToList();
             var model = new Product()
@@ -323,7 +326,7 @@ namespace AgriculturalForum.Web.Controllers
 
             var user = _dbContext.Users.Where(p => p.Id == id).FirstOrDefault();
             ViewBag.User = user;
-            List<Product> lsProducts = new List<Product>();   
+            List<Product> lsProducts = new List<Product>();
             lsProducts = _dbContext.Products.Where(p => p.UserId == id && p.IsSelling == true)
                                             .OrderByDescending(p => p.CreateDate)
                                             .ToList();

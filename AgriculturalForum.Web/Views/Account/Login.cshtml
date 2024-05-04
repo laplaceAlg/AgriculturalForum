@@ -12,7 +12,7 @@
                     <h4 class="card-title text-center mb-4">@_localization.Getkey("Login")</h4>
                     <form method="post" action="~/Account/Login" >
                         <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                      @*   <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
                         <div class="mb-3">
                             <label for="email" class="form-label fw-bold">@_localization.Getkey("Email")</label>
                             <input type="email" class="form-control" id="email" asp-for="UserName" placeholder="@_localization.Getkey("Email")">

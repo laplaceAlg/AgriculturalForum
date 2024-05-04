@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Http
 @model PagedList.Core.IPagedList<AgriculturalForum.Web.Models.Product>
 @{
-    var taikhoanId = Context.Session.GetString("UserId");
+    var accountId = Context.Session.GetString("UserId");
 }
 @section Styles {
     <style>
@@ -50,7 +50,7 @@
                                 <span class="card-text text-white-50">Dừng bán</span>
                             }
                             <div class="portfolio-info">
-                                @if (taikhoanId != null && int.Parse(taikhoanId) == item.UserId)
+                                @if (accountId != null && int.Parse(accountId) == item.UserId)
                                 {
                                     <div>
                                         <a href="~/Shop/Edit/@item.Id"><i class="bx bx-edit"></i></a>

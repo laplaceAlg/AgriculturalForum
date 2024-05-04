@@ -27,6 +27,8 @@ public partial class KltnDbContext : DbContext
 
     public virtual DbSet<ProductImage> ProductImages { get; set; }
 
+    public virtual DbSet<Province> Provinces { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -110,6 +112,13 @@ public partial class KltnDbContext : DbContext
                 .HasConstraintName("FK_ProductImages_Product");
         });
 
+        modelBuilder.Entity<Province>(entity =>
+        {
+            entity.HasKey(e => e.ProvinceName);
+
+            entity.Property(e => e.ProvinceName).HasMaxLength(255);
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK_User");
@@ -122,6 +131,11 @@ public partial class KltnDbContext : DbContext
             entity.Property(e => e.Password).HasMaxLength(50);
             entity.Property(e => e.Phone).HasMaxLength(50);
             entity.Property(e => e.ProfileImage).HasMaxLength(255);
+            entity.Property(e => e.Province).HasMaxLength(255);
+
+            entity.HasOne(d => d.ProvinceNavigation).WithMany(p => p.Users)
+                .HasForeignKey(d => d.Province)
+                .HasConstraintName("FK_Users_Provinces");
         });
 
         OnModelCreatingPartial(modelBuilder);

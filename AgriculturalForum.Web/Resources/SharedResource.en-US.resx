@@ -129,6 +129,12 @@
   <data name="Address" xml:space="preserve">
     <value>Address</value>
   </data>
+  <data name="AddressAlert" xml:space="preserve">
+    <value>Please update your address for selling products</value>
+  </data>
+  <data name="AddressRequired" xml:space="preserve">
+    <value>The Address field is required</value>
+  </data>
   <data name="AgriculturalForum" xml:space="preserve">
     <value>Agricultural Forum</value>
   </data>
@@ -144,11 +150,24 @@
   <data name="CategoryRequired" xml:space="preserve">
     <value>Please choose the category</value>
   </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
   <data name="ChangePassword" xml:space="preserve">
     <value>Change Password</value>
   </data>
   <data name="Comments" xml:space="preserve">
     <value>Comments</value>
+  </data>
+  <data name="CompareConfirmAndNewPassword" xml:space="preserve">
+    <value>The new password and confirmation password do not match</value>
+  </data>
+  <data name="CompareCurrentAndNewPassword" xml:space="preserve">
+    <value>New password must not match the current password</value>
+  </data>
+  <data name="ComparePassword" xml:space="preserve">
+    <value>The password and confirmation password do not match
+</value>
   </data>
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Confirm Password</value>
@@ -168,6 +187,15 @@
   <data name="CreateDate" xml:space="preserve">
     <value>Create Date</value>
   </data>
+  <data name="CurrentPassword" xml:space="preserve">
+    <value>Current Password</value>
+  </data>
+  <data name="CurrentPasswordRequired" xml:space="preserve">
+    <value>Please enter the current password</value>
+  </data>
+  <data name="DateOfBirth" xml:space="preserve">
+    <value>Date Of Birth</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
@@ -183,11 +211,26 @@
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>The Email field is not a valid email address</value>
+  </data>
+  <data name="EmailDoesNotExist" xml:space="preserve">
+    <value>Email does not exist</value>
+  </data>
+  <data name="EmailExist" xml:space="preserve">
+    <value>Email  is already in use</value>
+  </data>
+  <data name="EmailRequired" xml:space="preserve">
+    <value>The Email field is required</value>
+  </data>
   <data name="Forum" xml:space="preserve">
     <value>Forum</value>
   </data>
   <data name="FullName" xml:space="preserve">
     <value>Full Name</value>
+  </data>
+  <data name="FullNameRequired" xml:space="preserve">
+    <value>The FullName field is required</value>
   </data>
   <data name="Hi" xml:space="preserve">
     <value>Hi</value>
@@ -200,6 +243,12 @@
   </data>
   <data name="ImageRequired" xml:space="preserve">
     <value>Please add photos for the product</value>
+  </data>
+  <data name="IncorrectCurrentPassword" xml:space="preserve">
+    <value>Incorrect current password</value>
+  </data>
+  <data name="IncorrectPassword" xml:space="preserve">
+    <value>Incorrect password</value>
   </data>
   <data name="IsSelling" xml:space="preserve">
     <value>Products are selling</value>
@@ -225,20 +274,23 @@
   <data name="NewPassword" xml:space="preserve">
     <value>New Password</value>
   </data>
+  <data name="NewPasswordRequired" xml:space="preserve">
+    <value>Please enter a new password</value>
+  </data>
   <data name="NewPost" xml:space="preserve">
     <value>New Post</value>
   </data>
   <data name="NewProduct" xml:space="preserve">
     <value>New Product</value>
   </data>
+  <data name="NoPosts" xml:space="preserve">
+    <value>There are currently no posts</value>
+  </data>
   <data name="NoProduct" xml:space="preserve">
     <value>No Products</value>
   </data>
   <data name="NoResults" xml:space="preserve">
-    <value>No Results</value>
-  </data>
-  <data name="OldPassword" xml:space="preserve">
-    <value>Old Password</value>
+    <value>No result is found</value>
   </data>
   <data name="Page" xml:space="preserve">
     <value>Page</value>
@@ -246,8 +298,20 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="PasswordMinLenght" xml:space="preserve">
+    <value>The Password must be at least 6 characters long</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>The Password field is required</value>
+  </data>
   <data name="Phone" xml:space="preserve">
     <value>Phone</value>
+  </data>
+  <data name="PhoneExist" xml:space="preserve">
+    <value>Phone is already in use</value>
+  </data>
+  <data name="PhoneRequired" xml:space="preserve">
+    <value>The Phone field is required</value>
   </data>
   <data name="PostDetail" xml:space="preserve">
     <value>Post detail</value>
@@ -282,6 +346,12 @@
   <data name="Products" xml:space="preserve">
     <value>Products</value>
   </data>
+  <data name="Province" xml:space="preserve">
+    <value>Province</value>
+  </data>
+  <data name="ProvinceRequired" xml:space="preserve">
+    <value>Please choose the province</value>
+  </data>
   <data name="ReadMore" xml:space="preserve">
     <value>Read More</value>
   </data>
@@ -305,6 +375,9 @@
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="SearchProduct" xml:space="preserve">
+    <value>Search products</value>
   </data>
   <data name="SeeMore" xml:space="preserve">
     <value>See More</value>
