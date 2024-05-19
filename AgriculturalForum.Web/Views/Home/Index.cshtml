@@ -1,6 +1,6 @@
 ﻿@model AgriculturalForum.Web.ModelViews.HomeViewModel
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = _localization.Getkey("Home");
 }
 @section Styles {
 	<style>
@@ -57,6 +57,7 @@
 
 		.product-item {
 			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+			border: 1px solid transparent;
 			transition: box-shadow 0.1s ease;
 		}
 
@@ -81,46 +82,49 @@
 			</div>
 			<div class="col-sm-6 text-sm-end"><a href="~/Forum" class="see-more">@_localization.Getkey("ViewAll")</a></div>
 		</div>
+		@if(Model.Post != null && Model.Post.Count() > 0 )
+		{
+			<div class="row">
+				@foreach (var item in Model.Post)
+				{
+					<div class="col-md-6 col-lg-4">
+						<article class="entry">
 
-		<div class="row">
-			@foreach (var item in Model.Post)
-			{
-				<div class="col-md-6 col-lg-4">
-					<article class="entry">
-
-						<div class="entry-img">
-							<img src="~/uploads/postImages/@item.Image" alt="" class="img-fluid" >
-						</div>
-
-						<h2 class="entry-title">
-							<a href="~/Post/Detail/@item.Id">@item.Title</a>
-						</h2>
-
-						<div class="entry-meta">
-							<ul>
-								<li class="d-flex align-items-center">
-									<span class="author-figure mb-0 me-3 float-start"><img src="~/uploads/userImages/@item.User.ProfileImage" alt="Image" class=" img-fluid"></span>
-									<a href="~/User/Index/@item.UserId">@item.User.FullName</a>
-								</li>
-								<li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="@item.CreateDate">@item.CreateDate.Value.ToShortDateString()</time></a></li>
-							</ul>
-						</div>
-
-						<div class="entry-content" >
-							<p class="text-limit">
-								@Html.Raw(SubString.ExtractTextFromHtml(item.Content, 2000))
-							</p>
-							<div class="read-more">
-								<a href="~/Post/Detail/@item.Id">@_localization.Getkey("ReadMore")</a>
-								@* <<a href="single.html" class="btn btn-sm btn-outline-primary">Read More</a> *@
+							<div class="entry-img">
+								<img src="~/uploads/postImages/@item.Image" alt="" class="img-fluid">
 							</div>
-						</div>
 
-					</article>
-				</div>
-			}
-		</div>
+							<h2 class="entry-title">
+								<a href="~/Post/Detail/@item.Id">@item.Title</a>
+							</h2>
 
+							<div class="entry-meta">
+								<ul>
+									<li class="d-flex align-items-center">
+										<span class="author-figure mb-0 me-3 float-start"><img src="~/uploads/userImages/@item.User.ProfileImage" alt="Image" class=" img-fluid"></span>
+										<a href="~/User/Index/@item.UserId">@item.User.FullName</a>
+									</li>
+									<li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="@item.CreateDate">@item.CreateDate.Value.ToShortDateString()</time></a></li>
+								</ul>
+							</div>
+
+							<div class="entry-content">
+								<p class="text-limit">
+									@Html.Raw(SubString.ExtractTextFromHtml(item.Content, 2000))
+								</p>
+								<div class="read-more">
+									<a href="~/Post/Detail/@item.Id">@_localization.Getkey("ReadMore")</a>
+									@* <<a href="single.html" class="btn btn-sm btn-outline-primary">Read More</a> *@
+								</div>
+							</div>
+
+						</article>
+					</div>
+				}
+			</div>
+
+		}
+		
 	</div>
 </section>
 
@@ -135,25 +139,29 @@
 				<a href="~/Shop" class="see-more">@_localization.Getkey("ViewAll")</a>
 			</div>
 		</div>
-		<div class="row  g-3">
+		@if(Model.Products != null && Model.Products.Count() > 0 )
+		{
+			<div class="row  g-3">
 
 				@foreach (var item in Model.Products)
 				{
 					<div class="col-md-6 col-lg-3 services">
 						<a href="~/Shop/Detail/@item.Id">
 							<div class="card icon-box-cyan product-item">
-							<img class="card-img-top img-fluid rounded" src="~/uploads/productImages/@item.Image" alt="#" style="height:200px">
+								<img class="card-img-top img-fluid rounded" src="~/uploads/productImages/@item.Image" alt="#" style="height:200px">
 								<div class="card-body">
 									<h5 class="card-title">@item.Name</h5>
-								<div class="card-text description-limit">@item.Description</div>
+									<div class="card-text description-limit">@item.Description</div>
 									<div style="color:red; font-size: 18px;">@item.Price đ</div>
 								</div>
-								<div class="card-footer">@item.User.Address</div>
+								<div class="card-footer">@item?.User?.Province</div>
 							</div>
 						</a>
 					</div>
 				}
-		</div>
+			</div>
+		}
+		
 	</div>
 </section>
 <!-- End posts-entry -->

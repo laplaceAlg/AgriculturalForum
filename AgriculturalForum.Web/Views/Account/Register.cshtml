@@ -1,26 +1,27 @@
 ﻿@model AgriculturalForum.Web.ModelViews.RegisterViewModel
 
 @{
-    ViewData["Title"] = _localization.Getkey("Register");
+    ViewBag.Title= _localization.Getkey("Register");
 }
-
 <section class="breadcrumbs">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
-            <h2>@_localization.Getkey("Register")</h2>
+            <h2>@ViewBag.Title</h2>
         </div>
     </div>
 </section>
 
-
-<div class="login-register-area section-space-y-axis-100 mt-3">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-6 pt-10 pt-lg-0">
+<section>
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center align-items-center h-100 mx-5">
+            <div class="col-md-5 col-lg-4 col-xl-5">
+                <img src="~/images/login.png" class="img-fluid" alt="Hình ảnh mẫu">
+            </div>
+            <div class="col-md-6 col-lg-6 col-xl-6 offset-md-1 shadow">
                 <form method="post" asp-action="Register">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="login-form">
-                        <div class="mb-3">
+                    <div class="register-form">
+                        <div class="my-3">
                             <label for="fullName" class="form-label fw-bold">@_localization.Getkey("FullName")</label>
                             <input type="text" class="form-control" id="fullName" asp-for="FullName" placeholder="@_localization.Getkey("FullName")">
                             <span asp-validation-for="FullName" class="text-danger"></span>
@@ -35,11 +36,6 @@
                             <input type="tel" class="form-control" id="phone" asp-for="Phone" placeholder="@_localization.Getkey("Phone")">
                             <span asp-validation-for="Phone" class="text-danger"></span>
                         </div>
-                   @*      <div class="mb-3">
-                            <label for="address" class="form-label fw-bold">@_localization.Getkey("Address")</label>
-                            <input type="text" class="form-control" id="address" asp-for="Address" placeholder="@_localization.Getkey("Address")">
-                            <span asp-validation-for="Address" class="text-danger"></span>
-                        </div> *@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="password" class="form-label fw-bold">@_localization.Getkey("Password")</label>
@@ -52,13 +48,14 @@
                                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-primary">@_localization.Getkey("Register")</button>
+                        <div class="mb-3 text-center">
+                            <button type="submit" class="btn text-white" style="background-color:#3B71CA; padding: 6px 54px;">@_localization.Getkey("Register")</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
+</section>
+
 

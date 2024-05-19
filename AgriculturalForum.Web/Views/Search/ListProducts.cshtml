@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Http
 @model PagedList.Core.IPagedList<AgriculturalForum.Web.Models.Product>
 @{
+    ViewBag.Title = _localization.Getkey("Search");
     var accountId = Context.Session.GetString("UserId");
 }
 @section Styles {
@@ -12,15 +13,18 @@
             white-space: nowrap;
             text-overflow: ellipsis;
         }
+        .card-footer {
+            border-top: 1px solid #fff;
+        }
     </style>
 }
 
 <section class="breadcrumbs">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
-            <h2>@_localization.Getkey("Search")</h2>
+            <h2>@ViewBag.Title</h2>
             <ol>
-                <li><a>@_localization.Getkey("Search")</a></li>
+                <li><a>@ViewBag.Title</a></li>
                 <li>@_localization.Getkey("PostedProduct")</li>
             </ol>
         </div>
@@ -33,34 +37,37 @@
         <div class="row " data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
             @foreach (var item in Model)
             {
-                <div class="col-md-6 col-lg-3 mb-4">
-                    <div class="card icon-box-cyan portfolio-item">
-                        <img src="~/uploads/productImages/@item.Image" class="card-img-top" alt="Product 1" style="height:200px;">
-                        <div class="card-body">
-                            <h5 class="card-title text-white">@item.Name</h5>
-                            <p class="card-text text-white text-limit">@item.Description</p>
-                            <p style="color:yellow; font-size: 18px;">@item.Price.Value.ToString("#,##0") đ</p>
-                            <div class="border-bottom mb-1"></div>
-                            @if (item.IsSelling == true)
-                            {
-                                <span class="card-text text-white-50">Đang bán</span>
-                            }
-                            else
-                            {
-                                <span class="card-text text-white-50">Dừng bán</span>
-                            }
-                            <div class="portfolio-info">
-                                @if (accountId != null && int.Parse(accountId) == item.UserId)
+                <div class="col-md-6 col-lg-3">
+                    <a href="~/Shop/Detail/@item.Id">
+                        <div class="card icon-box-cyan portfolio-item">
+                            <img src="~/uploads/productImages/@item.Image" class="card-img-top" alt="Product 1" style="height:180px;">
+                            <div class="card-body">
+                                <h5 class="card-title text-white">@item.Name</h5>
+                                <div class="card-text text-white text-limit">@item.Description</div>
+                                <div style="color:yellow; font-size: 18px;">@item.Price.Value.ToString("#,##0") đ</div>
+                                <div class="portfolio-info">
+                                    @if (accountId != null && int.Parse(accountId) == item.UserId)
+                                    {
+                                        <div>
+                                            <a href="~/Shop/Edit/@item.Id"><i class="bx bx-edit"></i></a>
+                                            <a href="~/Shop/Delete/@item.Id"><i class="bx bx-trash"></i></a>
+                                        </div>
+                                    }
+                                </div>
+
+                            </div>
+                            <div class="card-footer">
+                                @if (item.IsSelling == true)
                                 {
-                                    <div>
-                                        <a href="~/Shop/Edit/@item.Id"><i class="bx bx-edit"></i></a>
-                                        <a href="~/Shop/Delete/@item.Id"><i class="bx bx-trash"></i></a>
-                                    </div>
+                                    <span class="card-text text-white-50">Đang bán</span>
+                                }
+                                else
+                                {
+                                    <span class="card-text text-white-50">Dừng bán</span>
                                 }
                             </div>
-
                         </div>
-                    </div>
+                    </a>
                 </div>
             }
             <div aria-label="Page navigation example" class="d-flex justify-content-center">

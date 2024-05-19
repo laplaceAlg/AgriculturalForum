@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using PagedList.Core;
 using AgriculturalForum.Web.Helper;
 using AgriculturalForum.Web.Models;
 using AgriculturalForum.Web.Extensions;
+using AspNetCoreHero.ToastNotification.Abstractions;
+
 
 namespace AgriculturalForum.Web.Controllers
 {
@@ -13,12 +13,14 @@ namespace AgriculturalForum.Web.Controllers
     {
         private readonly KltnDbContext _dbContext;
         private LanguageService _localization;
-        const string CREATE_TITLE = "Tạo bài viết mới";
-        const string EDIT_TITLE = "Cập nhật thông tin bài viết";
-        public PostController(KltnDbContext dbContext, LanguageService localization)
+        private readonly INotyfService _notifyService;
+        const string CREATE_TITLE = "NewPost";
+        const string EDIT_TITLE = "UpdatePost";
+        public PostController(KltnDbContext dbContext, LanguageService localization, INotyfService notifyService)
         {
             _dbContext = dbContext;
             _localization = localization;
+            _notifyService = notifyService;
         }
         
 
@@ -76,9 +78,8 @@ namespace AgriculturalForum.Web.Controllers
             var userId = HttpContext.Session.GetString("UserId");
             if (userId == null)
                 return RedirectToAction("Login", "Account", new { ReturnUrl = "/Post/Create" });
-            ViewBag.Title = _localization.Getkey("NewPost");
+            ViewBag.Title = _localization.Getkey(CREATE_TITLE);
             ViewBag.IsEdit = false;
-            ViewBag.Categories = _dbContext.CategoryPosts.Include(c => c.Posts).ToList();
             var model = new Post()
             {
                 Id = 0,
@@ -92,9 +93,8 @@ namespace AgriculturalForum.Web.Controllers
             var userId = HttpContext.Session.GetString("UserId");
             if (userId == null)
                 return RedirectToAction("Login", "Account", new { ReturnUrl = "/Post/Edit" });
-            ViewBag.Title = _localization.Getkey("UpdatePost");
+            ViewBag.Title = _localization.Getkey(EDIT_TITLE);
             ViewBag.IsEdit = true;
-            ViewBag.Categories = _dbContext.CategoryPosts.Include(c => c.Posts).ToList();
             var model = _dbContext.Posts.Where(p => p.Id == id).FirstOrDefault();
             if (model == null)
                 return RedirectToAction("Index");
@@ -125,9 +125,8 @@ namespace AgriculturalForum.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Title = model.Id == 0 ? _localization.Getkey("NewPost") : _localization.Getkey("UpdatePost");
+                ViewBag.Title = model.Id == 0 ? _localization.Getkey(CREATE_TITLE) : _localization.Getkey(EDIT_TITLE);
                 ViewBag.IsEdit = model.Id == 0 ? false : true;
-                ViewBag.Categories = _dbContext.CategoryPosts.Include(c => c.Posts).ToList();
                 return View("Edit", model);
             }
 
@@ -152,6 +151,7 @@ namespace AgriculturalForum.Web.Controllers
                 };
                 _dbContext.Posts.Add(ls);
                 _dbContext.SaveChanges();
+                _notifyService.Success(_localization.Getkey("CreatePostSuccess"));
                 return RedirectToAction("Index", new { id = model.CategoryPostId });
 
             }
@@ -178,6 +178,7 @@ namespace AgriculturalForum.Web.Controllers
                 postToUpdate.Image = model.Image;
                 _dbContext.Posts.Update(postToUpdate);
                 _dbContext.SaveChanges();
+                _notifyService.Success(_localization.Getkey("UpdatePostSuccess"));
                 return RedirectToAction("Detail", new { id = model.Id });
             }
             /* return RedirectToAction("Edit");*/
@@ -189,7 +190,7 @@ namespace AgriculturalForum.Web.Controllers
             if (userId == null)
                 return RedirectToAction("Login", "Account");
             var post = _dbContext.Posts.Find(id);
-            if (post.Image != "uploads/postImages/default.jpg")
+            if (post.Image != "default.jpg")
             {
                 var imagePath = Path.Combine(ApplicationContext.HostEnviroment.WebRootPath, @"uploads/postImages", post.Image);
                 if (System.IO.File.Exists(imagePath))
@@ -204,8 +205,8 @@ namespace AgriculturalForum.Web.Controllers
             }
             _dbContext.Posts.Remove(post);
             _dbContext.SaveChanges();
+            _notifyService.Success(_localization.Getkey("DeletePostSuccess"));
             return RedirectToAction("Index", new { id = post.CategoryPostId });
         }
     }
 }
-

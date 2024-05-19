@@ -1,6 +1,6 @@
 ﻿@model AgriculturalForum.Web.Models.Post
 @{
-    List<CategoryPost> listOfCategories = ViewBag.Categories;
+ 
 }
 
 @section Styles {
@@ -37,20 +37,7 @@
         </div>
         <div class="col-12">
             <label for="category" class="form-label fw-bold">@_localization.Getkey("CategoryPost")</label>
-            <select class="form-control" name="CategoryPostId">
-                <option value="">-- @_localization.Getkey("SelectCategory") --</option>
-                @foreach (var category in listOfCategories)
-                {
-                    if (category.Id == Model.CategoryPostId)
-                    {
-                        <option value="@category.Id" selected>@category.Title</option>
-                    }
-                    else
-                    {
-                        <option value="@category.Id">@category.Title</option>
-                    }
-                }
-            </select>
+            @Html.DropDownListFor(m => m.CategoryPostId, SelectListHelper.CategoryPosts(), _localization.Getkey("SelectCategory"), new { @class = "form-control form-select" })
             @Html.ValidationMessageFor(m => m.CategoryPostId, "", new { @style = "color:#f00;"})
         </div>
         <div class="col-12">
@@ -94,7 +81,7 @@
             $('#summernote').summernote({
                 placeholder: 'Nhập nội dung ở đây...',
                 tabsize: 2,
-                height: 120,
+                height: 160,
                 toolbar: [
                     ['style', ['style']],
                     ['fontname', ['fontname']],

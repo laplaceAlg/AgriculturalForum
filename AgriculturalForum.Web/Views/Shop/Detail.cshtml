@@ -14,13 +14,23 @@
 
         .product-item {
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid transparent;
             transition: box-shadow 0.1s ease;
         }
 
-            .product-item:hover {
-                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-                transform: translateY(-1px);
-            }
+        .product-item:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transform: translateY(-1px);
+            border-color: #28a745;
+        }
+
+
+        .product-column {
+            background-color: #fff;
+            padding: 0 5px;
+            margin: 5px 0;
+        }
+
     </style>
 }
 <section class="breadcrumbs">
@@ -93,16 +103,16 @@
 </section>
 @if (similarProducts != null && similarProducts.Count() > 0)
 {
-    <div class=" container card shadow mb-4">
-        <div id="product-list" class=" portfolio" style="padding-bottom: 0 !important;">
+    <div class=" container shadow mb-4">
+        <div id="product-list"  style="padding: 10px !important;">
 
-            <h4 class="my-3">@_localization.Getkey("RelatedProducts")</h4>
-            <div class="row  g-4" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
+            <h4 class="my-2">@_localization.Getkey("RelatedProducts")</h4>
+            <div class="row " data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
                 @foreach (var item in similarProducts)
                 {
-                    <div class="col-md-6 col-lg-3 services">
+                    <div class="col-md-6 col-lg-3 product-column">
                         <a href="~/Shop/Detail/@item.Id">
-                            <div class="card icon-box-cyan product-item">
+                            <div class="card product-item">
                                 <img class="card-img-top img-fluid " src="~/uploads/productImages/@item.Image" alt="#" style="height:200px ">
                                 <div class="card-body">
                                     <h5 class="card-title">@item.Name</h5>

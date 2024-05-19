@@ -7,6 +7,7 @@ using AgriculturalForum.Web.Models;
 using AgriculturalForum.Web.ModelViews;
 using AgriculturalForum.Web.Extensions;
 using AgriculturalForum.Web.Helper;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace AgriculturalForum.Web.Controllers
 {
@@ -14,10 +15,12 @@ namespace AgriculturalForum.Web.Controllers
     {
         private readonly KltnDbContext _dbContext;
         private LanguageService _localization;
-        public AccountController(KltnDbContext dbContext, LanguageService localization)
+        private readonly INotyfService _notifyService;
+        public AccountController(KltnDbContext dbContext, LanguageService localization, INotyfService notifyService)
         {
             _dbContext = dbContext;
             _localization = localization;
+            _notifyService = notifyService;
         }
         public IActionResult Index()
         {
@@ -83,6 +86,7 @@ namespace AgriculturalForum.Web.Controllers
                     ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
                     ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                     await HttpContext.SignInAsync(claimsPrincipal);
+                    _notifyService.Success(_localization.Getkey("AccountRegisterSuccess"));
                     return RedirectToAction("Index", "Forum");
                 }
                 else
@@ -92,6 +96,7 @@ namespace AgriculturalForum.Web.Controllers
             }
             catch
             {
+                _notifyService.Error(_localization.Getkey("AccountRegisterFailed"));
                 return View(account);
             }
         }
@@ -132,6 +137,11 @@ namespace AgriculturalForum.Web.Controllers
                         ModelState.AddModelError("Password", _localization.Getkey("IncorrectPassword"));
                         return View(account);
                     }
+                    if(!user.IsActive)
+                    {
+                        _notifyService.Warning("Tài khoản đã bị khóa.");
+                        return View(account);
+                    }
 
                     HttpContext.Session.SetString("UserId", user.Id.ToString());
                     var accountID = HttpContext.Session.GetString("UserId");
@@ -151,23 +161,25 @@ namespace AgriculturalForum.Web.Controllers
                     }
                     else
                     {
-
+                        _notifyService.Success(_localization.Getkey("LoginSuccess"));
                         return RedirectToAction("Index", "Forum");
                     }
                 }
             }
-            catch
+            catch(Exception e)
             {
+                _notifyService.Error(_localization.Getkey("LoginFailed") + e.Message);
                 return RedirectToAction("Register");
             }
+            _notifyService.Error(_localization.Getkey("LoginFailed"));
             return View(account);
         }
 
         [HttpGet]
         public IActionResult Logout()
         {
-            HttpContext.SignOutAsync();
             HttpContext.Session.Remove("UserId");
+            HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
 
@@ -214,8 +226,10 @@ namespace AgriculturalForum.Web.Controllers
                 account.Password = passnew;
                 _dbContext.Users.Update(account);
                 _dbContext.SaveChanges();
+                _notifyService.Success(_localization.Getkey("ChangePasswordSuccess"));
                 return RedirectToAction("Detail", "Account");
             }
+            _notifyService.Error(_localization.Getkey("ChangePasswordFailed"));
             return View();
         }
 
@@ -289,6 +303,7 @@ namespace AgriculturalForum.Web.Controllers
                 }
                 _dbContext.Users.Update(account);
                 _dbContext.SaveChanges();
+                _notifyService.Success(_localization.Getkey("UpdateInfomationSuccess"));
                 /*return RedirectToAction("Detail");*/
             }
             return PartialView("_UpdateModalPartial", model);

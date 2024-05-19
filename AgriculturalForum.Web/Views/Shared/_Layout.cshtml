@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Moderna Bootstrap Template - Index</title>
+    <title>@ViewData["Title"]</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -27,8 +27,17 @@
 
     <!-- Template Main CSS File -->
     <link href="~/themes/assets/css/style.css" rel="stylesheet">
-    <!--Select 2-->
-    <link rel="stylesheet" href="~/themes/assets/select2/dist/css/select2.min.css">
+
+    <style>
+        .form-control:focus {
+            box-shadow: 0 0 0 .05rem #3c8dbc !important;
+        }
+
+        .navbar .dropdown ul {
+            left: -70px;
+            border-radius: .25rem;
+        }
+    </style>
 
     @await RenderSectionAsync("Styles", required: false)
     <!-- =======================================================
@@ -115,7 +124,7 @@
     <!-- Template Main JS File -->
     <script src="~/themes/assets/js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+    @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using AgriculturalForum.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace AgriculturalForum.Web.Areas.Admin.Controllers
 {
@@ -12,11 +13,13 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
     public class CategoryPostController : Controller
     {
         private readonly KltnDbContext _dbContext;
+        private readonly INotyfService _notifyService;
         const int PAGE_SIZE = 3;
         const string CREATE_TITLE = "Tạo danh mục bài viết mới";
-        public CategoryPostController(KltnDbContext dbContext)
+        public CategoryPostController(KltnDbContext dbContext, INotyfService notifyService)
         {
             _dbContext = dbContext;
+            _notifyService = notifyService;
         }
         public IActionResult Index(int page = 1, bool? isActive = null, string searchValue = "")
         {
@@ -103,7 +106,7 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Title = model.Id == 0 ? "Tạo danh mục sản phẩm mới" : "Cập nhật thông tin danh mục sản phẩm";
+                ViewBag.Title = model.Id == 0 ? "Tạo danh mục bài viết mới" : "Cập nhật thông tin danh mục bài viết";
                 return View("Edit", model);
             }
 
@@ -126,6 +129,7 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
                 };
                 _dbContext.CategoryPosts.Add(ls);
                 _dbContext.SaveChanges();
+                _notifyService.Success("Tạo danh mục bài viết mới thành công.");
                 return RedirectToAction("Index");
             }
             else
@@ -144,6 +148,7 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
                 catUpdate.IsActive = model.IsActive;
                 _dbContext.CategoryPosts.Update(catUpdate);
                 _dbContext.SaveChanges();
+                _notifyService.Success("Cập nhật thông tin danh mục bài viết thành công.");
                 return RedirectToAction("Index");
             }
 
@@ -158,6 +163,7 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
                     return NotFound();
                 _dbContext.CategoryPosts.Remove(cat);
                 _dbContext.SaveChanges();
+                _notifyService.Success("Xóa danh mục bài viết thành công.");
                 return RedirectToAction("Index");
             }
             var catIsUsed = _dbContext.Posts.Where(c => c.CategoryPostId == id).FirstOrDefault();

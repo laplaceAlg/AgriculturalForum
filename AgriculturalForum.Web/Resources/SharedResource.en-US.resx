@@ -123,6 +123,12 @@
   <data name="AccountInformation" xml:space="preserve">
     <value>Account Information</value>
   </data>
+  <data name="AccountRegisterFailed" xml:space="preserve">
+    <value>Account register failed</value>
+  </data>
+  <data name="AccountRegisterSuccess" xml:space="preserve">
+    <value>Account register success</value>
+  </data>
   <data name="AdditionalImage" xml:space="preserve">
     <value>Additional Image</value>
   </data>
@@ -156,6 +162,12 @@
   <data name="ChangePassword" xml:space="preserve">
     <value>Change Password</value>
   </data>
+  <data name="ChangePasswordFailed" xml:space="preserve">
+    <value>Change password failed</value>
+  </data>
+  <data name="ChangePasswordSuccess" xml:space="preserve">
+    <value>Change password success</value>
+  </data>
   <data name="Comments" xml:space="preserve">
     <value>Comments</value>
   </data>
@@ -169,6 +181,12 @@
     <value>The password and confirmation password do not match
 </value>
   </data>
+  <data name="ConfirmDeletePost" xml:space="preserve">
+    <value>Are you sure want to delete this post ?</value>
+  </data>
+  <data name="ConfirmDeletePostReply" xml:space="preserve">
+    <value>Are you sure want to delete this answer ?</value>
+  </data>
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Confirm Password</value>
   </data>
@@ -178,6 +196,9 @@
   <data name="Content" xml:space="preserve">
     <value>Content</value>
   </data>
+  <data name="ContentReplyRequired" xml:space="preserve">
+    <value>The content must not be empty</value>
+  </data>
   <data name="ContentRequired" xml:space="preserve">
     <value>The content field is required</value>
   </data>
@@ -186,6 +207,12 @@
   </data>
   <data name="CreateDate" xml:space="preserve">
     <value>Create Date</value>
+  </data>
+  <data name="CreatePostSuccess" xml:space="preserve">
+    <value>Create new post success</value>
+  </data>
+  <data name="CreateProductSuccess" xml:space="preserve">
+    <value>Create new product success</value>
   </data>
   <data name="CurrentPassword" xml:space="preserve">
     <value>Current Password</value>
@@ -199,14 +226,23 @@
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="DeletePostSuccess" xml:space="preserve">
+    <value>Delete post success</value>
+  </data>
   <data name="DeleteProduct" xml:space="preserve">
     <value>Delete Product</value>
+  </data>
+  <data name="DeleteProductSuccess" xml:space="preserve">
+    <value>Delete product success</value>
   </data>
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
+  </data>
+  <data name="EditReply" xml:space="preserve">
+    <value>Edit reply</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
@@ -222,6 +258,9 @@
   </data>
   <data name="EmailRequired" xml:space="preserve">
     <value>The Email field is required</value>
+  </data>
+  <data name="EnterSearchValue" xml:space="preserve">
+    <value>Please enter the keyword you want to search</value>
   </data>
   <data name="Forum" xml:space="preserve">
     <value>Forum</value>
@@ -264,6 +303,12 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Login failed</value>
+  </data>
+  <data name="LoginSuccess" xml:space="preserve">
+    <value>Login success</value>
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Log out</value>
@@ -370,6 +415,9 @@
   <data name="Reply" xml:space="preserve">
     <value>Reply</value>
   </data>
+  <data name="ReplyToPost" xml:space="preserve">
+    <value>Reply to post</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
@@ -409,11 +457,20 @@
   <data name="Update" xml:space="preserve">
     <value>Update</value>
   </data>
+  <data name="UpdateInfomationSuccess" xml:space="preserve">
+    <value>Update infomation success</value>
+  </data>
   <data name="UpdatePost" xml:space="preserve">
     <value>Update Post</value>
   </data>
+  <data name="UpdatePostSuccess" xml:space="preserve">
+    <value>Update post success</value>
+  </data>
   <data name="UpdateProduct" xml:space="preserve">
     <value>Update Product</value>
+  </data>
+  <data name="UpdateProductSuccess" xml:space="preserve">
+    <value>Update product success</value>
   </data>
   <data name="ViewAll" xml:space="preserve">
     <value>View All</value>
