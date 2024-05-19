@@ -6,6 +6,7 @@ using System.Drawing.Printing;
 using AgriculturalForum.Web.Helper;
 using AgriculturalForum.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace AgriculturalForum.Web.Areas.Admin.Controllers
 {
@@ -15,11 +16,13 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
     public class CategoryProductController : Controller
     {
         private readonly KltnDbContext _dbContext;
+        private readonly INotyfService _notifyService;
         const int PAGE_SIZE = 3;
         const string CREATE_TITLE = "Tạo danh mục sản phẩm mới";
-        public CategoryProductController(KltnDbContext dbcontext)
+        public CategoryProductController(KltnDbContext dbcontext, INotyfService notifyService)
         {
             _dbContext = dbcontext;
+            _notifyService = notifyService;
         }
       
         public IActionResult Index(int page = 1, bool? isActive = null, string searchValue = "")
@@ -130,6 +133,7 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
                 };
                 _dbContext.CategoryProducts.Add(ls);
                 _dbContext.SaveChanges();
+                _notifyService.Success("Tạo danh mục sản phẩm mới thành công.");
                 return RedirectToAction("Index");
             }
             else
@@ -147,6 +151,7 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
                 catUpdate.IsActive = model.IsActive;
                 _dbContext.CategoryProducts.Update(catUpdate);
                 _dbContext.SaveChanges();
+                _notifyService.Success("Cập nhật thông tin danh mục sản phẩm thành công.");
                 return RedirectToAction("Index");
             }
           
@@ -161,6 +166,7 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
                     return NotFound();
                 _dbContext.CategoryProducts.Remove(cat);
                 _dbContext.SaveChanges();
+                _notifyService.Success("Xóa danh mục sản phẩm thành công.");
                 return RedirectToAction("Index");
             }
             var catIsUsed = _dbContext.Products.Where(c => c.CategoryProductId == id).FirstOrDefault();

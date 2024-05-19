@@ -123,6 +123,12 @@
   <data name="AccountInformation" xml:space="preserve">
     <value>Thông tin tài khoản</value>
   </data>
+  <data name="AccountRegisterFailed" xml:space="preserve">
+    <value>Đăng ký tài khoản không thành công</value>
+  </data>
+  <data name="AccountRegisterSuccess" xml:space="preserve">
+    <value>Đăng ký tài khoản thành công</value>
+  </data>
   <data name="AdditionalImage" xml:space="preserve">
     <value>Hình ảnh bổ sung</value>
   </data>
@@ -156,6 +162,12 @@
   <data name="ChangePassword" xml:space="preserve">
     <value>Đổi mật khẩu</value>
   </data>
+  <data name="ChangePasswordFailed" xml:space="preserve">
+    <value>Đổi mật khẩu không thành công</value>
+  </data>
+  <data name="ChangePasswordSuccess" xml:space="preserve">
+    <value>Đổi mật khẩu thành công</value>
+  </data>
   <data name="Comments" xml:space="preserve">
     <value>Bình luận</value>
   </data>
@@ -168,6 +180,12 @@
   <data name="ComparePassword" xml:space="preserve">
     <value>Mật khẩu và mật khẩu xác nhận không khớp</value>
   </data>
+  <data name="ConfirmDeletePost" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn xóa bài viết này không ?</value>
+  </data>
+  <data name="ConfirmDeletePostReply" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn xóa câu trả lời này không ?</value>
+  </data>
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Xác nhận mật khẩu</value>
   </data>
@@ -177,6 +195,9 @@
   <data name="Content" xml:space="preserve">
     <value>Nội dung</value>
   </data>
+  <data name="ContentReplyRequired" xml:space="preserve">
+    <value>Nội dung không được để trống ?</value>
+  </data>
   <data name="ContentRequired" xml:space="preserve">
     <value>Nội dung không được để trống</value>
   </data>
@@ -185,6 +206,12 @@
   </data>
   <data name="CreateDate" xml:space="preserve">
     <value>Thời gian tạo</value>
+  </data>
+  <data name="CreatePostSuccess" xml:space="preserve">
+    <value>Tạo mới bài viết thành công</value>
+  </data>
+  <data name="CreateProductSuccess" xml:space="preserve">
+    <value>Tạo mới mặt hàng thành công</value>
   </data>
   <data name="CurrentPassword" xml:space="preserve">
     <value>Mật khẩu hiện tại</value>
@@ -198,14 +225,23 @@
   <data name="Delete" xml:space="preserve">
     <value>Xóa</value>
   </data>
+  <data name="DeletePostSuccess" xml:space="preserve">
+    <value>Xóa bài viết thành công</value>
+  </data>
   <data name="DeleteProduct" xml:space="preserve">
     <value>Xóa sản phẩm</value>
+  </data>
+  <data name="DeleteProductSuccess" xml:space="preserve">
+    <value>Xóa mặt hàng thành công</value>
   </data>
   <data name="Description" xml:space="preserve">
     <value>Mô tả</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Sửa</value>
+  </data>
+  <data name="EditReply" xml:space="preserve">
+    <value>Chỉnh sửa câu trả lời</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
@@ -221,6 +257,9 @@
   </data>
   <data name="EmailRequired" xml:space="preserve">
     <value>Vui lòng nhập Email</value>
+  </data>
+  <data name="EnterSearchValue" xml:space="preserve">
+    <value>Vui lòng nhập từ khóa cần tìm</value>
   </data>
   <data name="Forum" xml:space="preserve">
     <value>Diễn đàn</value>
@@ -263,6 +302,12 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>Đăng nhập</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Đăng nhập không thành công</value>
+  </data>
+  <data name="LoginSuccess" xml:space="preserve">
+    <value>Đăng nhập thành công</value>
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Đăng xuất</value>
@@ -369,6 +414,9 @@
   <data name="Reply" xml:space="preserve">
     <value>Phản hồi</value>
   </data>
+  <data name="ReplyToPost" xml:space="preserve">
+    <value>Phản hồi bài viết</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Lưu dữ liệu</value>
   </data>
@@ -408,11 +456,20 @@
   <data name="Update" xml:space="preserve">
     <value>Cập nhật</value>
   </data>
+  <data name="UpdateInfomationSuccess" xml:space="preserve">
+    <value>Cập nhật thông tin thành công</value>
+  </data>
   <data name="UpdatePost" xml:space="preserve">
     <value>Cập nhật bài viết</value>
   </data>
+  <data name="UpdatePostSuccess" xml:space="preserve">
+    <value>Cập nhật thông tin bài viết thành công</value>
+  </data>
   <data name="UpdateProduct" xml:space="preserve">
     <value>Cập nhật thông tin mặt hàng</value>
+  </data>
+  <data name="UpdateProductSuccess" xml:space="preserve">
+    <value>Cập nhật thông tin mặt hàng thành công</value>
   </data>
   <data name="ViewAll" xml:space="preserve">
     <value>Xem tất cả</value>

@@ -1,34 +1,35 @@
 ﻿@model AgriculturalForum.Web.ModelViews.LoginViewModel
 
 @{
-    
+    ViewBag.Title = _localization.Getkey("Login");
 }
+<section>
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center align-items-center h-100 mx-5">
+            <div class="col-md-5 col-lg-5 col-xl-6">
+                <img src="~/images/authentication.svg"
+                     class="img-fluid" alt="Sample image">
+            </div>
+            <div class="col-md-6 col-lg-6 col-xl-5 offset-md-1 shadow">
+                <h4 class="text-center my-3">@ViewBag.Title</h4>
+                <form method="post" action="~/Account/Login">
+                    <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
 
-<section class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <h4 class="card-title text-center mb-4">@_localization.Getkey("Login")</h4>
-                    <form method="post" action="~/Account/Login" >
-                        <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
-                      @*   <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
-                        <div class="mb-3">
-                            <label for="email" class="form-label fw-bold">@_localization.Getkey("Email")</label>
-                            <input type="email" class="form-control" id="email" asp-for="UserName" placeholder="@_localization.Getkey("Email")">
-                            <span asp-validation-for="UserName" class="text-danger"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label fw-bold">@_localization.Getkey("Password")</label>
-                            <input type="password" class="form-control" id="password" asp-for="Password" placeholder="@_localization.Getkey("Password")">
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-bold">@_localization.Getkey("Email")</label>
+                        <input type="email" class="form-control" id="email" asp-for="UserName" placeholder="@_localization.Getkey("Email")">
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label fw-bold">@_localization.Getkey("Password")</label>
+                        <input type="password" class="form-control" id="password" asp-for="Password" placeholder="@_localization.Getkey("Password")">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
 
-                        <div class="mb-3 text-center">
-                            <button type="submit" class="btn btn-primary">@_localization.Getkey("Login")</button>
-                        </div>
-                    </form>
-                </div>
+                    <div class="mb-3 text-center">
+                        <button type="submit" class="btn text-white" style="background-color:#3B71CA;">@_localization.Getkey("Login")</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

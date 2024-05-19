@@ -2,10 +2,9 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
-using System.Drawing.Printing;
-using System.Security.Permissions;
 using AgriculturalForum.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace AgriculturalForum.Web.Areas.Admin.Controllers
 {
@@ -15,10 +14,12 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
     public class UserController : Controller
     {
         private readonly KltnDbContext _dbContext;
+        private readonly INotyfService _notifyService;
         const int PAGE_SIZE = 5;
-        public UserController(KltnDbContext dbContext)
+        public UserController(KltnDbContext dbContext, INotyfService notifyService)
         {
             _dbContext = dbContext;
+            _notifyService = notifyService;
         }
         public IActionResult Index(int page = 1, bool? isActive = null, string searchValue = "")
         {
@@ -91,6 +92,7 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
             userUpdate.IsActive = model.IsActive;
             _dbContext.Users.Update(userUpdate);
             _dbContext.SaveChanges();
+            _notifyService.Success("Cập nhật trạng thái người dùng thành công.");
             return RedirectToAction("Index");
         }
     }

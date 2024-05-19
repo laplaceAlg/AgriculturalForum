@@ -51,43 +51,30 @@
 -->
 <div class="container m-5">
     <div class="row justify-content-center mt-5">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <form action="~/Shop/Save" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="@nameof(Model.Id)" value="@Model.Id" />
                 <div class="mb-3">
-                    <label class="form-label fw-bold">@_localization.Getkey("CategoryProduct"):</label>
-                    <select name="CategoryProductId" class="form-select">
-                        <option value="" disabled selected>-- @_localization.Getkey("SelectCategory") --</option>
-                        @foreach (var item in ViewBag.Categories)
-                        {
-                            if (item.Id == Model.CategoryProductId)
-                            {
-                                <option value="@item.Id" selected>@item.Name</option>
-                            }
-                            else
-                            {
-                                <option value="@item.Id">@item.Name</option>
-                            }
-                        }
-                    </select>
+                    <label class="form-label fw-bold">@_localization.Getkey("CategoryProduct")</label>
+                    @Html.DropDownListFor(m => m.CategoryProductId, SelectListHelper.CategoryProducts(), _localization.Getkey("SelectCategory"), new { @class = "form-control form-select" })
                     @Html.ValidationMessageFor(m => m.CategoryProductId, "", new { @style="color:#f00;"})
                 </div>
                 <div class="mb-3">
-                    <label class="form-label fw-bold">@_localization.Getkey("ProductName"):</label>
+                    <label class="form-label fw-bold">@_localization.Getkey("ProductName")</label>
                     <input type="text" name="Name" class="form-control" placeholder="@_localization.Getkey("ProductName")" value="@Model.Name">
                     @Html.ValidationMessageFor(m => m.Name, "", new { @style = "color:#f00;" })
                 </div>
                 <div class="mb-3">
-                    <label class="form-label fw-bold">@_localization.Getkey("Price"):</label>
+                    <label class="form-label fw-bold">@_localization.Getkey("Price")</label>
                     <input type="number" name="Price" class="form-control" placeholder="@_localization.Getkey("Price")" value="@Model.Price">
                     @Html.ValidationMessageFor(m => m.Price, "", new { @style = "color:#f00;" })
                 </div>
                 <div class="mb-3">
-                    <label class="form-label fw-bold">@_localization.Getkey("Description"):</label>
+                    <label class="form-label fw-bold">@_localization.Getkey("Description")</label>
                     <textarea name="Description" class="form-control" placeholder="@_localization.Getkey("Description")">@Model.Description</textarea>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label fw-bold">@_localization.Getkey("Image"):</label>
+                    <label class="form-label fw-bold">@_localization.Getkey("Image")</label>
                     <input type="file" name="imgfile" id="imgFile" class="form-control" accept="image/*">
                     @Html.ValidationMessage("imgfile", new { @style = "color:#f00;" })
                 </div>
@@ -115,7 +102,7 @@
                         <label class="form-check-label fw-bold" for="IsHidden">Is Selling</label>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success">@_localization.Getkey("Save")</button>
+                <button type="submit" class="btn btn-primary">@_localization.Getkey("Save")</button>
                 @if (Model.Id > 0)
                 {
                     <a class="btn btn-secondary" href="~/User/Index/@Model.UserId">@_localization.Getkey("Back")</a>

@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Http
 @model AgriculturalForum.Web.Models.User
 @{
+    ViewBag.Title = _localization.Getkey("Account");
     var taikhoanId = Context.Session.GetString("UserId");
     List<Post> lsPosts = ViewBag.ListPosts;
     List<Product> lsProducts = ViewBag.ListProducts;
@@ -49,7 +50,8 @@
 
         <div class="d-flex justify-content-between align-items-center">
             <h2>
-                @_localization.Getkey("Account")</h2>
+                @ViewBag.Title
+            </h2>
             <ol>
                 <li><a href="~/Home">@_localization.Getkey("Home")</a></li>
                 <li>@Model.FullName</li>
@@ -62,7 +64,7 @@
 <div class="container m-5">
     <div class="row">
         <div class="col-lg-12">
-            <div class="card shadow mb-4">
+            <div class="card shadow-sm mb-4">
                 <div class="row g-0 p-2">
                     <div class="col-md-2">
                         <img class="img-thumbnail rounded-circle" src="~/uploads/userImages/@Model.ProfileImage" alt="Profile Image" style="height: 190px;">
@@ -169,23 +171,25 @@
                                 @foreach (var product in lsProducts)
                                 {
                                     <div class="col-md-6 col-lg-3 mt-3">
-                                        <div class="card card icon-box-cyan portfolio-item">
-                                            <img src="~/uploads/productImages/@product.Image" class="card-img-top" alt="Product 1" style="height: 200px;">
-                                            <div class="card-body">
-                                                <h5 class="card-title text-white">@product.Name</h5>
-                                                <p class="card-text text-white description-limit"> @product.Description </p>
-                                                <p style="color: yellow; font-size: 18px;">@product.Price.Value.ToString("#,##0")</p>
-                                                <div class="portfolio-info">
-                                                    @if (taikhoanId != null && int.Parse(taikhoanId) == product.UserId)
-                                                    {
-                                                        <div>
-                                                            <a href="~/Shop/Edit/@product.Id"><i class="bx bx-edit"></i></a>
-                                                            <a href="~/Shop/Delete/@product.Id"><i class="bx bx-trash"></i></a>
-                                                        </div>
-                                                    }
+                                        <a href="~/Shop/Detail/@product.Id">
+                                            <div class="card icon-box-cyan portfolio-item">
+                                                <img src="~/uploads/productImages/@product.Image" class="card-img-top" alt="Product 1" style="height: 180px;">
+                                                <div class="card-body">
+                                                    <h5 class="card-title text-white">@product.Name</h5>
+                                                    <p class="card-text text-white description-limit"> @product.Description </p>
+                                                    <p style="color: yellow; font-size: 18px;">@product.Price.Value.ToString("#,##0")</p>
+                                                    <div class="portfolio-info">
+                                                        @if (taikhoanId != null && int.Parse(taikhoanId) == product.UserId)
+                                                        {
+                                                            <div>
+                                                                <a href="~/Shop/Edit/@product.Id"><i class="bx bx-edit"></i></a>
+                                                                <a href="~/Shop/Delete/@product.Id"><i class="bx bx-trash"></i></a>
+                                                            </div>
+                                                        }
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </a>
                                     </div>
                                 }
                                 @if (ViewBag.TotalProduct > 5)

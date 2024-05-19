@@ -10,6 +10,7 @@ using System.Runtime.InteropServices.JavaScript;
 using AgriculturalForum.Web.Helper;
 using AgriculturalForum.Web.Models;
 using AgriculturalForum.Web.Extensions;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace AgriculturalForum.Web.Controllers
 {
@@ -17,12 +18,14 @@ namespace AgriculturalForum.Web.Controllers
     {
         private readonly KltnDbContext _dbContext;
         private LanguageService _localization;
+        private readonly INotyfService _notifyService;
         const string CREATE_TITLE = "NewProduct";
         const string EDIT_TITLE = "UpdateProduct";
-        public ShopController(KltnDbContext dbContext, LanguageService localization)
+        public ShopController(KltnDbContext dbContext, LanguageService localization, INotyfService notifyService)
         {
             _dbContext = dbContext;
             _localization = localization;
+            _notifyService = notifyService;
         }
 
         public IActionResult Index(int page = 1, int id = 0, string searchValue = "")
@@ -104,7 +107,6 @@ namespace AgriculturalForum.Web.Controllers
             if (user != null && (string.IsNullOrEmpty(user.Address) || string.IsNullOrEmpty(user.Province)))
                 return RedirectToAction("Detail", "Account");
             ViewBag.Title = _localization.Getkey(CREATE_TITLE);
-            ViewBag.Categories = _dbContext.CategoryProducts.ToList();
             var model = new Product()
             {
                 Id = 0,
@@ -119,7 +121,6 @@ namespace AgriculturalForum.Web.Controllers
             if (userId == null)
                 return RedirectToAction("Login", "Account", new { ReturnUrl = "/Shop/Edit" });
             ViewBag.Title = _localization.Getkey(EDIT_TITLE);
-            ViewBag.Categories = _dbContext.CategoryProducts.ToList();
             var model = _dbContext.Products.FirstOrDefault(p => p.Id == id);
             if (model == null)
                 return RedirectToAction("Index");
@@ -150,7 +151,6 @@ namespace AgriculturalForum.Web.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.Title = product.Id == 0 ? _localization.Getkey(CREATE_TITLE) : _localization.Getkey(EDIT_TITLE);
-                ViewBag.Categories = _dbContext.CategoryProducts.ToList();
                 return View("Edit", product);
             }
 
@@ -160,7 +160,6 @@ namespace AgriculturalForum.Web.Controllers
                 {
                     ModelState.AddModelError("imgfile", _localization.Getkey("ImageRequired"));
                     ViewBag.Title = CREATE_TITLE;
-                    ViewBag.Categories = _dbContext.CategoryProducts.ToList();
                     return View("Edit", product);
                 }
                 else
@@ -203,6 +202,7 @@ namespace AgriculturalForum.Web.Controllers
                         }
                         _dbContext.SaveChanges();
                     }
+                    _notifyService.Success(_localization.Getkey("CreateProductSuccess"));
                     return RedirectToAction("Index");
                 }
             }
@@ -274,10 +274,10 @@ namespace AgriculturalForum.Web.Controllers
 
                     _dbContext.Update(productUpdate);
                     _dbContext.SaveChanges();
+                    _notifyService.Success(_localization.Getkey("UpdateProductSuccess"));
                     return RedirectToAction("Index", "User", new { id = productUpdate.UserId });
                 }
             }
-            ViewBag.Categories = _dbContext.CategoryProducts.ToList();
             return View("Edit", product);
         }
 
@@ -311,6 +311,7 @@ namespace AgriculturalForum.Web.Controllers
 
                 _dbContext.Products.Remove(product);
                 _dbContext.SaveChanges();
+                _notifyService.Success(_localization.Getkey("DeleteProductSuccess"));
                 return RedirectToAction("MyPost", new { id = product.UserId });
             }
             else

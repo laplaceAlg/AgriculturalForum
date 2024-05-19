@@ -1,5 +1,6 @@
 ﻿using AgriculturalForum.Web.Models;
 using AgriculturalForum.Web.ModelViews;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +13,11 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
     public class AccountController : Controller
     {
         private readonly KltnDbContext _dbContext;
-        public AccountController(KltnDbContext dbContext)
+        private readonly INotyfService _notifyService;
+        public AccountController(KltnDbContext dbContext, INotyfService notifyService)
         {
             _dbContext = dbContext;
+            _notifyService = notifyService;
         }
 
         public IActionResult Index()
@@ -68,11 +71,12 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
                 await HttpContext.SignInAsync("AdminCookie", claimsPrincipal);
                 if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
                 {
+                    _notifyService.Success("Đăng nhập thành công");
                     return Redirect(ReturnUrl);
                 }
                 else
                 {
-
+                    _notifyService.Success("Đăng nhập thành công");
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -82,7 +86,7 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            HttpContext.Session.Clear();
+            HttpContext.Session.Remove("AccountId");
             await HttpContext.SignOutAsync("AdminCookie");
             return RedirectToAction("Login");
         }

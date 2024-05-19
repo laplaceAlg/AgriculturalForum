@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using AgriculturalForum.Web;
 using AgriculturalForum.Web.Helper;
 using AgriculturalForum.Web.Models;
 using Microsoft.AspNetCore.Localization;
@@ -8,10 +7,12 @@ using System.Globalization;
 using System.Reflection;
 using AgriculturalForum.Web.Extensions;
 using Microsoft.Extensions.Options;
+using AspNetCoreHero.ToastNotification;
+using AspNetCoreHero.ToastNotification.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages()
-	.AddRazorRuntimeCompilation();
+    .AddRazorRuntimeCompilation();
 #region Localizer
 builder.Services.AddSingleton<LanguageService>();
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -37,7 +38,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 #endregion
 
 builder.Services.AddDbContext<KltnDbContext>(options =>
-	options.UseSqlServer(builder.Configuration.GetConnectionString("dbKLTN")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("dbKLTN")));
 // Add services to the container.
 builder.Services.AddSession();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -68,12 +69,18 @@ builder.Services.AddControllersWithViews()
         option.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
     });
 
+builder.Services.AddNotyf(config =>
+    { 
+        config.DurationInSeconds = 5; 
+        config.IsDismissable = true; 
+        config.Position = NotyfPosition.BottomRight; 
+    });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-	app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Home/Error");
 }
 app.UseStaticFiles();
 
@@ -81,8 +88,10 @@ app.UseRouting();
 
 app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
+app.UseNotyf();
 
 /*app.MapControllerRoute(
 	name: "default",
@@ -90,17 +99,17 @@ app.UseSession();
 
 app.UseEndpoints(endpoints =>
 {
-	endpoints.MapControllerRoute(
-	  name: "areas",
-	  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-	);
-	endpoints.MapControllerRoute(
-	name: "default",
-	pattern: "{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+    endpoints.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 });
 
 ApplicationContext.Configure
 (
-	hostEnvironment: app.Services.GetService<IWebHostEnvironment>()
+    hostEnvironment: app.Services.GetService<IWebHostEnvironment>()
 );
 app.Run();

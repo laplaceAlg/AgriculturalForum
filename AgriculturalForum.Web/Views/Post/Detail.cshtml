@@ -4,12 +4,18 @@
     ViewBag.Title = _localization.Getkey("PostDetail");
     var taikhoanId = Context.Session.GetString("UserId");
     List<Post> similarPosts = ViewBag.SimilarPosts;
+    string noti1 = _localization.Getkey("EditReply");
 }
 @section Styles {
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <style>
         .note-modal-footer {
             height: 60px !important;
+        }
+
+        .entry-content img {
+            max-width: 100%; 
+            height: auto; 
         }
 
     </style>
@@ -68,7 +74,7 @@
                                 <i class="fa-solid fa-pencil text-primary"></i>
                             </a>
 
-                            <form action="~/Post/Delete/@Model.Id" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');">
+                            <form action="~/Post/Delete/@Model.Id" method="post" onsubmit="return confirm('@_localization.Getkey("ConfirmDeletePost")');">
                                 <input type="hidden" name="id" value="@Model.Id" />
                                 <button type="submit" class="btn btn-box-tool" style="border: none; background-color: transparent;">
                                     <i class="fa-solid fa-trash-can text-danger"></i>
@@ -77,7 +83,7 @@
                         }
                     </div>
                     <div>
-                        <button id="reply" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#commentModal">
+                        <button id="reply" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#commentModal">
                             <i class="bi bi-reply-fill"></i>
                             @_localization.Getkey("Reply")
                         </button>
@@ -135,10 +141,10 @@
                                     @if (taikhoanId != null && int.Parse(taikhoanId) == reply.UserId)
                                     {
                                         <div class="comment-actions d-flex">
-                                            <button class="btn btn-box-tool mr-2" id="edit-comment" data-id="@reply.Id" data-content="@reply.Content">
+                                            <button class="btn btn-box-tool mr-2 edit-comment" id="" data-id="@reply.Id" data-content="@reply.Content">
                                                 <i class="fa-solid fa-pencil text-primary"></i> @_localization.Getkey("Edit")
                                             </button>
-                                            <form action="~/PostReply/Delete/@reply.Id" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn xóa câu trả lời này không?');">
+                                            <form action="~/PostReply/Delete/@reply.Id" method="post" onsubmit="return confirm('@_localization.Getkey("ConfirmDeletePostReply")');">
                                                 @* <input type="hidden" name="id" value="@Model.Id" /> *@
                                                 <button type="submit" class="btn btn-box-tool" style="border: none; background-color: transparent;">
                                                     <i class="fa-solid fa-trash-can text-danger"></i> @_localization.Getkey("Delete")
@@ -236,11 +242,15 @@
             }
         });
 
+        var contentNotEmptyMessage = '@Html.Raw(_localization.Getkey("ContentReplyRequired"))';
+        var replyToPostMessage = '@Html.Raw(_localization.Getkey("ReplyToPost"))';
+        var editReplyMessage = '@Html.Raw(_localization.Getkey("EditReply"))';
+
         $(document).ready(function () {
             $('form').submit(function (event) {
                 var content = $('#summernote').summernote('code');
-                if (!content.trim()) { 
-                    alert('Nội dung không được để trống');
+                if (!content.trim()) {
+                    alert(contentNotEmptyMessage);
                     event.preventDefault();
                 }
             });
@@ -253,7 +263,7 @@
                 if (taikhoanId == null || taikhoanId === '') {
                     window.location.href = '/Account/Login';
                 } else {
-                    $('#commentModalLabel').text('Phản hồi bài viết');
+                    $('#commentModalLabel').text(replyToPostMessage);
                     $('#summernote').summernote('code', '');
                     $('#commentId').val('');
                     $('#commentModal').modal('show');
@@ -261,11 +271,11 @@
             });
 
             // Xử lý khi click vào nút sửa
-            $('#edit-comment').click(function () {
+            $('.edit-comment').click(function () {
                 var content = $(this).data('content');
                 var commentId = $(this).data('id');
 
-                $('#commentModalLabel').text('Chỉnh sửa câu trả lời');
+                $('#commentModalLabel').text(editReplyMessage);
                 $('#summernote').summernote('code', content);
                 $('#commentId').val(commentId);
                 $('#commentModal').modal('show');

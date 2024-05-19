@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AgriculturalForum.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgriculturalForum.Web.Areas.Admin.Controllers
@@ -7,9 +8,20 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
 	[Authorize(AuthenticationSchemes ="AdminCookie")]
 	public class HomeController : Controller
 	{
-		public IActionResult Index()
+		private readonly KltnDbContext _dbContext;
+        public HomeController(KltnDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+        public IActionResult Index()
 		{
-			return View();
+			var posts = _dbContext.Posts.Count();
+			ViewBag.TotalPosts = posts;
+            var products = _dbContext.Products.Count();
+            ViewBag.TotalProducts = products;
+            var users = _dbContext.Users.Count();
+            ViewBag.TotalUsers = users;
+            return View();
 		}
 	}
 }
