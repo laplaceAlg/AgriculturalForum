@@ -88,7 +88,8 @@
                 event.preventDefault();
 
                 var form = $(this).parents('.modal').find('form')[0]; 
-                var formData = new FormData(form); 
+                var formData = new FormData(form);
+                
 
                 $.ajax({
                     url: form.action,
@@ -99,11 +100,9 @@
                     success: function (data) {
                         var newBody = $('.modal-body', data);
                         placeholderElement.find('.modal-body').replaceWith(newBody);
-
                         var isValid = newBody.find('[name="IsValid"]').val() == 'True';
                         if (isValid) {
                             placeholderElement.find('.modal').modal('hide');
-                            window.notyf.success('@_localization.Getkey("UpdateInfomationSuccess")');
                             window.location.href = '@Url.Action("Detail", "Account")';
                         }
                     }

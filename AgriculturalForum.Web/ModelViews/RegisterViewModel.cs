@@ -16,15 +16,15 @@ namespace AgriculturalForum.Web.ModelViews
         [MaxLength(150)]
         [Required(ErrorMessage = "EmailRequired")]
         [DataType(DataType.EmailAddress)]
-        [Remote(action: "ValidateEmail", controller: "Account", AdditionalFields = nameof(Email))]
         [DisplayName("Email")]
+        [EmailAddress(ErrorMessage ="EmailFormat")]
         public string Email { get; set; }
 
         [MaxLength(11)]
         [Required(ErrorMessage = "PhoneRequired")]
         [DisplayName("Phone")]
-        [DataType(DataType.PhoneNumber)]
-        [Remote(action: "ValidatePhone", controller: "Account", AdditionalFields = nameof(Phone))]
+		[RegularExpression(@"(03|05|07|08|09)+([0-9]{8})$", ErrorMessage = "PhoneNumberFormat")]
+		[DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
   
         [DisplayName("Password")]

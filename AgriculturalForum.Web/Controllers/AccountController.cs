@@ -303,9 +303,9 @@ namespace AgriculturalForum.Web.Controllers
                 }
                 _dbContext.Users.Update(account);
                 _dbContext.SaveChanges();
-                _notifyService.Success(_localization.Getkey("UpdateInfomationSuccess"));
-                /*return RedirectToAction("Detail");*/
-            }
+           /*     _notifyService.Success(_localization.Getkey("UpdateInfomationSuccess"));*/
+				/*return RedirectToAction("Detail");*/
+			}
             return PartialView("_UpdateModalPartial", model);
         }
 

@@ -6,6 +6,7 @@
 }
 @section Styles {
     <style>
+
         .text-limit {
             max-width: 260px;
             overflow: hidden;
@@ -14,16 +15,15 @@
         }
 
         .product-item {
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            border: 1px solid transparent;
-            transition: box-shadow 0.1s ease, border-color 0.3s ease;
+            background-color: #fff;
+            border-radius: .125rem;
+            box-shadow: 0 .0625rem .125rem 0 rgba(0, 0, 0, .1);
         }
 
-        .product-item:hover {
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            transform: translateY(-1px);
-            border-color: #28a745;
-        }
+            .product-item:hover {
+                transform: translateY(-1px);
+                border-color: #86b7fe;
+            }
 
 
         .product-column {
@@ -34,36 +34,23 @@
 
 
         .category-list {
-            background-color: #fdf5f5;
-            border-radius: 8px;
-            padding: 8px;
+            border-radius: 2px;
         }
-
-        .list-group-item {
-            font-size: 16px;
-            border: none;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            margin-bottom: 5px;
-            margin-top: 5px;
-        }
-
-            .list-group-item:hover {
-                background-color: #e9ecef;
-                transform: translateY(-3px);
-            }
 
         .category-icon {
             font-size: 16px;
             margin-right: 4px;
         }
 
-        .category-name {
-            flex: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            max-width: 160px;
+        .list-group-item:hover {
+            background-color: #196389;
+            color: #fff;
+        }
+
+        .list-group-item.active {
+            background-color: #196389;
+            color: #fff;
+            border-color: transparent;
         }
 
     </style>
@@ -86,25 +73,23 @@
     </div>
 </section>
 
-<div class="container-fluid mt-5">
+<div class="container-fluid px-4 mt-5">
     <div class="row">
         <!-- Sidebar -->
         <div class="col-md-2">
-            <div class="category-list">
-                <div class="list-group">
-                    @foreach (var item in ListOfCategories)
-                    {
-                        <a href="~/Shop/Index/@item.Id" class="list-group-item list-group-item-action text-uppercase d-flex align-items-center">
-                            <span class="category-icon">
-                                <i class="bi bi-grid-fill"></i>
-                            </span>
-                            <span class="category-name ml-2">@item.Name</span>
-                        </a>
-                    }
-                </div>
+            <div class="category-list list-group">
+                <a href="~/Shop" class="list-group-item @(ViewBag.CurrentCateID == 0 ? "active" : "") list-group-item-action">
+                    <i class="bi bi-grid-fill"></i> Tất cả
+                </a>
+                @foreach (var item in ListOfCategories)
+                {
+                    <a href="~/Shop/Index/@item.Id" class="list-group-item @(ViewBag.CurrentCateID == item.Id ? "active" : "") list-group-item-action d-flex">
+                        <span class="text-limit">@item.Name</span>
+                    </a>
+                }
             </div>
-        </div>
 
+        </div>
 
         <!-- Main Content -->
         <div class="col-md-10">
@@ -112,13 +97,13 @@
                 <div class="col-md-9 my-3 my-md-0">
                     <form id="formSearch" action="~/Shop/Index" method="get" class="input-group">
                         <input name="searchValue" type="text" class="form-control" placeholder="@_localization.Getkey("SearchProduct")">
-                        <button class="btn btn-info" type="submit">
+                        <button class="btn btn-primary" type="submit">
                             <i class="bi bi-search"></i>
                         </button>
 
                     </form>
                 </div>
-                <div class="col-md-3 text-right">
+                <div class="col-md-3 text-md-end">
                     <a href="~/Shop/Create" class="btn btn-warning">
                         <i class="fa fa-plus"></i> @_localization.Getkey("NewProduct")
                     </a>
@@ -133,9 +118,9 @@
                         <div class="col-md-4 col-lg-3 product-column col-6">
                             <a href="~/Shop/Detail/@product.Id">
                                 <div class="card product-item">
-                                    <img class="card-img-top img-fluid " src="~/uploads/productImages/@product.Image" alt="#" style="height:180px ">
+                                    <img class="img-fluid " src="~/uploads/productImages/@product.Image" alt="#" style="height:180px ">
                                     <div class="card-body">
-                                        <h5 class="card-title">@product.Name</h5>
+                                        <h5 class="card-title text-limit">@product.Name</h5>
                                         <div class="card-text text-limit">@product.Description</div>
                                         <div style="color:red; font-size: 18px;">@product.Price.Value.ToString("#,##0") đ</div>
                                     </div>
@@ -162,4 +147,5 @@
 
     </div>
 </div>
+
 

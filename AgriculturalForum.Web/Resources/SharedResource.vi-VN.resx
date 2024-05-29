@@ -255,6 +255,9 @@
   <data name="EmailExist" xml:space="preserve">
     <value>Email này đã được sử dụng</value>
   </data>
+  <data name="EmailFormat" xml:space="preserve">
+    <value>Định dạng email không hợp lệ</value>
+  </data>
   <data name="EmailRequired" xml:space="preserve">
     <value>Vui lòng nhập Email</value>
   </data>
@@ -354,6 +357,9 @@
   <data name="PhoneExist" xml:space="preserve">
     <value>Số điện thoại này đã được sử dụng</value>
   </data>
+  <data name="PhoneNumberFormat" xml:space="preserve">
+    <value>Định dạng số điện thoại không hợp lệ</value>
+  </data>
   <data name="PhoneRequired" xml:space="preserve">
     <value>Vui lòng nhập số điện thoại</value>
   </data>
@@ -444,11 +450,29 @@
   <data name="SimilarPosts" xml:space="preserve">
     <value>Bài viết tương tự</value>
   </data>
+  <data name="Slogan1" xml:space="preserve">
+    <value>Hội tụ tri thức, gặt hái thành công</value>
+  </data>
+  <data name="Slogan2" xml:space="preserve">
+    <value>Cùng nhau phát triển nông nghiệp bền vững</value>
+  </data>
+  <data name="Slogan3" xml:space="preserve">
+    <value>Sản phẩm chất lượng, niềm tin vững bền</value>
+  </data>
   <data name="Submit" xml:space="preserve">
     <value>Xác nhận</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Tiêu đề</value>
+  </data>
+  <data name="TitleHeader1" xml:space="preserve">
+    <value>Chào mừng đến với diễn đàn nông nghiệp</value>
+  </data>
+  <data name="TitleHeader2" xml:space="preserve">
+    <value>Kết nối tri thức nông nghiệp</value>
+  </data>
+  <data name="TitleHeader3" xml:space="preserve">
+    <value>Cửa hàng nông sản</value>
   </data>
   <data name="TitleRequired" xml:space="preserve">
     <value>Tiêu đề không được để trống</value>

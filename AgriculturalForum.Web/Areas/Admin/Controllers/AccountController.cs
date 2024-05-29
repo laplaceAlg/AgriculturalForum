@@ -46,8 +46,8 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
                 var user = _dbContext.Users.AsNoTracking().SingleOrDefault(x => x.Email.Trim() == email && x.IsAdmin == true);
                 if (user == null)
                 {
-                    ModelState.AddModelError("Username", "Email không hợp lệ.");
-                    return View();
+                   /* ModelState.AddModelError("Username", "Email không hợp lệ.");*/
+                    return View("AccessDenied");
                 }
 
                 string pass = password.ToMD5();
@@ -89,6 +89,11 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
             HttpContext.Session.Remove("AccountId");
             await HttpContext.SignOutAsync("AdminCookie");
             return RedirectToAction("Login");
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

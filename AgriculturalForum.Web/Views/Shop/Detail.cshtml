@@ -13,16 +13,16 @@
         }
 
         .product-item {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            border: 1px solid transparent;
-            transition: box-shadow 0.1s ease;
+            background-color: #fff;
+            border-radius: .125rem;
+            box-shadow: 0 .0625rem .125rem 0 rgba(0, 0, 0, .1);
         }
 
-        .product-item:hover {
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            transform: translateY(-1px);
-            border-color: #28a745;
-        }
+            .product-item:hover {
+                /* box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); */
+                transform: translateY(-1px);
+                border-color: #86b7fe;
+            }
 
 
         .product-column {
@@ -31,6 +31,13 @@
             margin: 5px 0;
         }
 
+        .carousel-image {
+            width: 100%;
+            min-width: 100%;
+            height: 500px;
+        }
+
+      
     </style>
 }
 <section class="breadcrumbs">
@@ -48,22 +55,36 @@
 
 <section id="portfolio-details" class="portfolio-details ">
     <div class="container">
-        <div class="row gy-4">
+        <div class="row gy-4" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
             <!-- Hình ảnh và thông tin sản phẩm -->
             <div class="col-lg-8">
-                <div class="portfolio-details-slider swiper">
-                    <div class="swiper-wrapper align-items-center">
-                        <a href="~/uploads/productImages/@Model.Image" class="portfolio-lightbox swiper-slide text-center">
-                            <img src="~/uploads/productImages/@Model.Image" alt="" style="width: 80% !important;">
+                <div id="carouselExampleIndicators" class="carousel slide portfolio-details-slider swiper w-100" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        @for (var i = 1; i <= Model.ProductImages.Count; i++)
+                        {
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@i" aria-label="Slide @i"></button>
+                        }
+                    </div>
+                    <div class="carousel-inner">
+                        <a href="~/uploads/productImages/@Model.Image" class="carousel-item portfolio-lightbox swiper-slide text-center active">
+                            <img src="~/uploads/productImages/@Model.Image" class="portfolio-image d-block w-100 carousel-image" alt="...">
                         </a>
                         @foreach (var item in Model.ProductImages)
                         {
-                            <a href="~/uploads/productImages/@item.Image" class="portfolio-lightbox swiper-slide text-center">
-                                <img src="~/uploads/productImages/@item.Image" alt="" style="width: 90% !important;">
+                            <a href="~/uploads/productImages/@item.Image" class="carousel-item portfolio-lightbox swiper-slide text-center">
+                                <img src="~/uploads/productImages/@item.Image" alt="" class="portfolio-image d-block w-100 carousel-image">
                             </a>
                         }
                     </div>
-                    <div class="swiper-pagination"></div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
 
                 <div class="portfolio-info mt-4">
@@ -86,13 +107,13 @@
                         <h5 class="mb-0">@Model.User.FullName</h5>
                         <a href="~/Shop/MyPost/@Model.User.Id" class="btn btn-sm btn-secondary ms-auto mt-2 mt-lg-0">@_localization.Getkey("ViewPage")</a>
                     </div>
-                    <a class="btn btn-sm btn-success my-4" href="tel:+00151515">
+                    <a class="btn btn-primary my-4" href="tel:+00151515">
                         <i class="fa-solid fa-mobile"></i> @_localization.Getkey("Contact"): @Model.User.Phone
                     </a>
                     <p class="mb-3">
                         <i class="fa-solid fa-location-dot"></i>
                         <strong>@_localization.Getkey("Address"): </strong> @Model.User.Address, @Model.User.Province
-                      @*   <a href="https://www.google.com/maps/search/?api=1&query=@Model.User.Address" target="_blank">@Model.User.Address</a> *@
+                        @*   <a href="https://www.google.com/maps/search/?api=1&query=@Model.User.Address" target="_blank">@Model.User.Address</a> *@
                     </p>
                 </div>
             </div>
@@ -104,16 +125,16 @@
 @if (similarProducts != null && similarProducts.Count() > 0)
 {
     <div class=" container shadow mb-4">
-        <div id="product-list"  style="padding: 10px !important;">
+        <div id="product-list" style="padding: 10px !important;">
 
             <h4 class="my-2">@_localization.Getkey("RelatedProducts")</h4>
             <div class="row " data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
                 @foreach (var item in similarProducts)
                 {
-                    <div class="col-md-6 col-lg-3 product-column">
+                    <div class="col-md-4 col-lg-3 col-12 col-sm-6 product-column">
                         <a href="~/Shop/Detail/@item.Id">
                             <div class="card product-item">
-                                <img class="card-img-top img-fluid " src="~/uploads/productImages/@item.Image" alt="#" style="height:200px ">
+                                <img class="img-fluid" src="~/uploads/productImages/@item.Image" alt="#" style="height:200px ">
                                 <div class="card-body">
                                     <h5 class="card-title">@item.Name</h5>
                                     <div class="card-text text-limit">@item.Description</div>
@@ -129,5 +150,3 @@
         </div>
     </div>
 }
-
-

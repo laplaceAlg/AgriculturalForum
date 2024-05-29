@@ -5,6 +5,7 @@ using AgriculturalForum.Web.Helper;
 using AgriculturalForum.Web.Models;
 using AgriculturalForum.Web.Extensions;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.Extensions.Hosting;
 
 
 namespace AgriculturalForum.Web.Controllers
@@ -161,10 +162,13 @@ namespace AgriculturalForum.Web.Controllers
                 if (imgFile != null && imgFile.Length > 0)
                 {
                     // Xóa hình ảnh cũ
-                    string oldImagePath = Path.Combine(ApplicationContext.HostEnviroment.WebRootPath, @"uploads/postImages", postToUpdate.Image);
-                    if (System.IO.File.Exists(oldImagePath))
+                    if (postToUpdate.Image != "default.jpg")
                     {
-                        System.IO.File.Delete(oldImagePath);
+                        string oldImagePath = Path.Combine(ApplicationContext.HostEnviroment.WebRootPath, @"uploads/postImages", postToUpdate.Image);
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
                     }
                     string extension = Path.GetExtension(imgFile.FileName);
                     string image = $"post_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}" + extension;
