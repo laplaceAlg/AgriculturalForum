@@ -34,7 +34,7 @@ namespace AgriculturalForum.Web
             List<SelectListItem> list = new List<SelectListItem>();
             using (var _dbContext = new KltnDbContext())
             {
-                var ListOfCategories = _dbContext.CategoryPosts.ToList();
+                var ListOfCategories = _dbContext.CategoryPosts.Where(p => p.IsActive).ToList();
                 foreach (var item in ListOfCategories)
                 {
                     list.Add(new SelectListItem()
@@ -52,7 +52,7 @@ namespace AgriculturalForum.Web
             List<SelectListItem> list = new List<SelectListItem>();
             using (var _dbContext = new KltnDbContext())
             {
-                var ListOfCategories = _dbContext.CategoryProducts.ToList();
+                var ListOfCategories = _dbContext.CategoryProducts.Where(p => p.IsActive).ToList();
                 foreach (var item in ListOfCategories)
                 {
                     list.Add(new SelectListItem()

@@ -6,6 +6,15 @@
 @section Styles {
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <style>
+        .card {
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border: none;
+        }
+
+        .card-primary {
+            border-top: 2px solid #1e4356;
+        }
         .note-modal-footer {
             height: 60px !important;
         }
@@ -27,48 +36,58 @@
     </div>
 </section>
 
-<div class="container mt-3 mb-3">
-    <form class="row g-3"action="~/Post/Save" method="post" enctype="multipart/form-data">
-        @Html.HiddenFor(m => m.Id)
-        <div class="col-12">
-            <label for="title" class="form-label fw-bold">@_localization.Getkey("Title")</label>
-            <input type="text" class="form-control" name="@nameof(Model.Title)" value="@Model.Title" autofocus  />
-            @Html.ValidationMessageFor(m => m.Title, "", new { @style = "color:#f00;" })
-        </div>
-        <div class="col-12">
-            <label for="category" class="form-label fw-bold">@_localization.Getkey("CategoryPost")</label>
-            @Html.DropDownListFor(m => m.CategoryPostId, SelectListHelper.CategoryPosts(), _localization.Getkey("SelectCategory"), new { @class = "form-control form-select" })
-            @Html.ValidationMessageFor(m => m.CategoryPostId, "", new { @style = "color:#f00;"})
-        </div>
-        <div class="col-12">
-            <label for="summernote" class="form-label fw-bold">@_localization.Getkey("Content")</label>
-            <textarea id="summernote" name="Content" class="form-control">@Model.Content</textarea>
-            @Html.ValidationMessageFor(m => m.Content, "", new { @style = "color:#f00;" })
-        </div>
-        <div class="col-12">
-            <label for="image" class="form-label fw-bold">@_localization.Getkey("Image")</label>
-            <input type="hidden" name="@nameof(Model.Image)" value="@Model.Image" />
-            <input type="file" class="form-control" name="imgFile" accept="image/*"
-                   onchange="document.getElementById('Photo').src = window.URL.createObjectURL(this.files[0])" />
-        </div>
-        <div class="col-12">
-            <div class="col-lg-offset-2 col-sm-10">
-                <img id="Photo" src="~/uploads/postImages/@Model.Image" class="img img-bordered" style="width: 200px;" />
+<div class="container my-3">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-body">
+                    <form class="g-3" action="~/Post/Save" method="post" enctype="multipart/form-data">
+                        @Html.HiddenFor(m => m.Id)
+                        <div class="col-12 mb-3">
+                            <label for="title" class="form-label fw-bold">@_localization.Getkey("Title")</label>
+                            <input type="text" class="form-control" name="@nameof(Model.Title)" value="@Model.Title" autofocus />
+                            @Html.ValidationMessageFor(m => m.Title, "", new { @style = "color:#f00;" })
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="category" class="form-label fw-bold">@_localization.Getkey("CategoryPost")</label>
+                            @Html.DropDownListFor(m => m.CategoryPostId, SelectListHelper.CategoryPosts(), _localization.Getkey("SelectCategory"), new { @class = "form-control form-select" })
+                            @Html.ValidationMessageFor(m => m.CategoryPostId, "", new { @style = "color:#f00;" })
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="summernote" class="form-label fw-bold">@_localization.Getkey("Content")</label>
+                            <textarea id="summernote" name="Content" class="form-control">@Model.Content</textarea>
+                            @Html.ValidationMessageFor(m => m.Content, "", new { @style = "color:#f00;" })
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="image" class="form-label fw-bold">@_localization.Getkey("Image")</label>
+                            <input type="hidden" name="@nameof(Model.Image)" value="@Model.Image" />
+                            <input type="file" class="form-control" name="imgFile" accept="image/*"
+                                   onchange="document.getElementById('Photo').src = window.URL.createObjectURL(this.files[0])" />
+                        </div>
+                        <div class="col-12 mb-3">
+                            <div class="col-lg-offset-2 col-sm-10">
+                                <img id="Photo" src="~/uploads/postImages/@Model.Image" class="img img-bordered" style="width: 200px;" />
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">@(!ViewBag.IsEdit ? _localization.Getkey("Create") : _localization.Getkey("Update"))</button>
+                            @if (ViewBag.IsEdit)
+                            {
+                                <a class="btn btn-secondary" href="~/Post/Detail/@Model.Id">@_localization.Getkey("Back")</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-secondary" href="~/Forum">@_localization.Getkey("Back")</a>
+                            }
+                        </div>
+                    </form>
+                </div>
             </div>
+  
         </div>
-     
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary">@(!ViewBag.IsEdit ? _localization.Getkey("Create") : _localization.Getkey("Update"))</button>
-            @if (ViewBag.IsEdit)
-            {
-                <a class="btn btn-secondary" href="~/Post/Detail/@Model.Id">@_localization.Getkey("Back")</a>
-            }
-            else
-            {
-                <a class="btn btn-secondary" href="~/Forum">@_localization.Getkey("Back")</a>
-            }
-        </div>
-    </form>
+    </div>
+   
 </div>
 
 @section Scripts {

@@ -4,6 +4,16 @@
 }
 @section Styles {
     <style>
+        .card {
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border: none;
+        }
+
+        .card-primary {
+            border-top: 2px solid #1e4356;
+        }
+
         .image-container {
             position: relative;
             display: inline-block;
@@ -23,6 +33,8 @@
             padding: 0;
             cursor: pointer;
             display: none;
+            align-items: center;
+            justify-content: center;
         }
 
         .image-container:hover .delete-button {
@@ -30,12 +42,11 @@
         }
 
     </style>
-
 }
+
 
 <section class="breadcrumbs">
     <div class="container">
-
         <div class="d-flex justify-content-between align-items-center">
             <h2>@ViewBag.Title</h2>
             <ol>
@@ -44,138 +55,131 @@
                 <li>@ViewBag.Title</li>
             </ol>
         </div>
-
     </div>
 </section>
-<!--
--->
+
 <div class="container m-5">
-    <div class="row justify-content-center mt-5">
-        <div class="col-md-8">
-            <form action="~/Shop/Save" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="@nameof(Model.Id)" value="@Model.Id" />
-                <div class="mb-3">
-                    <label class="form-label fw-bold">@_localization.Getkey("CategoryProduct")</label>
-                    @Html.DropDownListFor(m => m.CategoryProductId, SelectListHelper.CategoryProducts(), _localization.Getkey("SelectCategory"), new { @class = "form-control form-select" })
-                    @Html.ValidationMessageFor(m => m.CategoryProductId, "", new { @style="color:#f00;"})
+    <div class="row justify-content-center">
+        <div class="col-md-12 ">
+            <div class="card card-primary">
+                <div class="card-body">
+                    <form action="~/Shop/Save" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="@nameof(Model.Id)" value="@Model.Id" />
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">@_localization.Getkey("CategoryProduct")</label>
+                            @Html.DropDownListFor(m => m.CategoryProductId, SelectListHelper.CategoryProducts(), _localization.Getkey("SelectCategory"), new { @class = "form-control form-select " })
+                            @Html.ValidationMessageFor(m => m.CategoryProductId, "", new { @style = "color:#f00;"})
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">@_localization.Getkey("ProductName")</label>
+                            <input type="text" name="Name" class="form-control" placeholder="@_localization.Getkey("ProductName")" value="@Model.Name">
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @style = "color:#f00;"})
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">@_localization.Getkey("Price")</label>
+                            <input type="number" name="Price" class="form-control" placeholder="@_localization.Getkey("Price")" value="@Model.Price">
+                            @Html.ValidationMessageFor(m => m.Price, "", new { @style = "color:#f00;" })
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">@_localization.Getkey("Description")</label>
+                            <textarea name="Description" class="form-control" rows="4" placeholder="@_localization.Getkey("Description")">@Model.Description</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">@_localization.Getkey("Image")</label>
+                            <input type="file" name="imgfile" id="imgFile" class="form-control" accept="image/*">
+                            @Html.ValidationMessage("imgfile", new { @style = "color:#f00;" })
+                        </div>
+                        <div class="mb-3">
+                            @if (Model.Id == 0)
+                            {
+                                <img id="Photo" src="#" class="img img-bordered d-none" style="width:200px" />
+                            }
+                            else
+                            {
+                                <img id="Photo" src="~/uploads/productImages/@Model.Image" class="img img-bordered" style="width:200px" />
+                            }
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">@_localization.Getkey("AdditionalImage")</label>
+                            <input type="file" name="additionalImage" id="additionalImage" class="form-control" multiple>
+                        </div>
+                        <div class="mb-3">
+                            <div id="previewImages"></div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="IsSelling" value="true" @(Model.IsSelling ? "checked" : "")>
+                                <label class="form-check-label fw-bold" for="IsHidden">Is Selling</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">@_localization.Getkey("Save")</button>
+                        @if (Model.Id > 0)
+                        {
+                            <a class="btn btn-secondary" href="~/User/Index/@Model.UserId">@_localization.Getkey("Back")</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-secondary" href="~/Shop">@_localization.Getkey("Back")</a>
+                        }
+                    </form>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label fw-bold">@_localization.Getkey("ProductName")</label>
-                    <input type="text" name="Name" class="form-control" placeholder="@_localization.Getkey("ProductName")" value="@Model.Name">
-                    @Html.ValidationMessageFor(m => m.Name, "", new { @style = "color:#f00;" })
-                </div>
-                <div class="mb-3">
-                    <label class="form-label fw-bold">@_localization.Getkey("Price")</label>
-                    <input type="number" name="Price" class="form-control" placeholder="@_localization.Getkey("Price")" value="@Model.Price">
-                    @Html.ValidationMessageFor(m => m.Price, "", new { @style = "color:#f00;" })
-                </div>
-                <div class="mb-3">
-                    <label class="form-label fw-bold">@_localization.Getkey("Description")</label>
-                    <textarea name="Description" class="form-control" placeholder="@_localization.Getkey("Description")">@Model.Description</textarea>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label fw-bold">@_localization.Getkey("Image")</label>
-                    <input type="file" name="imgfile" id="imgFile" class="form-control" accept="image/*">
-                    @Html.ValidationMessage("imgfile", new { @style = "color:#f00;" })
-                </div>
-                <div class="mb-3">
-                    @* <input type="hidden" name="Photo" value="#" /> *@
-                    @if (Model.Id == 0)
-                    {
-                        <img id="Photo" src="#" class="img img-bordered d-none" style="width:200px" />
-                    }
-                    else
-                    {
-                        <img id="Photo" src="~/uploads/productImages/@Model.Image" class="img img-bordered" style="width:200px" />
-                    }
-                </div>
-                <div class="mb-3">
-                    <label class="form-label fw-bold">@_localization.Getkey("AdditionalImage")</label>
-                    <input type="file" name="additionalImage" id="additionalImage" class="form-control" multiple>
-                </div>
-                <div class="mb-3">
-                    <div id="previewImages"></div>
-                </div>
-                <div class="mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="IsSelling" value="true" @(Model.IsSelling ? "checked" : "")>
-                        <label class="form-check-label fw-bold" for="IsHidden">Is Selling</label>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary">@_localization.Getkey("Save")</button>
-                @if (Model.Id > 0)
-                {
-                    <a class="btn btn-secondary" href="~/User/Index/@Model.UserId">@_localization.Getkey("Back")</a>
-                }
-                else
-                {
-                    <a class="btn btn-secondary" href="~/Shop">@_localization.Getkey("Back")</a>
-                }
-            </form>
+            </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
     <script>
-        document.getElementById('additionalImage').addEventListener('change', function (event) {
-            var files = event.target.files;
-            var previewImages = document.getElementById('previewImages');
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-                if (file.type.match('image.*')) {
-                    var reader = new FileReader();
-                    reader.onload = function (event) {
-                        var imgContainer = document.createElement('div');
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('additionalImage');
+            const previewContainer = document.getElementById('previewImages');
+            let currentFiles = [];
+
+            fileInput.addEventListener('change', function (event) {
+                const newFiles = Array.from(event.target.files);
+                currentFiles = currentFiles.concat(newFiles);
+
+                updatePreview();
+                updateFileInput();
+            });
+
+            function updatePreview() {
+                previewContainer.innerHTML = '';
+                currentFiles.forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const imgContainer = document.createElement('div');
                         imgContainer.classList.add('image-container');
 
-                        var img = document.createElement('img');
-                        img.src = event.target.result;
-                        img.width = 120;
-                        img.height = 100;
+                        const imgElement = document.createElement('img');
+                        imgElement.src = e.target.result;
+                        imgElement.style.width = '100px';
+                        imgElement.style.height = '100px';
+                        imgElement.classList.add('img-thumbnail');
+                        imgContainer.appendChild(imgElement);
 
-                        var deleteButton = document.createElement('button');
-                        deleteButton.innerHTML = 'X';
+                        const deleteButton = document.createElement('button');
                         deleteButton.classList.add('delete-button');
-                        deleteButton.addEventListener('click', function () {
-                            var container = this.parentElement;
-                            container.remove();
+                        deleteButton.innerHTML = '×';
+                        deleteButton.onclick = function () {
+                            currentFiles.splice(index, 1);
+                            updatePreview();
                             updateFileInput();
-                        });
-
-                        imgContainer.appendChild(img);
+                        };
                         imgContainer.appendChild(deleteButton);
-                        previewImages.appendChild(imgContainer);
+
+                        previewContainer.appendChild(imgContainer);
                     };
                     reader.readAsDataURL(file);
-                }
+                });
+            }
+
+            function updateFileInput() {
+                const dataTransfer = new DataTransfer();
+                currentFiles.forEach(file => dataTransfer.items.add(file));
+                fileInput.files = dataTransfer.files;
             }
         });
-
-        function updateFileInput() {
-            var previewImages = document.getElementById('previewImages');
-            var filesCount = previewImages.childElementCount;
-            var dataTransfer = new DataTransfer();
-            for (var i = 0; i < filesCount; i++) {
-                var imgSrc = previewImages.children[i].children[0].src;
-                var file = dataURItoFile(imgSrc, 'image' + i + '.png');
-                dataTransfer.items.add(file);
-            }
-            var fileInput = document.getElementById('additionalImage');
-            fileInput.files = dataTransfer.files;
-        }
-
-        function dataURItoFile(dataURI, fileName) {
-            var byteString = atob(dataURI.split(',')[1]);
-            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-            var ab = new ArrayBuffer(byteString.length);
-            var ia = new Uint8Array(ab);
-            for (var i = 0; i < byteString.length; i++) {
-                ia[i] = byteString.charCodeAt(i);
-            }
-            var blob = new Blob([ab], { type: mimeString });
-            return new File([blob], fileName, { type: mimeString });
-        }
     </script>
     <script>
         document.getElementById('imgFile').addEventListener('change', function (evt) {

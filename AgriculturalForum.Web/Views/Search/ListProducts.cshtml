@@ -7,15 +7,43 @@
 }
 @section Styles {
     <style>
+        .team {
+            padding-bottom: 0;
+        }
+
+            .team .member {
+                margin-bottom: 0px;
+            }
+
         .text-limit {
             max-width: 190px;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
         }
-        .card-footer {
-            border-top: 1px solid #fff;
+
+        .card-custom {
+            border-radius: .125rem;
+            background-color: #fff;
         }
+
+        .card-custom:hover {
+            transform: translateY(-1px);
+            border-color: #86b7fe;
+        }
+
+        .card .card-body {
+            padding: 16px 16px 4px;
+        }
+
+        .member-img img {
+            width: 100%;
+            min-width: 100%;
+            height: 180px;
+            object-fit: cover;
+            object-position: top;
+        }
+
     </style>
 }
 
@@ -31,43 +59,47 @@
     </div>
 </section>
 
-<div class="container m-5">
-    <!-- Product List -->
-    <div id="product-list " class="mt-5 portfolio">
-        <div class="row " data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
-            @foreach (var item in Model)
+<div class="container my-5">
+    <div class="team" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
+        <div class="row">
+            @foreach (var product in Model)
             {
-                <div class="col-md-6 col-lg-3">
-                    <a href="~/Shop/Detail/@item.Id">
-                        <div class="card icon-box-cyan portfolio-item">
-                            <img src="~/uploads/productImages/@item.Image" class="card-img-top" alt="Product 1" style="height:180px;">
-                            <div class="card-body">
-                                <h5 class="card-title text-white">@item.Name</h5>
-                                <div class="card-text text-white text-limit">@item.Description</div>
-                                <div style="color:yellow; font-size: 18px;">@item.Price.Value.ToString("#,##0") đ</div>
-                                <div class="portfolio-info">
-                                    @if (accountId != null && int.Parse(accountId) == item.UserId)
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 d-flex align-items-stretch my-3">
+                    <div class="card w-100 card-custom">
+                        <div class="member">
+                            <div class="member-img ">
+                                <img src="~/uploads/productImages/@product.Image" alt="Product 1">
+                                @if (accountId != null && int.Parse(accountId) == product.UserId)
+                                {
+                                    <div class="social">
+                                        <a href="~/Shop/Edit/@product.Id"><i class="bx bx-edit"></i></a>
+                                        <a href="~/Shop/Delete/@product.Id"><i class="bx bx-trash"></i></a>
+                                    </div>
+                                }
+                            </div>
+                            <a href="~/Shop/Detail/@product.Id" style="text-decoration: none; color: inherit;">
+                                <div class="card-body member-info">
+                                    <h5 class="card-title text-limit">@product.Name</h5>
+                                    <p class="card-text text-limit"> @product.Description </p>
+                                    <span>@product.Price.Value.ToString("#,##0") vnđ</span>
+
+                                </div>
+                                <div class="card-footer">
+                                    @if (product.IsSelling == true)
                                     {
-                                        <div>
-                                            <a href="~/Shop/Edit/@item.Id"><i class="bx bx-edit"></i></a>
-                                            <a href="~/Shop/Delete/@item.Id"><i class="bx bx-trash"></i></a>
-                                        </div>
+                                        <span class="card-text text-secondary">Đang bán</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="card-text text-secondary">Dừng bán</span>
                                     }
                                 </div>
+                            </a>
 
-                            </div>
-                            <div class="card-footer">
-                                @if (item.IsSelling == true)
-                                {
-                                    <span class="card-text text-white-50">Đang bán</span>
-                                }
-                                else
-                                {
-                                    <span class="card-text text-white-50">Dừng bán</span>
-                                }
-                            </div>
                         </div>
-                    </a>
+                    </div>
+
+
                 </div>
             }
             <div aria-label="Page navigation example" class="d-flex justify-content-center">
@@ -75,6 +107,7 @@
                     <pager class="pager-container" list="@Model" action="~/Search/ListProducts" />
                 </ul>
             </div>
+
         </div>
     </div>
 </div>
