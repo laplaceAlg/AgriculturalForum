@@ -42,17 +42,16 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
             ViewBag.IsEdit = false;
             var model = new CategoryPost()
             {
-                Id = 0,
-
+                Id = 0
             };
             return View("Edit", model);
         }
 
-        public IActionResult Edit(int id = 0)
+        public async Task<IActionResult> Edit(int id = 0)
         {
             ViewBag.Title = "Cập nhật thông tin danh mục bài viết";
             ViewBag.IsEdit = true;
-            var model = _categoryPostRepository.GetById(id);
+            var model =  await _categoryPostRepository.GetById(id);
             if (model == null)
                 return RedirectToAction("Index");
             return View(model);
