@@ -1,4 +1,5 @@
 ﻿using AgriculturalForum.Web.Extensions;
+using AgriculturalForum.Web.Interfaces;
 using AgriculturalForum.Web.Models;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
@@ -12,37 +13,27 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
     [Authorize(AuthenticationSchemes = "AdminCookie")]
     public class PostController : Controller
     {
-        private readonly KltnDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
+        private readonly IPostRepository _postRepository;
         private readonly INotyfService _notifyService;
 
-        public PostController(KltnDbContext dbContext, INotyfService notifyService)
+        public PostController(IUserRepository userRepository, IPostRepository postRepository, INotyfService notifyService)
         {
-            _dbContext = dbContext;
+            _userRepository = userRepository;
+            _postRepository = postRepository;
             _notifyService = notifyService;
         }
-        public IActionResult Index(int page = 1, int id = 0)
+        public async Task<IActionResult> Index(int page = 1, int id = 0)
         {
-
-            ViewBag.UserName = _dbContext.Users
-                     .Where(c => c.Id == id)
-                     .Select(c => c.FullName)
-                     .FirstOrDefault();
+            var user = await _userRepository.GetUserById(id);
+            if (user != null)
+                ViewBag.UserName = user.FullName;
 
             var pageNumber = page;
             var pageSize = 5;
 
-            List<Post> lsPosts = new List<Post>();
-            if (id != 0)
-            {
-                lsPosts = _dbContext.Posts
-                .AsNoTracking()
-                .Where(x => x.UserId == id)
-                .Include(x => x.CategoryPost)
-                .Include(x => x.PostReplies)
-                .OrderByDescending(x => x.CreateDate).ToList();
-            }
 
-
+            var lsPosts = await _postRepository.GetPostsByUserId(id);
             PagedList<Post> models = new PagedList<Post>(lsPosts.AsQueryable(), pageNumber, pageSize);
             ViewBag.CurrentCateID = id;
             ViewBag.CurrentPage = pageNumber;

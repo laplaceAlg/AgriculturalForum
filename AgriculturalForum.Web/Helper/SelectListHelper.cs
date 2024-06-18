@@ -1,5 +1,4 @@
-﻿using AgriculturalForum.Web.Extensions;
-using AgriculturalForum.Web.Models;
+﻿using AgriculturalForum.Web.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AgriculturalForum.Web
@@ -63,6 +62,17 @@ namespace AgriculturalForum.Web
                 }
             }
             return list;
+        }
+
+        public static List<SelectListItem> GetStatusSelectListItems()
+        {
+            List<SelectListItem> lsStatus = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Tất cả trạng thái", Value = "" },
+                new SelectListItem { Text = "Hoạt động", Value = "true" },
+                new SelectListItem { Text = "Khóa", Value = "false" }
+            };
+            return lsStatus;
         }
     }
 }
