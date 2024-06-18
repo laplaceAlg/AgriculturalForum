@@ -48,11 +48,11 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
             return View("Edit", model);
         }
 
-        public IActionResult Edit(int id = 0)
+        public async Task<IActionResult> Edit(int id = 0)
         {
             ViewBag.Title = "Cập nhật thông tin danh mục sản phẩm";
             ViewBag.IsEdit = true;
-            var model = _categoryProductRepository.GetById(id);
+            var model = await _categoryProductRepository.GetById(id);
             if (model == null)
                 return RedirectToAction("Index");
             return View(model);
