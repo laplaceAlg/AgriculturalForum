@@ -25,8 +25,6 @@ public partial class User
 
     public string? Password { get; set; }
 
-    public bool? IsAdmin { get; set; }
-
     public bool IsActive { get; set; }
 
     public virtual ICollection<PostReply> PostReplies { get; set; } = new List<PostReply>();

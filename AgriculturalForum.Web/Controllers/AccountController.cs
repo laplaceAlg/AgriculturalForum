@@ -65,7 +65,6 @@ namespace AgriculturalForum.Web.Controllers
                         Password = account.Password.ToMD5(),
                         /*  Address = account.Address,*/
                         IsActive = true,
-                        IsAdmin = false,
                         ProfileImage = "nophoto.png",
                         Birthday = new DateTime(1990, 1, 1),
                         MemberSince = DateTime.Now
