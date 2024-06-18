@@ -35,9 +35,7 @@
                                 <div class="row">
                                     <form class="d-flex w-100" action="~/Admin/CategoryPost/Index" method="get">
                                         <div class="form-group col-md-5 mb-0">
-                                            <select id="isActiveSelect" class="custom-select" name="IsActive" asp-items="ViewBag.lsStatus" onchange="this.form.submit()">
-                                                <option value="" selected>Tất cả trạng thái</option>
-                                            </select>
+                                            @Html.DropDownList("IsActive", SelectListHelper.GetStatusSelectListItems(), new { @class = "form-control form-select", onchange = "this.form.submit()" })
                                         </div>
                                         <div class="form-group col-md-7 mb-0">
                                             <div class="input-group mb-3">

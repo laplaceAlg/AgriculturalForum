@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using PagedList.Core;
+﻿using AgriculturalForum.Web.Interfaces;
 using AgriculturalForum.Web.Models;
-using Microsoft.AspNetCore.Authorization;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PagedList.Core;
 
 namespace AgriculturalForum.Web.Areas.Admin.Controllers
 {
@@ -13,67 +12,30 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
     [Authorize(Roles = "admin,employee")]
     public class CategoryPostController : Controller
     {
-        private readonly KltnDbContext _dbContext;
         private readonly INotyfService _notifyService;
         const int PAGE_SIZE = 3;
         const string CREATE_TITLE = "Tạo danh mục bài viết mới";
-        public CategoryPostController(KltnDbContext dbContext, INotyfService notifyService)
+        private readonly ICategoryPostRepository _categoryPostRepository;
+        public CategoryPostController(INotyfService notifyService, ICategoryPostRepository categoryPostRepository)
         {
-            _dbContext = dbContext;
             _notifyService = notifyService;
+            _categoryPostRepository = categoryPostRepository;
         }
-        public IActionResult Index(int page = 1, bool? isActive = null, string searchValue = "")
+
+        public async Task<IActionResult> Index(int page = 1, bool? isActive = null, string searchValue = "")
         {
             var pageNumber = page;
             var pageSize = PAGE_SIZE;
 
-          
-            List<CategoryPost> lsCategories = new List<CategoryPost>();
-            lsCategories = _dbContext.CategoryPosts
-                   .AsNoTracking()
-                   .OrderByDescending(x => x.CreateDate)
-                   .ToList();
-           
-
-            if (!string.IsNullOrEmpty(searchValue) && isActive.HasValue)
-            {
-                lsCategories = _dbContext.CategoryPosts
-                        .AsNoTracking()
-                        .Where(x => x.IsActive == isActive && x.Title.Contains(searchValue))
-                        .OrderByDescending(x => x.CreateDate)
-                        .ToList();
-            }
-            else if(!string.IsNullOrEmpty(searchValue))
-            {
-                lsCategories = _dbContext.CategoryPosts
-                      .AsNoTracking()
-                      .Where(x => x.Title.Contains(searchValue))
-                      .OrderByDescending(x => x.CreateDate)
-                      .ToList();
-            }
-            else if(isActive.HasValue)
-            {
-
-                lsCategories = _dbContext.CategoryPosts
-                    .AsNoTracking()
-                    .Where(x => x.IsActive == isActive)
-                    .OrderByDescending(x => x.CreateDate)
-                    .ToList();
-            }
-
+            var lsCategories = await _categoryPostRepository.GetCategoryPosts(isActive, searchValue);
 
             PagedList<CategoryPost> models = new PagedList<CategoryPost>(lsCategories.AsQueryable(), pageNumber, pageSize);
 
             ViewBag.CurrentPage = pageNumber;
-            ViewBag.IsAcTive = isActive;
+            ViewBag.IsActive = isActive;
             ViewBag.SearchValue = searchValue;
-            List<SelectListItem> lsStatus = new List<SelectListItem>();
-            lsStatus.Add(new SelectListItem() { Text = "Hoạt động", Value = "true" });
-            lsStatus.Add(new SelectListItem() { Text = "Khóa", Value = "false" });
-            ViewBag.lsStatus = lsStatus;
             return View(models);
         }
-
         public IActionResult Create()
         {
             ViewBag.Title = "Tạo danh mục bài viết mới";
@@ -90,14 +52,14 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
         {
             ViewBag.Title = "Cập nhật thông tin danh mục bài viết";
             ViewBag.IsEdit = true;
-            var model = _dbContext.CategoryPosts.Where(p => p.Id == id).FirstOrDefault();
+            var model = _categoryPostRepository.GetById(id);
             if (model == null)
                 return RedirectToAction("Index");
             return View(model);
         }
 
         [HttpPost] //Attribute => chỉ nhân dữ liệu gửi lên dưới dạng Post
-        public IActionResult Save(CategoryPost model)
+        public async Task<IActionResult> Save(CategoryPost model)
         {
             //TODO: Kiểm soát dữ liệu trong model xem có hợp lệ hay không?
 
@@ -113,65 +75,44 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
 
             if (model.Id == 0)
             {
-                var existingCategory = _dbContext.CategoryPosts.FirstOrDefault(c => c.Title == model.Title);
-                if (existingCategory != null)
+
+                int id = await _categoryPostRepository.Add(model);
+                if (id == -1)
                 {
+
                     ModelState.AddModelError("Name", "Tiêu đề bị trùng");
                     ViewBag.Title = CREATE_TITLE;
                     return View("Edit", model);
                 }
-                var ls = new CategoryPost
-                {
-                    Id = model.Id,
-                    Title = model.Title,
-                    Description = model.Description,
-                    CreateDate = DateTime.Now,
-                    IsActive = model.IsActive
-                };
-                _dbContext.CategoryPosts.Add(ls);
-                _dbContext.SaveChanges();
                 _notifyService.Success("Tạo danh mục bài viết mới thành công.");
                 return RedirectToAction("Index");
             }
             else
             {
-
-                var catUpdate = _dbContext.CategoryPosts.FirstOrDefault(c => c.Id == model.Id);
-                var existingCategory = _dbContext.CategoryPosts.FirstOrDefault(c => c.Id != catUpdate.Id && c.Title == model.Title);
-                if (existingCategory != null)
+                bool result = await _categoryPostRepository.Update(model);
+                if (!result)
                 {
                     ModelState.AddModelError("Error", "Không cập nhật được danh mục. Có thể tiêu đề bị trùng.");
                     ViewBag.Title = "Cập nhật thông tin danh mục bài viết";
                     return View("Edit", model);
                 }
-                catUpdate.Title = model.Title;
-                catUpdate.Description = model.Description;
-                catUpdate.IsActive = model.IsActive;
-                _dbContext.CategoryPosts.Update(catUpdate);
-                _dbContext.SaveChanges();
                 _notifyService.Success("Cập nhật thông tin danh mục bài viết thành công.");
                 return RedirectToAction("Index");
             }
 
         }
 
-        public IActionResult Delete(int id = 0)
+        public async Task<IActionResult> Delete(int id = 0)
         {
             if (Request.Method == "POST")
             {
-                var cat = _dbContext.CategoryPosts.Find(id);
-                if (cat == null)
-                    return NotFound();
-                _dbContext.CategoryPosts.Remove(cat);
-                _dbContext.SaveChanges();
+                await _categoryPostRepository.Delete(id);
                 _notifyService.Success("Xóa danh mục bài viết thành công.");
                 return RedirectToAction("Index");
             }
-            var catIsUsed = _dbContext.Posts.Where(c => c.CategoryPostId == id).FirstOrDefault();
+            var catIsUsed = await _categoryPostRepository.IsUsed(id);
             ViewBag.IsUsed = catIsUsed;
-            var model = _dbContext.CategoryPosts.Where(p => p.Id == id).FirstOrDefault();
-            if (model == null)
-                return RedirectToAction("Index");
+            var model = await _categoryPostRepository.GetById(id);
             return View(model);
         }
     }

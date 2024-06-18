@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using PagedList.Core;
+﻿using AgriculturalForum.Web.Interfaces;
 using AgriculturalForum.Web.Models;
-using Microsoft.AspNetCore.Authorization;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PagedList.Core;
 
 namespace AgriculturalForum.Web.Areas.Admin.Controllers
 {
@@ -12,85 +11,51 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
     [Authorize(AuthenticationSchemes = "AdminCookie", Roles ="admin")]
     public class UserController : Controller
     {
-        private readonly KltnDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
         private readonly INotyfService _notifyService;
         const int PAGE_SIZE = 5;
-        public UserController(KltnDbContext dbContext, INotyfService notifyService)
+        public UserController(IUserRepository userRepository, INotyfService notifyService)
         {
-            _dbContext = dbContext;
+            _userRepository = userRepository;
             _notifyService = notifyService;
         }
-        public IActionResult Index(int page = 1, bool? isActive = null, string searchValue = "")
+        public async Task<IActionResult> Index(int page = 1, bool? isActive = null, string searchValue = "")
         {
             var pageNumber = page;
             var pageSize = PAGE_SIZE;
 
-            List<User> lsUsers = new List<User>();
-
-            lsUsers = _dbContext.Users
-            .AsNoTracking()
-            .OrderByDescending(x => x.MemberSince).ToList();
-      
-            if (!string.IsNullOrEmpty(searchValue) && isActive.HasValue)
-            {
-                lsUsers = _dbContext.Users
-                        .AsNoTracking()
-                        .Where(x => x.IsActive == isActive && (x.FullName.Contains(searchValue) || x.Email.Contains(searchValue)))
-                        .OrderByDescending(x => x.MemberSince)
-                        .ToList();
-            }
-            else if (!string.IsNullOrEmpty(searchValue))
-            {
-                lsUsers = _dbContext.Users
-                      .AsNoTracking()
-                      .Where(x => x.FullName.Contains(searchValue) || x.Email.Contains(searchValue))
-                      .OrderByDescending(x => x.MemberSince)
-                      .ToList();
-            }
-            else if (isActive.HasValue)
-            {
-
-                lsUsers = _dbContext.Users
-                    .AsNoTracking()
-                    .Where(x => x.IsActive == isActive)
-                    .OrderByDescending(x => x.MemberSince)
-                    .ToList();
-            }
-
-
+            var lsUsers = await _userRepository.ListOfUsers(isActive, searchValue);
             PagedList<User> models = new PagedList<User>(lsUsers.AsQueryable(), pageNumber, pageSize);
 
             ViewBag.CurrentPage = pageNumber;
             ViewBag.IsAcTive = isActive;
             ViewBag.SearchValue = searchValue;
-            List<SelectListItem> lsStatus = new List<SelectListItem>();
-            lsStatus.Add(new SelectListItem() { Text = "Hoạt động", Value = "true" });
-            lsStatus.Add(new SelectListItem() { Text = "Khóa", Value = "false" });
-            ViewBag.lsStatus = lsStatus;
             return View(models);
         }
 
-        public IActionResult Detail(int id = 0)
+        public async Task<IActionResult> Detail(int id = 0)
         {
-            var model = _dbContext.Users.Where(p => p.Id == id).FirstOrDefault();
+            var model = await _userRepository.GetUserById(id);
             return View(model);
         }
 
-        public IActionResult Edit(int id = 0)
+        public async Task<IActionResult> Edit(int id = 0)
         {
-            var model = _dbContext.Users.Where(p => p.Id == id).FirstOrDefault();
+            var model = await _userRepository.GetUserById(id);
             if (model == null)
                 return RedirectToAction("Index");
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Save(User model)
+        public async Task<IActionResult> Save(User model)
         {
-            var userUpdate = _dbContext.Users.FirstOrDefault(u => u.Id == model.Id);
-            userUpdate.IsActive = model.IsActive;
-            _dbContext.Users.Update(userUpdate);
-            _dbContext.SaveChanges();
+            bool result = await _userRepository.Update(model);
+            if (!result)
+            {
+                _notifyService.Error("Cập nhật trạng thái người dùng không thành công.");
+                return View("Edit", model);
+            }
             _notifyService.Success("Cập nhật trạng thái người dùng thành công.");
             return RedirectToAction("Index");
         }

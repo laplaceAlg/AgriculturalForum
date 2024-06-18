@@ -1,4 +1,5 @@
-﻿using AgriculturalForum.Web.Models;
+﻿using AgriculturalForum.Web.Interfaces;
+using AgriculturalForum.Web.Models;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,36 +13,26 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
     [Authorize(AuthenticationSchemes = "AdminCookie")]
     public class ProductController : Controller
     {
-        private readonly KltnDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
+        private readonly IProductRepository _productRepository;
         private readonly INotyfService _notifyService;
 
-        public ProductController(KltnDbContext dbContext, INotyfService notifyService)
+        public ProductController(IUserRepository userRepository, IProductRepository productRepository, INotyfService notifyService)
         {
-            _dbContext = dbContext;
+            _userRepository = userRepository;
+            _productRepository = productRepository;
             _notifyService = notifyService;
         }
-        public IActionResult Index(int page = 1, int id = 0)
+        public async Task<IActionResult> Index(int page = 1, int id = 0)
         {
-
-            ViewBag.UserName = _dbContext.Users
-                     .Where(c => c.Id == id)
-                     .Select(c => c.FullName)
-                     .FirstOrDefault();
+            var user = await _userRepository.GetUserById(id);
+            if (user != null)
+                ViewBag.UserName = user.FullName;
 
             var pageNumber = page;
             var pageSize = 5;
 
-            List<Product> lsProducts = new List<Product>();
-            if (id != 0)
-            {
-                lsProducts = _dbContext.Products
-                .AsNoTracking()
-                .Where(x => x.CategoryProductId == id)
-                .Include(x => x.CategoryProduct)
-                .OrderByDescending(x => x.CreateDate).ToList();
-            }
-
-
+            var lsProducts = await _productRepository.GetProductsByUserId(id);
             PagedList<Product> models = new PagedList<Product>(lsProducts.AsQueryable(), pageNumber, pageSize);
             ViewBag.CurrentCateID = id;
             ViewBag.CurrentPage = pageNumber;

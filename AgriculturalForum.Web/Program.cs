@@ -9,6 +9,8 @@ using AgriculturalForum.Web.Extensions;
 using Microsoft.Extensions.Options;
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
+using AgriculturalForum.Web.Interfaces;
+using AgriculturalForum.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages()
@@ -39,6 +41,15 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 builder.Services.AddDbContext<KltnDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("dbKLTN")));
+
+builder.Services.AddScoped<ICategoryPostRepository, CategoryPostRepository>();
+builder.Services.AddScoped<ICategoryProductRepository, CategoryProductRepository>();
+builder.Services.AddScoped<IForumRepository, ForumRepository>();
+builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<IReplyRepository, ReplyRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 // Add services to the container.
 builder.Services.AddSession();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

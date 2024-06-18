@@ -1,91 +1,47 @@
-﻿using Microsoft.EntityFrameworkCore;
-using AgriculturalForum.Web.Models;
+﻿using AgriculturalForum.Web.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using AgriculturalForum.Web.Helper;
 
 namespace AgriculturalForum.Web.Controllers
 {
     public class ForumController : Controller
     {
-        private readonly KltnDbContext _dbContext;
+        private readonly IForumRepository _forumRepository;
+        private readonly IPostRepository _postRepository;
+        private readonly IReplyRepository _replyRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public ForumController(KltnDbContext dbContext, IWebHostEnvironment webHostEnvironment)
+        public ForumController(IForumRepository forumRepository, IPostRepository postRepository, IReplyRepository replyRepository,
+            IUserRepository userRepository, IWebHostEnvironment webHostEnvironment)
         {
-            _dbContext = dbContext;
+            _forumRepository = forumRepository;
+            _postRepository = postRepository;
+            _replyRepository = replyRepository;
+            _userRepository = userRepository;
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult Index1()
+        public async Task<IActionResult> Index()
         {
-            var categoriesWithPosts = _dbContext.CategoryPosts
-                            .Include(c => c.Posts)
-                                 .ThenInclude(p => p.User)
-                            .Include(c => c.Posts)
-                                   .ThenInclude(p => p.PostReplies)
-                            .ToList();
-            var recentPosts = _dbContext.Posts
-                             .OrderByDescending(p => p.CreateDate) 
-                             .Take(5)
-                             .ToList();
-            ViewBag.RecentPosts = recentPosts;
 
-            var totalPosts = _dbContext.Posts.Count();
-            var totalPostReplies = _dbContext.PostReplies.Count();
-            var totalMembers = _dbContext.Users.Count();
-            var latestMember = _dbContext.Users.OrderByDescending(u => u.MemberSince).FirstOrDefault();
-
-
-            ViewBag.TotalPosts = totalPosts;
-            ViewBag.TotalPostReplies = totalPostReplies;
-            ViewBag.TotalMembers = totalMembers;
-            ViewBag.LatestMember = latestMember;
-
-            return View(categoriesWithPosts);
-        }
-
-        public IActionResult Index()
-        {
-            var latestPostsByCategory = _dbContext.Posts
-                 .Include(p => p.User)
-                    .GroupBy(p => p.CategoryPostId)
-                    .Select(g => g.OrderByDescending(p => p.CreateDate).FirstOrDefault())
-                    .ToList();
+            var latestPostsByCategory = await _forumRepository.GetLatestPostOfCat();
             ViewBag.LatestPostOfCat = latestPostsByCategory;
 
-
-            var recentPosts = _dbContext.Posts
-                            .OrderByDescending(p => p.CreateDate)
-                            .Take(5)
-                            .ToList();
+            var recentPosts = await _postRepository.GetRecentPosts();
             ViewBag.RecentPosts = recentPosts;
 
-            var totalPosts = _dbContext.Posts.Count();
-            var totalPostReplies = _dbContext.PostReplies.Count();
-            var totalMembers = _dbContext.Users.Count();
-            var latestMember = _dbContext.Users.OrderByDescending(u => u.MemberSince).FirstOrDefault();
 
+            var totalPosts = await _postRepository.GetTotalPosts();
+            var totalPostReplies = await _replyRepository.GetTotalReplies();
+            var totalMembers = await _userRepository.GetTotalMembers();
+            var latestMember = await _userRepository.GetLatestMember();
 
             ViewBag.TotalPosts = totalPosts;
             ViewBag.TotalPostReplies = totalPostReplies;
             ViewBag.TotalMembers = totalMembers;
             ViewBag.LatestMember = latestMember;
-            var model = _dbContext.CategoryPosts
-                .Where(c => c.IsActive)
-                .Include(p => p.Posts)
-                .ThenInclude(pr => pr.PostReplies)
-                .ToList();
-            return View(model);
-        }
 
-        public IActionResult MyPost(int id)
-        {
-            var myPosts = _dbContext.Users.Where(p => p.Id == id)
-                .Include(p => p.Posts)
-                .ThenInclude(pr => pr.PostReplies)
-               .FirstOrDefault();
-            if (myPosts == null)
-                return RedirectToAction("Index");
-            return View(myPosts);
+            var model = await _forumRepository.GetCatOfPosts();
+            return View(model);
         }
     }
 }
