@@ -19,6 +19,8 @@ public partial class KltnDbContext : DbContext
 
     public virtual DbSet<CategoryProduct> CategoryProducts { get; set; }
 
+    public virtual DbSet<Employee> Employees { get; set; }
+
     public virtual DbSet<Post> Posts { get; set; }
 
     public virtual DbSet<PostReply> PostReplies { get; set; }
@@ -51,6 +53,23 @@ public partial class KltnDbContext : DbContext
 
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
             entity.Property(e => e.Name).HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<Employee>(entity =>
+        {
+            entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
+            entity.Property(e => e.Address)
+                .HasMaxLength(255)
+                .HasDefaultValueSql("(NULL)");
+            entity.Property(e => e.BirthDate).HasDefaultValueSql("(NULL)");
+            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.FullName)
+                .HasMaxLength(255)
+                .HasDefaultValueSql("(NULL)");
+            entity.Property(e => e.Password).HasMaxLength(50);
+            entity.Property(e => e.Phone).HasMaxLength(255);
+            entity.Property(e => e.Photo).HasMaxLength(255);
+            entity.Property(e => e.RoleNames).HasMaxLength(1000);
         });
 
         modelBuilder.Entity<Post>(entity =>

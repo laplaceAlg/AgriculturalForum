@@ -1,25 +1,26 @@
 ﻿@using PagedList.Core.Mvc
-@model PagedList.Core.IPagedList<AgriculturalForum.Web.Models.CategoryProduct>
+@model PagedList.Core.IPagedList<AgriculturalForum.Web.Models.Post>
 @{
-    ViewBag.Title = "Danh mục sản phẩm";
+    ViewBag.Title = "Danh sách bài viết";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
     int currentPage = ViewBag.CurrentPage;
     int stt = (currentPage - 1) * Model.PageSize;
 }
-
 @section Styles {
     <style>
-        #sortable-table tbody tr {
-            border-top: 1px solid #dee2e6;
+        .description-limit {
+            max-width: 220px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
     </style>
 }
-
 <section class="section">
     <div class="section-header">
         <h1>@ViewBag.Title</h1>
         <div class="section-header-breadcrumb">
-            <div class="breadcrumb-item active"><a href="~/Admin/CategoryProduct">@ViewBag.Title</a></div>
+            <div class="breadcrumb-item active"><a href="#">@ViewBag.Title của @ViewBag.UserName </a></div>
             <div class="breadcrumb-item">Trang @ViewBag.CurrentPage</div>
         </div>
     </div>
@@ -29,7 +30,7 @@
             <div class="col-12 ">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row py-2">
+                        @* <div class="row py-2">
                             <div class="col-md-9">
                                 <div class="row">
                                     <form class="d-flex w-100" action="~/Admin/CategoryProduct/Index" method="get">
@@ -41,7 +42,7 @@
                                         </div>
                                         <div class="form-group col-md-7 mb-0">
                                             <div class="input-group mb-3">
-                                                <input id="searchInput" type="text" class="form-control" placeholder="Nhập tiêu đề để tìm"  name="searchValue" value="@ViewBag.SearchValue">
+                                                <input id="searchInput" type="text" class="form-control" placeholder="Nhập tiêu đề để tìm" name="searchValue" value="@ViewBag.SearchValue">
                                                 <div class="input-group-append">
                                                     <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
                                                 </div>
@@ -54,44 +55,37 @@
                             <div class="col-md-3 text-md-right">
                                 <a href="~/Admin/CategoryProduct/Create" class="btn btn-lg btn-primary" href=""><i class="fas fa-plus mx-2"></i><span>Thêm danh mục</span></a>
                             </div>
-                        </div>
+                        </div> *@
 
                         <div class="table-responsive">
-                             @if (Model != null && Model.Count() > 0)
+                            @if (Model != null && Model.Count() > 0)
                             {
-                            <table class="table table-hover" id="sortable-table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Tên danh mục</th>
-                                        <th>Ngày tạo</th>
-                                        <th>Trạng thái</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
+                                <table class="table table-hover" id="sortable-table">
+                                    <thead>
                                         <tr>
-                                            <td>@(++stt)</td>
-                                            <td>@item.Name</td>
-                                            <td>@item.CreateDate.Value.ToShortDateString()</td>
-                                            @if (item.IsActive == true)
-                                            {
-                                                <td><div class="badge badge-success">Active</div></td>
-                                            }
-                                            else
-                                            {
-                                                <td><div class="badge badge-danger">Not Active</div></td>
-                                            }
-                                            <td class="d-flex align-items-center">
-                                                <a href="~/Admin/CategoryProduct/Edit/@item.Id" class="btn btn-icon btn-primary mr-2"><i class="far fa-edit"></i></a>
-                                                <a href="~/Admin/CategoryProduct/Delete/@item.Id" class="btn btn-icon btn-danger"><i class="fas fa-times"></i></a>
-                                            </td>
+                                            <th>#</th>
+                                            <th>Tiêu đề</th>
+                                            <th>Ngày tạo</th>
+                                            <th>Loại bài viết</th>
+                                            <th>Hành động</th>
                                         </tr>
-                                    }
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@(++stt)</td>
+                                                <td class="description-limit">@SubString.ExtractTextFromHtml(item.Title, 500)...</td>
+                                                <td>@item.CreateDate.Value.ToShortDateString()</td>
+                                                <td>@item.CategoryPost.Title</td>
+                                                <td class="d-flex align-items-center">
+                                                    <a href="#" class="btn btn-icon btn-primary mr-2"><i class="far fa-edit"></i></a>
+                                                    <a href="#" class="btn btn-icon btn-danger"><i class="fas fa-times"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             }
                             else
                             {
@@ -102,7 +96,7 @@
                     <div class="card-footer row">
                         <div aria-label="Page navigation example" class="col-md-6">
                             <ul class="pagination">
-                                <pager class="pager-container" list="@Model" asp-area="Admin" asp-controller="CategoryProduct" asp-action="Index"  asp-route-searchValue="@ViewBag.SearchValue" asp-route-IsActive="@ViewBag.IsAcTive" />
+                                <pager class="pager-container" list="@Model" asp-area="Admin" asp-controller="Post"/>
                             </ul>
                         </div>
                         <div class="col-md-6 text-right">
@@ -117,20 +111,3 @@
         </div>
     </div>
 </section>
-
-
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            var isActive = "@ViewBag.IsAcTive";
-            if (isActive !== "") {
-                $("#Status").val(isActive.toLowerCase());
-            }
-            var searchValue = "@ViewBag.SearchValue";
-            $("#searchInput").val(searchValue);
-        });
-    </script>
-}
-
-
-

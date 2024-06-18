@@ -66,9 +66,8 @@
                                             <th>Họ và tên</th>
                                             <th>Email</th>
                                             <th>Số điện thoại</th>
-                                            <th>Ngày tham gia</th>
                                             <th>Trạng thái</th>
-                                            <th>Action</th>
+                                            <th>Hành động</th>
                                         </tr>
                                     </thead>
 
@@ -80,7 +79,6 @@
                                                 <td>@item.FullName</td>
                                                 <td>@item.Email</td>
                                                 <td>@item.Phone</td>
-                                                <td>@item.MemberSince.Value.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("en-GB"))</td>
                                                 @if (item.IsActive)
                                                 {
                                                     <td><div class="badge badge-success">Active</div></td>
@@ -91,7 +89,15 @@
                                                 }
                                                 <td class="d-flex align-items-center">
                                                     <a href="~/Admin/User/Detail/@item.Id" class="btn btn-icon btn-info mr-2"><i class="fas fa-info-circle"></i></a>
-                                                    <a href="~/Admin/User/Edit/@item.Id" class="btn btn-icon btn-primary"><i class="far fa-edit"></i></a>
+                                                    <a href="~/Admin/User/Edit/@item.Id" class="btn btn-icon btn-primary mr-2"><i class="far fa-edit"></i></a>
+
+                                                    <div class="dropdown">
+                                                        <a href="#" data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><i class="fas fa-list"></i></a>
+                                                        <div class="dropdown-menu">
+                                                            <a href="~/Admin/Post/Index/@item.Id" class="dropdown-item has-icon"> Danh sách bài viết</a>
+                                                            <a href="~/Admin/Product/Index/@item.Id" class="dropdown-item has-icon">Danh sách sản phẩm</a>
+                                                        </div>
+                                                    </div>
                                                 </td>
 
                                             </tr>

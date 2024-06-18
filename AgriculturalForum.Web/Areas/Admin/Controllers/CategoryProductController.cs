@@ -12,7 +12,7 @@ namespace AgriculturalForum.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(AuthenticationSchemes = "AdminCookie")]
-
+    [Authorize(Roles = "admin,employee")]
     public class CategoryProductController : Controller
     {
         private readonly KltnDbContext _dbContext;

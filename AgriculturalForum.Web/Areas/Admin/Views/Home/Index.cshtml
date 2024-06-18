@@ -4,51 +4,61 @@
 }
 
 <section class="section">
+    <div class="section-header">
+        <h1>Trang chủ</h1>
+    </div>
+  @*   <h5>Số liệu thống kê chung</h5> *@
     <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-12">
-            <div class="card card-statistic-2">
-                <div class="card-icon shadow-primary bg-primary">
-                    <i class="fas fa-layer-group"></i>
-                </div>
-                <div class="card-wrap">
-                    <div class="card-header">
-                        <h4>Danh mục bài viết</h4>
+            <a href="~/Admin/CategoryPost">
+                <div class="card card-statistic-2">
+                    <div class="card-icon shadow-primary bg-primary">
+                        <i class="fas fa-layer-group"></i>
                     </div>
-                    <div class="card-body">
-                        @ViewBag.TotalPosts
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Danh mục bài viết</h4>
+                        </div>
+                        <div class="card-body">
+                            @ViewBag.TotalPosts
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12">
-            <div class="card card-statistic-2">
-                <div class="card-icon shadow-primary bg-primary">
-                    <i class="fas fa-archive"></i>
-                </div>
-                <div class="card-wrap">
-                    <div class="card-header">
-                        <h4>Danh mục sản phẩm</h4>
+            <a href="~/Admin/CategoryProduct">
+                <div class="card card-statistic-2">
+                    <div class="card-icon shadow-primary bg-primary">
+                        <i class="fas fa-archive"></i>
                     </div>
-                    <div class="card-body">
-                        @ViewBag.TotalProducts
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Danh mục sản phẩm</h4>
+                        </div>
+                        <div class="card-body">
+                            @ViewBag.TotalProducts
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12">
-            <div class="card card-statistic-2">
-                <div class="card-icon shadow-primary bg-primary">
-                    <i class="fas fa-users"></i>
-                </div>
-                <div class="card-wrap">
-                    <div class="card-header">
-                        <h4>Người dùng</h4>
+           <a href="~/Admin/User">
+                <div class="card card-statistic-2">
+                    <div class="card-icon shadow-primary bg-primary">
+                        <i class="fas fa-users"></i>
                     </div>
-                    <div class="card-body">
-                        @ViewBag.TotalUsers
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Người dùng</h4>
+                        </div>
+                        <div class="card-body">
+                            @ViewBag.TotalUsers
+                        </div>
                     </div>
                 </div>
-            </div>
+           </a>
         </div>
     </div>
 </section>
